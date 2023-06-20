@@ -1,10 +1,17 @@
-import mongoose from "mongoose";
+import { connect } from "mongoose";
 import { getEnvVariable } from '../utils/getEnvVariable';
-export const connectDB = async () => {
-    const uri = getEnvVariable('MONGODB_URI');
+import { loadSchemas } from "../models";
+import User from "../models/User";
+import Client from "../models/Client";
+
+export const connectDB = async (): Promise<void> => {
     try {
+        const uri = getEnvVariable('MONGODB_URI');
         if(!uri) throw new Error("MONGODB_URI not provided");
-        await mongoose.connect(uri);
+        await connect(uri);
+        loadSchemas();
+
+        if(getEnvVariable('NODE_ENV') === "dev") await loadTestDatas();
         // TODO : remove log
         console.log("Connexion à la base de données réussie");
     } catch (error) {
@@ -13,3 +20,16 @@ export const connectDB = async () => {
         process.exit(1);
     }
 };
+const loadTestDatas = async () => {
+    const user = await User.create({
+        name: "Manon Bonnet",
+        role: "admin",
+        email: "manon.bonnet.30@gmail.com",
+        password: "manon",
+    })
+
+    await Client.create({
+        name: "company name",
+        users: [user.id],
+    })
+}
