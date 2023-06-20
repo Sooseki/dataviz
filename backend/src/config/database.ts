@@ -5,9 +5,11 @@ export const connectDB = async () => {
     try {
         if(!uri) throw new Error("MONGODB_URI not provided");
         await mongoose.connect(uri);
+        // TODO : remove log
         console.log("Connexion à la base de données réussie");
     } catch (error) {
-        console.log(error);
+        // TODO : remove log
+        console.error(error);
         process.exit(1);
     }
 };
