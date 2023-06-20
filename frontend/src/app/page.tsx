@@ -1,12 +1,13 @@
+"use client"
 import Link from 'next/link';
-import '../styles/main.css';
 
 const Home: React.FC = () => {
+
     return (
         <div>
-            <h1>Welcome to the Home page</h1>
-            <Link href="/about">
-                <a>About</a>
+            <img className='logo' src="/perfguardian-text-and-logo.svg" alt='perfguardian-text-and-logo' />
+            <Link href="/login">
+                Login
             </Link>
         </div>
     );

@@ -1,1 +1,93 @@
-.body{background-color:#e76565}
+@import "https://fonts.googleapis.com/css2?family=Yantramanav:wght@700&display=swap";
+@import "https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap";
+@import "~@fortawesome/fontawesome-svg-core/styles.css";
+
+.login-container {
+    display: flex;
+    border-radius: 25px;
+    background-color: #2e3239;
+    position: relative;
+    flex-direction: column;
+    height: 60%;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+}
+.login-container.dark-mode {
+    background-color: #fef4f4;
+}
+.login-container .login-input {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 70%;
+    color: #fef4f4;
+    text-transform: capitalize;
+}
+.login-container .login-input input {
+    margin: 3% 0%;
+    border: none;
+    padding: 3%;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+}
+.login-container button {
+    background-color: #e76565;
+    padding: 3%;
+    width: 70%;
+    border-radius: 10px;
+    border: none;
+    color: #fef4f4;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.login-container .login-miscellaneous-services {
+    color: #fef4f4;
+    display: flex;
+    margin: 5% 0% 0% 0%;
+    width: 70%;
+    justify-content: space-between;
+}
+.login-container .login-miscellaneous-services .miscellaneous-services-link {
+    color: #e76565;
+    text-decoration: none;
+}
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fef4f4;
+    font-family: "Yantramanav", sans-serif;
+    font-size: 14px;
+    color: #26292b;
+}
+body.dark-mode {
+    background-color: #1b1d30;
+    color: #fef4f4;
+}
+h1 {
+    font-family: "Roboto Condensed", sans-serif;
+    text-transform: uppercase;
+    font-size: 40px;
+    color: #fef4f4;
+}
+h1.dark-mode {
+    color: #26292b;
+}
+.logo {
+    filter: brightness(0) saturate(100%) invert(97%) sepia(3%) saturate(543%) hue-rotate(329deg) brightness(92%)
+        contrast(118%);
+    margin-bottom: 50px;
+}
+.logo.dark-mode {
+    filter: brightness(0) saturate(100%) invert(12%) sepia(19%) saturate(218%) hue-rotate(160deg) brightness(98%)
+        contrast(91%);
+}
+@media (max-width: 768px) {
+    .logo {
+        margin-bottom: 30px;
+        height: 6%;
+    }
+}
