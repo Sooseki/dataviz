@@ -1,10 +1,10 @@
-import dotenv from 'dotenv'
 import express from "express";
 import bodyParser from "body-parser";
-import {connectDB} from "./config/database"
-dotenv.config();
+import { connectDB } from "./config/database"
+import { getEnvVariable } from './utils/getEnvVariable';
+
 const app = express();
-const port = process.env.PORT || 3000;
+const port = getEnvVariable('PORT');
 
 connectDB()
 
