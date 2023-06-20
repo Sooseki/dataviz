@@ -1,5 +1,8 @@
 ## Install the project
 
+You will need an installation of mongoDB.
+Then :
+
 cd backend
 npm i
 
@@ -12,6 +15,6 @@ PORT=3001
 MONGODB_URI=http...
 `
 
-Then write in command line
+Then write 
 
-ts-node src/index.ts
+npm run start
