@@ -6,6 +6,11 @@ const clientSchema = new Schema({
         type: SchemaTypes.ObjectId,
         ref: "User",
         required: true,
+    }],
+    domains: [{
+        type: SchemaTypes.ObjectId,
+        ref: "Domain",
+        required: true,
     }]
 })
 

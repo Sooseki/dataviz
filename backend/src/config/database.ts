@@ -3,6 +3,7 @@ import { getEnvVariable } from '../utils/getEnvVariable';
 import { loadSchemas } from "../models";
 import User from "../models/User";
 import Client from "../models/Client";
+import Domain from "../models/Domain";
 
 export const connectDB = async (): Promise<void> => {
     try {
@@ -20,16 +21,22 @@ export const connectDB = async (): Promise<void> => {
         process.exit(1);
     }
 };
+
 const loadTestDatas = async () => {
     const user = await User.create({
         name: "Manon Bonnet",
         role: "admin",
         email: "manon.bonnet.30@gmail.com",
         password: "manon",
-    })
+    });
+
+    const domain = await Domain.create({
+        url: "https://test.com",
+    });
 
     await Client.create({
         name: "company name",
         users: [user.id],
-    })
+        domains: [domain.id],
+    });
 }
