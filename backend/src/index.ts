@@ -9,7 +9,6 @@ const port = getEnvVariable('PORT');
 connectDB()
 
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
 app.use(bodyParser.json({ limit: '100mb' }));
 
 app.get('/', (req, res) => {
