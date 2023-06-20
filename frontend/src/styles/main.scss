@@ -1,0 +1,8 @@
+//TODO check why we can't use * to get all folder
+@import './config/variables.scss';
+@import './pages/home.scss';
+@import './pages/login-page.scss';
+
+.body {
+    background-color: $primary-color;
+}
