@@ -1,24 +1,17 @@
 {
-    "include": ["src/**/*", "package.json"],
     "compilerOptions": {
-        "composite": true,
-        "declaration": true,
-        "declarationMap": true,
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "importHelpers": true,
-        "module": "ESNext",
-        "moduleResolution": "node",
-        "newLine": "LF",
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitReturns": true,
-        "noUncheckedIndexedAccess": true,
-        "noUnusedLocals": false,
-        "noUnusedParameters": false,
-        "preserveConstEnums": true,
-        "removeComments": true,
-        "resolveJsonModule": true,
+        "target": "es2022",
         "strict": true,
-        "target": "ES2018"
-    }
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "forceConsistentCasingInFileNames": true,
+        "noEmit": true,
+        "esModuleInterop": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules"]
 }
