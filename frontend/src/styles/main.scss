@@ -32,6 +32,7 @@ h1 {
 
 .logo {
     filter: $milky-white-color-filter;
+    width: 60%;
     margin-bottom: 50px;
     &.dark-mode {
         filter: $charcoal-darker-color-filter;
@@ -41,6 +42,11 @@ h1 {
 @media (max-width: $sm) {
     .logo {
         margin-bottom: 30px;
-        height: 6%;
+    }
+    .login-miscellaneous-services {
+        flex-direction: column;
+        & a, span {
+            margin-bottom: 10px;
+        }
     }
 }

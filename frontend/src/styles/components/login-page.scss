@@ -1,17 +1,17 @@
-.login-container {
+.login-container, .register-container {
     display: flex;
     border-radius: $border-radius-xl;
     background-color: $charcoal-color;
     position: relative;
     flex-direction: column;
-    height: 60%;
     width: 60%;
+    padding: 25px;
     justify-content: center;
     align-items: center;
     &.dark-mode {
         background-color: $milky-white-color;
     }
-    .login-input {
+    .user-data-input {
         display: flex;
         flex-direction: column;
         position: relative;

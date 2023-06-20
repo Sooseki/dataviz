@@ -8,7 +8,7 @@ interface InputProps {
 
 const InputText: React.FC<InputProps> = ({ label, value, onChange }) => {
     return (
-        <div className='login-input'>
+        <div className='user-data-input'>
             <label>{label}</label>
             <input type="text" value={value} onChange={onChange} />
         </div>
