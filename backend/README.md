@@ -13,6 +13,7 @@ Create a .env file with
 `
 PORT=3001
 MONGODB_URI=http...
+NODE_ENV=dev
 `
 
 Then write 
