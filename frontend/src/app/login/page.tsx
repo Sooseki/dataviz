@@ -2,8 +2,8 @@
 import { ChangeEvent, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import InputText from '@/components/input-text';
-import SubmitButton from '@/components/submit-button';
+import InputText from '@/components/InputText';
+import SubmitButton from '@/components/button/SubmitButton';
 
 const Login: React.FC = () => {
     const { logIn } = useAuth();
@@ -26,10 +26,10 @@ const Login: React.FC = () => {
         <>
             <form className='login-container'>
                 <img className='logo' src="/perfguardian-text-and-logo.svg" alt='perfguardian-text-and-logo' />
-                <InputText type={'text'} label="email" value={email} onChange={handleEmailChange} />
-                <InputText type={'password'} label="password" value={userPassword} onChange={handlePasswordChange} />
+                <InputText type='email' label="email" name="email" value={email} onChange={handleEmailChange} />
+                <InputText type='password' label="password" name="password" value={userPassword} onChange={handlePasswordChange} />
                 <SubmitButton text="Submit" onClick={handleSubmit} />
-                <div className='login-miscellaneous-services'>
+                <div className='login-miscellaneous-services text-over-background'>
                     <span>
                         You don't have an account ?
                         <Link className='miscellaneous-services-link' href="/register">  Sign up</Link>

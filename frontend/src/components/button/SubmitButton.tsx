@@ -7,7 +7,7 @@ interface ButtonProps {
 
 const SubmitButton = ({ text, onClick }: ButtonProps) => {
     return (
-        <button type="submit" onClick={onClick}>{text}</button>
+        <button type="submit" onClick={onClick} className="main-button">{text}</button>
     );
 };
 
