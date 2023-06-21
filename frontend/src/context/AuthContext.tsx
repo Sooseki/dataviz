@@ -1,3 +1,4 @@
+"use client"
 import { handlePost, handlePut } from "@/api/handleCall";
 import { AuthContextType, User } from "@/types";
 import { PropsWithChildren, createContext, useContext, useState } from "react";
