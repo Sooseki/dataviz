@@ -10,7 +10,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
     try {
         const existingUser = await User.findOne({ email })
         if (existingUser) {
-            return res.status(400).json({ msg: "Email already use, take another one" })
+            return res.status(400).json({ msg: "Email already used, take another one" })
         }
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
