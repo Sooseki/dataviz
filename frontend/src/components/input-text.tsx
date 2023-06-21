@@ -3,14 +3,15 @@ import React, { ChangeEvent } from 'react';
 interface InputProps {
     label: string;
     value: string;
+    type: string;
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const InputText: React.FC<InputProps> = ({ label, value, onChange }) => {
+const InputText = ({ type, label, value, onChange }: InputProps) => {
     return (
-        <div className='login-input'>
+        <div className='user-data-input'>
             <label>{label}</label>
-            <input type="text" value={value} onChange={onChange} />
+            <input type={type} value={value} onChange={onChange} />
         </div>
     );
 };

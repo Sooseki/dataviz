@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Navbar from '@/components/navbar';
 import Burger from '@/components/burger';
 
-const Home: React.FC = () => {
+const Home = () => {
 
     return (
         <div>
