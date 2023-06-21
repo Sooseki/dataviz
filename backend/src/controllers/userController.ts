@@ -5,24 +5,23 @@ import jwt from 'jsonwebtoken'
 import { getEnvVariable } from '../utils/getEnvVariable';
 
 
-export const inscription = async (req: Request, res: Response): Promise<Response> => {
+export const register = async (req: Request, res: Response): Promise<Response> => {
     const { name, role, email, password } = req.body
     try {
-        let user = await User.findOne({ email })
-        if (user) {
+        const existingUser = await User.findOne({ email })
+        if (existingUser) {
             return res.status(400).json({ msg: "Email already use, take another one" })
         }
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-        user = new User({
+
+        const user =  await User.create({
             name,
             role,
             email,
             password: hashedPassword,
-        })
-
-
-        await user.save();
+        });
+       
         const payload = {
             user: {
                 id: user.id,
@@ -65,7 +64,6 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         }
 
         return res.status(400).json({ msg: "L'utilisateur n'existe pas" })
-
 
     } catch (err) {
         console.error(err)
