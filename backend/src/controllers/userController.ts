@@ -1,12 +1,11 @@
 import User from '../models/User'
 import bcrypt from 'bcryptjs'
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken'
-import { getEnvVariable } from '../utils/getEnvVariable';
-
+import { getToken } from '../utils/handleToken';
 
 export const register = async (req: Request, res: Response): Promise<Response> => {
     const { name, role, email, password } = req.body
+
     try {
         const existingUser = await User.findOne({ email })
         if (existingUser) {
@@ -15,28 +14,25 @@ export const register = async (req: Request, res: Response): Promise<Response> =
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        const user =  await User.create({
+        await User.create({
             name,
             role,
             email,
             password: hashedPassword,
         });
-       
+
         const payload = {
             user: {
-                id: user.id,
+                email, role, name
             },
         }
-        const jwtSecret = getEnvVariable('JWT_SECRET')
-        if (!jwtSecret) throw new Error('JWT_SECRET is not defined in the environment variables.');
-        jwt.sign(payload, jwtSecret, { expiresIn: "1h" }, (err, token) => {
-            if (err) throw err
-        })
 
-        return res.status(200).json({ msg: "inscription done !" })
+        const token = await getToken(payload)
+
+        return res.status(200).json({ msg: "register sucessfull", token })
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ msg: "something went wrong :(" });
+        return res.status(500).json({ msg: "something went wrong" });
     }
 }
 
@@ -47,26 +43,22 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         if (user && user.password) {
             const isMatch = await bcrypt.compare(password, user?.password)
             if (!isMatch) {
-                return res.status(400).json({ msg: "Mot de passe incorrect" })
+                return res.status(400).json({ msg: "Incorrect password" })
             }
 
             const payload = {
                 user: {
-                    id: user.id,
+                    email, role: user.role, name: user.name
                 },
             }
-            const jwtSecret = getEnvVariable('JWT_SECRET')
-            if (!jwtSecret) throw new Error('JWT_SECRET is not defined in the environment variables.');
-            jwt.sign(payload, jwtSecret, { expiresIn: "1h" }, (err, token) => {
-                if (err) throw err
-            })
-            return res.status(200).json({ msg: "Connexion réussie" })
+            const token = await getToken(payload)
+            return res.status(200).json({ msg: "Loged in", token })
         }
 
-        return res.status(400).json({ msg: "L'utilisateur n'existe pas" })
+        return res.status(400).json({ msg: "User do not exist" })
 
     } catch (err) {
         console.error(err)
-        return res.status(500).json({ msg: "something went wrong :" })
+        return res.status(500).json({ msg: "something went wrong" })
     }
 }
