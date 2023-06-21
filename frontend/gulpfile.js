@@ -1,4 +1,4 @@
-const gulp = require('gulp'); 
+const gulp = require('gulp');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('sass'));
 

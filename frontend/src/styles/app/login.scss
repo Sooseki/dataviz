@@ -1,0 +1,28 @@
+.login-container {
+    display: flex;
+    border-radius: $border-radius-xl;
+    background-color: $charcoal-color;
+    position: relative;
+    flex-direction: column;
+    width: 90%;
+    max-width: 600px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vh;
+
+    .login-miscellaneous-services {
+        display: flex;
+        margin: 1rem 0 0 0;
+        justify-content: space-between;
+
+        > * {
+            display: block;
+            margin-right: 2rem;
+        }
+        
+        .miscellaneous-services-link {
+            color: $red-color;
+            text-decoration: none;
+        }
+    }
+}

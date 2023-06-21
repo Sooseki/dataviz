@@ -5,9 +5,9 @@ interface ButtonProps {
     onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
-const SubmitButton: React.FC<ButtonProps> = ({ text, onClick }) => {
+const SubmitButton = ({ text, onClick }: ButtonProps) => {
     return (
-        <button type="submit" onClick={onClick}>{text}</button>
+        <button type="submit" onClick={onClick} className="main-button">{text}</button>
     );
 };
 

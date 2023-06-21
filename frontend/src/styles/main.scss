@@ -1,12 +1,18 @@
 //TODO check why we can't use * to get all folder
 @import './config/variables.scss';
-@import './components/home.scss';
-@import './components/login-page.scss';
+@import './themes/dark.scss';
+@import './app/home.scss';
+@import './app/login.scss';
+@import './components/form.scss';
+@import './components/input-text.scss';
+@import './components/button/button.scss';
+@import './components/userSettings/password-settings.scss';
+@import './components/tabs/tabs.scss';
+@import './components/tabs/tab.scss';
 @import '~@fortawesome/fontawesome-svg-core/styles.css';
 
 
 body {
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,10 +20,6 @@ body {
     font-family: $text-font;
     font-size: $body-font-size;
     color: $charcoal-darker-color;
-    &.dark-mode {
-        background-color: $nightblue-darker-color;
-        color: $milky-white-color;
-    }
 }
 
 h1 {
@@ -25,18 +27,13 @@ h1 {
     text-transform: uppercase;
     font-size: $title-font-size-xl;
     color: $milky-white-color;
-    &.dark-mode {
-        color: $charcoal-darker-color; 
-    }
 }
 
 .logo {
     filter: $milky-white-color-filter;
     width: 60%;
     margin-bottom: 50px;
-    &.dark-mode {
-        filter: $charcoal-darker-color-filter;
-    }
+    width: 100%;
 }
 
 @media (max-width: $sm) {

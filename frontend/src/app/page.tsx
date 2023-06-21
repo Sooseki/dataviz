@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link';
 
-const Home: React.FC = () => {
+const Home = () => {
 
     return (
         <div>
