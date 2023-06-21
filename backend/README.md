@@ -10,12 +10,11 @@ npm i
 
 Create a .env file with
 
-`
-PORT=3001
+`PORT=3001
 MONGODB_URI=http...
 NODE_ENV=dev
-`
+JWT_SECRET=******`
 
-Then write 
+Then write
 
 npm run start

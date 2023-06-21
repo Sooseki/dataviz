@@ -1,6 +1,6 @@
 import { AuthContextProvider } from "@/context/AuthContext";
-import '../styles/main.css';
 import { ThemeContextProvider } from "@/context/ThemeContext";
+import '../styles/main.css';
 
 export const metadata = {
   title: 'PerfGuardian'
