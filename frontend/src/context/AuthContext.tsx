@@ -1,4 +1,4 @@
-import { handlePost } from "@/api/handleCall";
+import { handlePost, handlePut } from "@/api/handleCall";
 import { AuthContextType, User } from "@/types";
 import { PropsWithChildren, createContext, useContext, useState } from "react";
 
@@ -49,9 +49,44 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         setUser(undefined);
     };
 
-    const value: AuthContextType = { user, logIn, signUp, logOut };
+    const changePassword = async (
+        email: string, 
+        newPassword: string, 
+        currentPassword: string,
+    ) => {
+        try {
+            // TODO : correct urls when backend ok :+1:
+            const pswChangeResult = await handlePut('/api/user/', { 
+                email, 
+                newPassword,
+                currentPassword,
+            });
+            
+            // TODO : correct API return values
+            if (!pswChangeResult || !pswChangeResult.data?.user) {
+                throw new Error("There was an error in password reseting");
+            }
+            
+            setUser(pswChangeResult.data?.user);
+            // TODO : code toast component 
+            // toastsuccess("Password Changed Successfully")
+        } catch (err) {
+            console.error(err);
+            // toasterror("Login Failed")
+        }
+    }
 
-    return <AuthContext.Provider value={value}>
-        {children}
-    </AuthContext.Provider>
+    const value: AuthContextType = { 
+        user, 
+        logIn, 
+        signUp, 
+        logOut, 
+        changePassword 
+    };
+
+    return (
+        <AuthContext.Provider value={value}>
+            {children}
+        </AuthContext.Provider>
+    )
 };

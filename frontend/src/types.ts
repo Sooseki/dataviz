@@ -1,6 +1,7 @@
 // TODO : move interface User to types when mongoDB User return values available
 export interface User {
-    fullName: string;
+    fullName: string,
+    email: string,
 }
 
 export interface AuthContextType {
@@ -8,4 +9,5 @@ export interface AuthContextType {
     signUp?: (email: string, password: string) => Promise<void>;
     logIn?: (email: string, password: string) => Promise<void>;
     logOut?: () => void;
+    changePassword?: (email: string, newPassword: string, currentPassword: string) => Promise<void>;
 }
