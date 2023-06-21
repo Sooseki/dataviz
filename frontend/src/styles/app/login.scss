@@ -4,13 +4,16 @@
     background-color: $charcoal-color;
     position: relative;
     flex-direction: column;
-    height: 60%;
+    height: auto;
     max-height: 510px;
-    width: 60%;
+    width: 90%;
     max-width: 708px;
     align-items: center;
-    padding: 40px  63px 83px 63px;
-
+    padding: 40px  20px 83px 20px;
+    @media (min-width: 1024px) {
+        padding: 40px  63px 83px 63px;
+       
+    }
     
     .logo{ 
         margin-bottom: 40px
@@ -44,9 +47,20 @@
         margin-top: 20px;
         width: 100%;
         justify-content: space-between;
+        flex-direction: column;
+        @media (min-width: 1024px) {
+            flex-direction: row;
+        }span{
+            @include font($text-font, 12px, 400, $milky-white-color, 22px);
+        }
         .miscellaneous-services-link {
             color: $red-color;
             text-decoration: none;
+            margin-top: 15px;
+            @include font($text-font, 12px, 400, $red-color, 22px);
+            @media (min-width: 1024px) {
+                margin-top: unset;
+            }
         }
     }
 }

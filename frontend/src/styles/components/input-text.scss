@@ -14,7 +14,7 @@
         margin-bottom: 16px;
 
     }label{
-        @include font(18px, $body-font-size, 700, $milky-white-color, 22px);
+        @include font($text-font, 18px, 700, $milky-white-color, 22px);
         margin-bottom: 8px;
 
     }
