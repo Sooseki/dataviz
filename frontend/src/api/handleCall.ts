@@ -27,3 +27,13 @@ export const handlePost = async (url: string, config: {}): Promise<AxiosResponse
 
     return data;
 }
+
+export const handlePut = async (url: string, config: {}): Promise<AxiosResponse | undefined> => {
+    const data = await axios.put(url, config)
+        .then((data) => data)
+        .catch((err) => console.error(err));
+    
+    if(!data) return undefined;
+
+    return data;
+}

@@ -1,0 +1,21 @@
+.user-data-input {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    color: $milky-white-color;
+    text-transform: capitalize;
+    input {
+        height: 40px;
+        border: none;
+        padding: 1rem;
+        border-radius: $border-radius-md;
+        background-color: $milky-white-darker-color;
+        margin-bottom: 16px;
+
+    }label{
+        @include font(18px, $body-font-size, 700, $milky-white-color, 22px);
+        margin-bottom: 8px;
+
+    }
+}
