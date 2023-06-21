@@ -1,9 +1,12 @@
 //TODO check why we can't use * to get all folder
 @import './config/variables.scss';
+@import './config/reset.scss';
+@import './config/mixins.scss';
 @import './components/home.scss';
 @import './components/login-page.scss';
+@import './components/navbar.scss';
+@import './components/burger.scss';
 @import '~@fortawesome/fontawesome-svg-core/styles.css';
-
 
 body {
     height: 100vh;

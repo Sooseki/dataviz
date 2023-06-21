@@ -5,43 +5,46 @@
     position: relative;
     flex-direction: column;
     height: 60%;
+    max-height: 510px;
     width: 60%;
-    justify-content: center;
+    max-width: 708px;
     align-items: center;
+    padding: 40px  63px 0 63px;
+
     &.dark-mode {
         background-color: $milky-white-color;
+    }
+    .logo{ 
+        margin-bottom: 40px
     }
     .login-input {
         display: flex;
         flex-direction: column;
         position: relative;
-        width: 70%;
+        width: 100%;
         color: $milky-white-color;
         text-transform: capitalize;
+        label{
+            @include font($text-font, 18px, 700, $milky-white-color, 22px);
+        }
         input {
-            margin: 3% 0%;
+            margin-top: 8px;
+            margin-bottom: 16px;
             border: none;
-            padding: 3%;
+            height: 42px;
             border-radius: $border-radius-md;
             background-color: $milky-white-darker-color;
         }
     }
     button {
-        background-color: $red-color;
-        padding: 3%;
-        width: 70%;
-        border-radius: $border-radius-md;
-        border: none;
-        color: $milky-white-color;
-        font-size: $body-font-size;
-        font-weight: 700;
-        cursor: pointer;
+      @include largebutton;
+      margin-top: 14px;
     }
     .login-miscellaneous-services {
         color: $milky-white-color;
         display: flex;
-        margin: 5% 0% 0% 0%;
-        width: 70%;
+        margin-top: 20px;
+        width: 100%;
         justify-content: space-between;
         .miscellaneous-services-link {
             color: $red-color;

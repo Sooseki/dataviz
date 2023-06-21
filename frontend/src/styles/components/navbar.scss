@@ -1,0 +1,82 @@
+.navigation{
+    position: fixed;
+    background-color: $grey-color;
+    top:0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: transform 0.3s ease-out;
+    transform: translateX(-100%);
+    display: block;
+    @media (min-width: 1024px) {
+          width: 15%;
+          display: block;
+          transform: unset;
+    }
+    &_active{
+        display: block;
+        transform: translateX(0);
+    }
+    h1{
+        position: absolute;
+        left: -500000px;
+    }
+    .logoContainer{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+    }
+    &_logo{
+        max-width: 80%;
+        display: none;
+        @media (min-width: 1024px) {
+            display: block;
+      }
+    }
+    &_items{
+        display: flex;
+        flex-direction: column;
+        margin-top: 70px;
+        @media (min-width: 1024px) {
+            margin-top: 20px;
+      }   
+    }
+    &_item{
+        width: 100%;
+        padding: 12px;
+        padding-left: 20px;
+        text-decoration: none;
+        @include font($text-font, $title-font-size-xs, 700, $nightblue-darker-color, 22px);
+        &_active{
+            border-left: 4px solid $red-color;
+            background-color: $milky-white-darker-color;
+        }
+    }
+    &_userContainer{
+        display: flex;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    } 
+    &_user{
+        display: flex;
+        padding: 20px;
+        border-top: 1px solid $nightblue-darker-color;
+        align-items: center;
+        width: 100%;
+        img{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 7px;
+        }
+        p{
+            @include font($text-font, $title-font-size-xs, 400, $nightblue-darker-color, 22px);
+            text-align: center;
+        }
+    }
+
+  
+    
+}
