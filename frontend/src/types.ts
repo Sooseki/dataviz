@@ -11,3 +11,9 @@ export interface AuthContextType {
     logOut?: () => void;
     changePassword?: (email: string, newPassword: string, currentPassword: string) => Promise<void>;
 }
+
+export interface ThemeContextType {
+    theme?: string | undefined;
+    setNewTheme?: (theme: string) => void;
+    allThemes?: { label: string; name: string; }[];
+}

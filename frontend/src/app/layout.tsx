@@ -1,5 +1,6 @@
 import { AuthContextProvider } from "@/context/AuthContext";
 import '../styles/main.css';
+import { ThemeContextProvider } from "@/context/ThemeContext";
 
 export const metadata = {
   title: 'PerfGuardian'
@@ -12,7 +13,9 @@ const RootLayout = ({children}: {
     <html lang="en">
       <body>
         <AuthContextProvider>
-          {children}
+          <ThemeContextProvider>
+            {children}
+          </ThemeContextProvider>
         </AuthContextProvider>
       </body>
     </html>

@@ -1,6 +1,7 @@
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/router";
 import { useState } from "react";
+import InputText from "../InputText";
+import { useRouter } from "next/navigation";
 
 const PasswordSettings = () => {
     const router = useRouter();
@@ -9,10 +10,11 @@ const PasswordSettings = () => {
     const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
     const [currentPassword, setCurrentPassword] = useState("");
 
-    if (!user || !user.email) { 
-        router.push("/login");
-        return null;
-    };
+    // TODO : uncomment these verifications when link to database is made
+    // if (!user || !user.email) { 
+    //     router.push("/login");
+    //     return null;
+    // };
 
     if (!changePassword) return null;
 
@@ -27,11 +29,28 @@ const PasswordSettings = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                {/* TODO : change to Juan InputText component */}
-                <input name="currentPassword" />
-                <input name="newPassword" />
-                <input name="newPasswordConfirmation" />
+            <form onSubmit={handleSubmit} className="password-settings">
+                <InputText 
+                    name="currentPassword" 
+                    onChange={(event) => setCurrentPassword(event.target.value)}
+                    label="Current password"
+                    type="password"
+                    value={currentPassword}
+                />
+                <InputText 
+                    name="newPassword"
+                    onChange={(event) => setNewPassword(event.target.value)}
+                    label="New password"
+                    type="password"
+                    value={newPassword}
+                />
+                <InputText 
+                    name="newPasswordConfirmation"
+                    onChange={(event) => setNewPasswordConfirmation(event.target.value)}
+                    label="New password confirmation"
+                    type="password"
+                    value={newPasswordConfirmation}
+                />
             </form>
         </>
     )

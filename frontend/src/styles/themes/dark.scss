@@ -1,0 +1,27 @@
+.dark {
+    .logo {
+        filter: $charcoal-darker-color-filter;
+    }
+
+    h1 {
+        color: $charcoal-darker-color; 
+    }
+
+    .login-container {
+        background-color: $milky-white-color;
+    }
+
+    .text-over-background {
+        color: $nightblue-darker-color;
+
+        input {
+            background-color: $nightblue-darker-color;
+            color: $milky-white-color;
+        }
+    }
+}
+
+body.dark {
+    background-color: $nightblue-darker-color;
+    color: $milky-white-color;
+}
