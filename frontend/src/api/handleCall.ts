@@ -4,36 +4,43 @@ import axios from 'axios';
 type AxiosResponse = {
     data: {
         user: User;
+        msg: string;
         token: string;
     }
 }
 
-export const handleGet = async (url: string, config: {}): Promise<AxiosResponse | undefined> => {
-    const data = await axios.get(url, config)
+const config = {
+    headers: {
+        'Content-Type': 'application/json'
+    }
+};
+
+export const handleGet = async (url: string): Promise<AxiosResponse | undefined> => {
+    const res = await axios.get(url, config)
         .then((data) => data)
         .catch((err) => console.error(err));
     
-    if(!data) return undefined;
+    if(!res) return undefined;
 
-    return data;
+    return res;
 }
 
-export const handlePost = async (url: string, config: {}): Promise<AxiosResponse | undefined> => {
-    const data = await axios.post(url, config)
+export const handlePost = async (url: string, data: {}): Promise<AxiosResponse | undefined> => {
+    const res = await axios.post(url, data, config)
         .then((data) => data)
         .catch((err) => console.error(err));
     
-    if(!data) return undefined;
+    if(!res) return undefined;
 
-    return data;
+    return res;
 }
 
-export const handlePut = async (url: string, config: {}): Promise<AxiosResponse | undefined> => {
-    const data = await axios.put(url, config)
+export const handlePut = async (url: string, data: {}): Promise<AxiosResponse | undefined> => {
+    const res = await axios.put(url, data, config)
         .then((data) => data)
         .catch((err) => console.error(err));
     
-    if(!data) return undefined;
+    if(!res) return undefined;
 
-    return data;
+    return res;
 }
