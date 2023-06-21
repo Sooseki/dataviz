@@ -6,9 +6,9 @@ interface InputProps {
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const InputText: React.FC<InputProps> = ({ label, value, onChange }) => {
+const InputText = ({ label, value, onChange }: InputProps) => {
     return (
-        <div className='login-input'>
+        <div className='user-data-input'>
             <label>{label}</label>
             <input type="text" value={value} onChange={onChange} />
         </div>
