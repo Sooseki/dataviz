@@ -62,7 +62,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     ) => {
         try {
             // TODO : correct urls when backend ok :+1:
-            const pswChangeResult = await handlePut(`${host}/users/change-password`, { 
+            const pswChangeResult = await handlePut <{ user: User }>(`${host}/users/change-password`, { 
                 email, 
                 newPassword,
                 currentPassword,
