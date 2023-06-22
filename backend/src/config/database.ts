@@ -1,6 +1,5 @@
 import { connect, connection } from "mongoose";
 import { getEnvVariable } from '../utils/getEnvVariable';
-import { loadSchemas } from "../models";
 import User from "../models/User";
 import Client from "../models/Client";
 import Domain from "../models/Domain";
@@ -10,7 +9,6 @@ export const connectDB = async (): Promise<void> => {
         const uri = getEnvVariable('MONGODB_URI');
         if(!uri) throw new Error("MONGODB_URI not provided");
         connect(uri);
-        loadSchemas();
 
         connection.on('connected', async () => {
             const clientDocuments = await connection.db.collection('clients').countDocuments();
@@ -31,11 +29,11 @@ const loadTestDatas = async () => {
         name: "Manon Bonnet",
         role: "admin",
         email: "manon.bonnet.30@gmail.com",
-        password: "manon",
+        password: "$2y$10$zZ3Gt9J23k9kZS8chH/VQuSP3Fjw3Api0oQhLS/gAeWYfSw5XSqhW",
     });
 
     const domain = await Domain.create({
-        url: "https://test.com",
+        url: "https://test-manon.com",
     });
 
     await Client.create({

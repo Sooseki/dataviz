@@ -13,7 +13,9 @@ Create a .env file with
 `PORT=3001
 MONGODB_URI=http...
 NODE_ENV=dev
-JWT_SECRET=******`
+JWT_SECRET=******
+ALLOWED_ORIGIN=http://localhost:3000
+`
 
 Then write
 

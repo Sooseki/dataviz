@@ -1,5 +1,5 @@
 "use client"
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, MouseEvent, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import InputText from '@/components/InputText';
@@ -20,11 +20,14 @@ const Login: React.FC = () => {
 
     if (!logIn) return null;
     
-    const handleSubmit = () => logIn(email, userPassword);
+    const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        logIn(email, userPassword)
+    };
 
     return (
         <>
-            <form className='login-container'>
+            <form className='login-container' method="POST">
                 <img className='logo' src="/perfguardian-text-and-logo.svg" alt='perfguardian-text-and-logo' />
                 <InputText type='email' label="email" name="email" value={email} onChange={handleEmailChange} />
                 <InputText type='password' label="password" name="password" value={userPassword} onChange={handlePasswordChange} />
