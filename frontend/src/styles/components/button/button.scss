@@ -1,6 +1,5 @@
 .main-button {
    @include largebutton;
-
     &-hidden {
         background-color: $nightblue-darker-color;
     }
