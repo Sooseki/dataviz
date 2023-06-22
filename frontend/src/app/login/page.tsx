@@ -1,5 +1,5 @@
 "use client"
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import InputText from '@/components/InputText';
@@ -20,18 +20,18 @@ const Login: React.FC = () => {
 
     if (!logIn) return null;
     
-    const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         logIn(email, userPassword)
     };
 
     return (
         <>
-            <form className='login-container' method="POST">
+            <form onSubmit={handleSubmit} className='login-container' method="POST">
                 <img className='logo' src="/perfguardian-text-and-logo.svg" alt='perfguardian-text-and-logo' />
                 <InputText type='email' label="email" name="email" value={email} onChange={handleEmailChange} />
                 <InputText type='password' label="password" name="password" value={userPassword} onChange={handlePasswordChange} />
-                <SubmitButton text="Submit" onClick={handleSubmit} />
+                <SubmitButton text="Submit" />
                 <div className='login-miscellaneous-services text-over-background'>
                     <span>
                         You don't have an account ?
