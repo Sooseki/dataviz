@@ -2,7 +2,8 @@
 import { handlePost, handlePut } from "@/api/handleCall";
 import { AuthContextType, User } from "@/types";
 import { useRouter } from "next/navigation";
-import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify"
 
 const AuthContext = createContext<AuthContextType>({})
 export const useAuth = () => useContext(AuthContext);
@@ -23,12 +24,14 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
             
             setUser(authresult.data?.user);
             setToken(authresult.data?.token)
-            // TODO : code toast component 
-            // toastsuccess("Login Successfull")
             router.push("/")
         } catch (err) {
-            console.error(err);
-            // toasterror("Login Failed")
+            toast("There has been an error. Please try again", 
+            { 
+                type: "error",
+                theme: "colored",
+                position: "bottom-left"
+            })
         }
     };
 
@@ -36,17 +39,20 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         try {
             const authresult = await handlePost(`${host}/users/register`, { email, password });
                       
-            // TODO : correct API return values
             if (!authresult || !authresult.data?.user) {
                 throw new Error("no user found");
             }
 
             setUser(authresult.data?.user);
-            // TODO : code toast component 
-            // toastsuccess("Sign Up Successfull")
         } catch (err) {
-            console.error(err);
-            // toasterror("An Error Occuered")
+            toast(
+                "There has been an error in registering. Please try again.", 
+                { 
+                    type: "error",
+                    theme: "colored",
+                    position: "bottom-left"
+                }
+            )
         }
     };
 
@@ -69,17 +75,35 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
             
             // TODO : correct API return values
             if (!pswChangeResult || !pswChangeResult.data?.user) {
+                toast(
+                    "There has been an error in reseting password. Please try again.", 
+                    { 
+                        type: "error",
+                        theme: "colored",
+                        position: "bottom-left"
+                    }
+                )
                 throw new Error("There was an error in password reseting");
             }
             
             setUser(pswChangeResult.data?.user);
-            // TODO : code toast component 
-            // toastsuccess("Password Changed Successfully")
         } catch (err) {
-            console.error(err);
-            // toasterror("Login Failed")
+            toast(
+                "There has been an error in reseting password. Please try again.", 
+                { 
+                    type: "error",
+                    theme: "colored",
+                    position: "bottom-left"
+                }
+            )
         }
     }
+
+    useEffect(() => {
+        if (!user) { 
+            router.push("/login");
+        };
+    }, [])
 
     const value: AuthContextType = { 
         user, 

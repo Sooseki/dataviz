@@ -1,4 +1,11 @@
 form {
     padding: 4rem;
     box-sizing: border-box;
+
+    .form-input-error {
+        padding: 1rem;
+        background-color: $red-color;
+        color: $milky-white-color;
+        margin-bottom: 1rem;
+    }
 }
