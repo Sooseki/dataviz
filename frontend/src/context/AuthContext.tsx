@@ -1,11 +1,12 @@
 "use client"
 import { handlePost, handlePut } from "@/api/handleCall";
-import { AuthContextType, User } from "@/types";
+import { AuthContextType, User, LoginResponse } from "@/types";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, createContext, useContext, useState } from "react";
 
 const AuthContext = createContext<AuthContextType>({})
 export const useAuth = () => useContext(AuthContext);
+
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     const router = useRouter();
@@ -15,7 +16,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
     const logIn = async (email: string, password: string) => {
         try {
-            const authresult = await handlePost(`${host}/users/login`, { email, password });
+            const authresult = await handlePost<LoginResponse>(`${host}/users/login`, { email, password });
 
             if (!authresult || !authresult.data?.user || !authresult.data?.token) {
                 throw new Error("no user found");
@@ -32,10 +33,10 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         }
     };
 
-    const signUp = async (email: string, password: string) => {
+    const signUp = async (email: string, password: string, name: string, company: string) => {
         try {
-            const authresult = await handlePost(`${host}/users/register`, { email, password });
-                      
+            const authresult = await handlePost<LoginResponse>(`${host}/users/register`, { email, password, name, company });
+            console.log(authresult, "authresult")
             // TODO : correct API return values
             if (!authresult || !authresult.data?.user) {
                 throw new Error("no user found");

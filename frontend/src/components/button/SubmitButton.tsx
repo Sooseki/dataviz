@@ -1,13 +1,12 @@
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 
 interface ButtonProps {
     text: string;
-    onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
-const SubmitButton = ({ text, onClick }: ButtonProps) => {
+const SubmitButton = ({ text }: ButtonProps) => {
     return (
-        <button type="submit" onClick={onClick} className="main-button">{text}</button>
+        <button type="submit" className="main-button">{text}</button>
     );
 };
 

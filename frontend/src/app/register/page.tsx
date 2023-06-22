@@ -1,12 +1,11 @@
 "use client"
-import { useAuth } from '@/context/AuthContext';
-import InputText from '@/components/input-text';
-import SubmitButton from '@/components/submit-button';
 import { ChangeEvent, useState } from 'react';
-import axios from 'axios';
+import { useAuth } from '@/context/AuthContext';
+import InputText from '@/components/InputText';
+import SubmitButton from '@/components/button/SubmitButton';
 
 const Register: React.FC = () => {
-    const { user } = useAuth();
+    const { signUp } = useAuth();
     const [username, setUsername] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [userMail, setUserMail] = useState('');
@@ -28,32 +27,21 @@ const Register: React.FC = () => {
         setUserCompany(event.target.value);
     };
 
-    const handleSubmit = () => {
-        async () => {
-            try {
-                const response = await axios.post('', {
-                    //Just to test, remove email when done testing.
-                    username: username,
-                    password: userPassword,
-                    mail: userMail,
-                    company: userCompany
-                });
-                console.log('Response:', response.data);
-            } catch (error) {
-                console.error('An error occurred during form submission:', error);
-            }
-        };
-    };
+    if (!signUp) {
+        return null;
+    }
+
+    const handleSubmit = () => signUp(userMail, userPassword, username, userCompany);
 
     return (
         <>
-            <form className='register-container'>
+            <form onSubmit={handleSubmit} className='register-container' method='POST'>
                 <img className='logo' src="/perfguardian-text-and-logo.svg" alt='perfguardian-text-and-logo' />
-                <InputText label="username" value={username} onChange={handleNameChange} />
-                <InputText label="password" value={userPassword} onChange={handlePasswordChange} />
-                <InputText label="email" value={userMail} onChange={handleUsermailChange} />
-                <InputText label="company" value={userCompany} onChange={handleCompanyChange} />
-                <SubmitButton text="Submit" onClick={handleSubmit} />
+                <InputText type='text' name='username' label="username" value={username} onChange={handleNameChange} />
+                <InputText type='password' name='password' label="password" value={userPassword} onChange={handlePasswordChange} />
+                <InputText type='email' name='email' label="email" value={userMail} onChange={handleUsermailChange} />
+                <InputText type='company' name='company' label="company" value={userCompany} onChange={handleCompanyChange} />
+                <SubmitButton text="Submit" />
             </form>
         </>
     );
