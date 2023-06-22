@@ -1,12 +1,13 @@
 "use client"
+import { useLocalStorage } from "@/lib/useLocalStorage";
 import { ThemeContextType } from "@/types";
-import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext<ThemeContextType>({})
 export const useTheme = () => useContext(ThemeContext);
 
-// TODO : store selectedTheme in local storage for future uses ?
 export const ThemeContextProvider = ({ children }: PropsWithChildren) => {
+    const { getItem, setItem } = useLocalStorage();
     const [theme, setTheme] = useState<string | undefined>("light");
     const allThemes = [{
         label: "Dark",
@@ -18,11 +19,17 @@ export const ThemeContextProvider = ({ children }: PropsWithChildren) => {
 
     const setNewTheme = (theme: string) => {
         setTheme(theme);
+        setItem("theme", theme);
         for(const theme of allThemes) {
             document.body.classList.remove(theme.name) 
         }
         document.body.classList.add(theme)
     }
+
+    useEffect(() => {
+        const usedTheme = getItem("theme");
+        if (usedTheme) setNewTheme(usedTheme);
+    }, [])
 
     const value: ThemeContextType = { 
         theme,

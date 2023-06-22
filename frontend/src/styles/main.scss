@@ -1,18 +1,24 @@
 //TODO check why we can't use * to get all folder
-@import './config/variables.scss';
 @import './config/reset.scss';
+@import './config/variables.scss';
 @import './config/mixins.scss';
-@import './components/navbar.scss';
-@import './components/burger.scss';
-@import './themes/dark.scss';
+
+// Pages
 @import './app/login.scss';
+
+// Components
 @import './components/form.scss';
 @import './components/input-text.scss';
 @import './components/button/button.scss';
 @import './components/userSettings/password-settings.scss';
 @import './components/tabs/tabs.scss';
 @import './components/tabs/tab.scss';
+@import './components/navbar.scss';
+@import './components/burger.scss';
+
+// Theme
 @import '~@fortawesome/fontawesome-svg-core/styles.css';
+@import './themes/dark.scss';
 
 body {
     display: flex;

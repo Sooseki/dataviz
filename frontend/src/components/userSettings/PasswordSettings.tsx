@@ -1,35 +1,66 @@
 import { useAuth } from "@/context/AuthContext";
-import { useState } from "react";
-import InputText from "../InputText";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import InputText from "../InputText";
+import { toast } from "react-toastify";
+import SubmitButton from "../button/SubmitButton";
 
 const PasswordSettings = () => {
     const router = useRouter();
     const { user, changePassword } = useAuth();
+    const [ inputError, setInputError ] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
     const [currentPassword, setCurrentPassword] = useState("");
 
-    // TODO : uncomment these verifications when link to database is made
-    // if (!user || !user.email) { 
-    //     router.push("/login");
-    //     return null;
-    // };
-
     if (!changePassword) return null;
 
-    const handleSubmit = () => {
-        if (!currentPassword) return // toast
-        if (!newPassword || !newPasswordConfirmation) return // toast
-        if (newPassword !== newPasswordConfirmation) return // toast
-        changePassword(user.email, newPassword, currentPassword)
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
-        // success toast
+        if (!currentPassword) {
+            setInputError("Current password must be provided.")
+            return;
+        }
+
+        if (!newPassword || !newPasswordConfirmation) {
+            setInputError("New password must be provided.")
+            return;
+        }
+
+        if (newPassword !== newPasswordConfirmation) {
+            setInputError("New password and new password confirmation don't match.")
+            return;
+        }
+        
+        try {
+            changePassword(user.email, newPassword, currentPassword)
+            toast(
+                "Password changed successfully !", 
+                { 
+                    type: "success",
+                    theme: "colored",
+                    position: "bottom-left"
+                }
+            )
+        } catch (err) {
+            toast(
+                "There has been an error in reseting your password. Please try again.", 
+                { 
+                    type: "error",
+                    theme: "colored",
+                    position: "bottom-left"
+                }
+            )
+        }
     }
 
     return (
         <>
             <form onSubmit={handleSubmit} className="password-settings">
+                {inputError &&
+                    <div className="form-input-error">{inputError}</div>
+                }
                 <InputText 
                     name="currentPassword" 
                     onChange={(event) => setCurrentPassword(event.target.value)}
@@ -51,6 +82,7 @@ const PasswordSettings = () => {
                     type="password"
                     value={newPasswordConfirmation}
                 />
+                <SubmitButton text="Submit" />
             </form>
         </>
     )
