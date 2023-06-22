@@ -42,7 +42,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
     const signUp = async (email: string, password: string, name: string, company: string) => {
         try {
-            const authresult = await handlePost<LoginResponse>(`${host}/users/register`, { email, password });
+            const authresult = await handlePost<LoginResponse>(`${host}/users/register`, { email, password, name, company });
                       
             if (!authresult || !authresult.data?.user) {
                 throw new Error("could not register");
