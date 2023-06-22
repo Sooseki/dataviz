@@ -1,7 +1,10 @@
 //TODO check why we can't use * to get all folder
 @import './config/variables.scss';
+@import './config/reset.scss';
+@import './config/mixins.scss';
+@import './components/navbar.scss';
+@import './components/burger.scss';
 @import './themes/dark.scss';
-@import './app/home.scss';
 @import './app/login.scss';
 @import './components/form.scss';
 @import './components/input-text.scss';
@@ -11,7 +14,6 @@
 @import './components/tabs/tab.scss';
 @import '~@fortawesome/fontawesome-svg-core/styles.css';
 
-
 body {
     display: flex;
     justify-content: center;
@@ -20,6 +22,7 @@ body {
     font-family: $text-font;
     font-size: $body-font-size;
     color: $charcoal-darker-color;
+    height: 100vh;
 }
 
 h1 {
@@ -33,7 +36,8 @@ h1 {
     filter: $milky-white-color-filter;
     width: 60%;
     margin-bottom: 50px;
-    width: 100%;
+    width: 80%;
+    max-width: 421px;
 }
 
 @media (max-width: $sm) {
