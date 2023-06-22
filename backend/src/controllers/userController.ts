@@ -14,22 +14,17 @@ export const register = async (req: Request, res: Response): Promise<Response> =
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        await User.create({
+        const user = await User.create({
             name,
             role,
             email,
             password: hashedPassword,
         });
 
-        const payload = {
-            user: {
-                email, role, name
-            },
-        }
+        const payload = { user: { email, role, name }};
+        const token = await getToken(payload);
 
-        const token = await getToken(payload)
-
-        return res.status(200).json({ msg: "register sucessfull", token })
+        return res.status(200).json({ msg: "register sucessfull", token, user })
     } catch (err) {
         console.error(err);
         return res.status(500).json({ msg: "something went wrong" });
@@ -52,7 +47,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
                 },
             }
             const token = await getToken(payload)
-            return res.status(200).json({ msg: "Loged in", token })
+            return res.status(200).json({ msg: "Loged in", token, user })
         }
 
         return res.status(400).json({ msg: "User do not exist" })
