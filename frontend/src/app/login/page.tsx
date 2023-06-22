@@ -27,7 +27,7 @@ const Login: React.FC = () => {
 
     return (
         <>
-            <form className='login-container' method="POST" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='login-container' method="POST">
                 <img className='logo' src="/perfguardian-text-and-logo.svg" alt='perfguardian-text-and-logo' />
                 <InputText type='email' label="email" name="email" value={email} onChange={handleEmailChange} />
                 <InputText type='password' label="password" name="password" value={userPassword} onChange={handlePasswordChange} />

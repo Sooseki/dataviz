@@ -1,11 +1,12 @@
 import User from '../models/User'
+import Client from '../models/Client';
 import bcrypt from 'bcryptjs'
 import { Request, Response } from 'express';
 import { getToken } from '../utils/handleToken';
 
 export const register = async (req: Request, res: Response): Promise<Response> => {
-    const { name, role, email, password } = req.body
-
+    const { name, email, password, company } = req.body
+    const role = 'admin';
     try {
         const existingUser = await User.findOne({ email })
         if (existingUser) {
@@ -21,10 +22,15 @@ export const register = async (req: Request, res: Response): Promise<Response> =
             password: hashedPassword,
         });
 
-        const payload = { user: { email, role, name }};
+        const client = await Client.create({
+            name: company,
+            users: [user.id]
+        })
+
+        const payload = { user: { email, role, name }, client: {name}};
         const token = await getToken(payload);
 
-        return res.status(200).json({ msg: "register sucessfull", token, user })
+        return res.status(200).json({ msg: "register sucessfull", token, user, client})
     } catch (err) {
         console.error(err);
         return res.status(500).json({ msg: "something went wrong" });
