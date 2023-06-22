@@ -1,13 +1,5 @@
 .main-button {
-    background-color: $red-color;
-    padding: 1rem;
-    width: 100%;
-    border-radius: $border-radius-md;
-    border: none;
-    color: $milky-white-color;
-    font-size: $body-font-size;
-    font-weight: 700;
-    cursor: pointer;
+   @include largebutton;
 
     &-hidden {
         background-color: $nightblue-darker-color;

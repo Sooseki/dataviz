@@ -4,25 +4,63 @@
     background-color: $charcoal-color;
     position: relative;
     flex-direction: column;
+    height: auto;
+    max-height: 510px;
     width: 90%;
-    max-width: 600px;
-    justify-content: center;
+    max-width: 708px;
     align-items: center;
-    margin-top: 10vh;
-
-    .login-miscellaneous-services {
+    padding: 40px  20px 83px 20px;
+    @media (min-width: 1024px) {
+        padding: 40px  63px 83px 63px;
+       
+    }
+    
+    .logo{ 
+        margin-bottom: 40px
+    }
+    .login-input {
         display: flex;
-        margin: 1rem 0 0 0;
-        justify-content: space-between;
-
-        > * {
-            display: block;
-            margin-right: 2rem;
+        flex-direction: column;
+        position: relative;
+        width: 100%;
+        color: $milky-white-color;
+        text-transform: capitalize;
+        label{
+            @include font($text-font, 18px, 700, $milky-white-color, 22px);
         }
-        
+        input {
+            margin-top: 8px;
+            margin-bottom: 16px;
+            border: none;
+            height: 42px;
+            border-radius: $border-radius-md;
+            background-color: $milky-white-darker-color;
+        }
+    }
+    button {
+      @include largebutton;
+      margin-top: 14px;
+    }
+    .login-miscellaneous-services {
+        color: $milky-white-color;
+        display: flex;
+        margin-top: 20px;
+        width: 100%;
+        justify-content: space-between;
+        flex-direction: column;
+        @media (min-width: 1024px) {
+            flex-direction: row;
+        }span{
+            @include font($text-font, 12px, 400, $milky-white-color, 22px);
+        }
         .miscellaneous-services-link {
             color: $red-color;
             text-decoration: none;
+            margin-top: 15px;
+            @include font($text-font, 12px, 400, $red-color, 22px);
+            @media (min-width: 1024px) {
+                margin-top: unset;
+            }
         }
     }
 }

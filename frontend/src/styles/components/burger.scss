@@ -1,0 +1,37 @@
+
+.burgerContainer{
+    fill: #1e272e;
+    position: fixed;
+    right: 25px;
+    top: 25px;
+    display: block;
+    z-index: 99;
+    @media (min-width: 1024px) {
+      display: none;
+    }
+} 
+
+.burger-btn {
+    overflow: visible;
+    cursor: pointer;
+   
+    &--1,
+    &--2,
+    &--3 {
+        transition: .2s;
+        transform-origin: center center;
+    }
+    
+    &.active {
+        .burger-btn--1 {
+            transform: translate(-7px, 7px) rotate(45deg);
+        }
+        .burger-btn--2 {
+            transform: translateX(20px);
+            opacity: 0;
+        }
+        .burger-btn--3 {
+            transform: translate(0px, -13px) rotate(-45deg);
+        }
+    }
+}
