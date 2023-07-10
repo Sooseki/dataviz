@@ -61,7 +61,7 @@ const PasswordSettings = () => {
                 {inputError &&
                     <div className="form-input-error">{inputError}</div>
                 }
-                <InputText 
+                <InputText
                     name="currentPassword" 
                     onChange={(event) => setCurrentPassword(event.target.value)}
                     label="Current password"
