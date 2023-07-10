@@ -1,9 +1,12 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartSimple, faChartPie, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '@/context/AuthContext';
 
 function Navbar(){
+    const { user } = useAuth();
+
     return <div className='navigation'>
         <h1>Perfguardian</h1>
         <div className="logoContainer">
@@ -23,10 +26,10 @@ function Navbar(){
             <Link className='navigation_item' href="/login"> <FontAwesomeIcon icon={faChartLine} /> Item 3</Link>
         </div>
         <div className="navigation_userContainer">
-            <div className="navigation_user">
+            <Link className="navigation_user" href="/user/settings">
                 <img src="https://picsum.photos/200" alt="image utilisateur" />
-                <p>Utilisateur lambda</p>
-            </div>
+                <p>{ user?.name }</p>
+            </Link>
         </div>
 
 
