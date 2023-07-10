@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --fix ."
+    "lint": "eslint --fix .",
+    "test": "jest --coverage"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -30,10 +31,12 @@
   "devDependencies": {
     "@types/gulp": "^4.0.11",
     "@types/gulp-rename": "^2.0.2",
+    "@types/jest": "^29.5.2",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "eslint": "^8.44.0",
     "gulp": "^4.0.2",
     "gulp-rename": "^2.0.0",
-    "gulp-sass": "^5.1.0"
+    "gulp-sass": "^5.1.0",
+    "ts-jest": "^29.1.1"
   }
 }
