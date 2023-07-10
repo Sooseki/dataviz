@@ -1,7 +1,7 @@
-"use client"
-import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Burger from '@/components/Burger';
+"use client";
+import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import Burger from "@/components/Burger";
 
 const Home = () => {
 

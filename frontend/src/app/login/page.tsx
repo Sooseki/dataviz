@@ -1,14 +1,14 @@
-"use client"
-import { ChangeEvent, FormEvent, useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
-import Link from 'next/link';
-import InputText from '@/components/InputText';
-import SubmitButton from '@/components/button/SubmitButton';
+"use client";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
+import InputText from "@/components/InputText";
+import SubmitButton from "@/components/button/SubmitButton";
 
 const Login: React.FC = () => {
     const { logIn } = useAuth();
-    const [email, setEmail] = useState('');
-    const [userPassword, setUserPassword] = useState('');
+    const [email, setEmail] = useState("");
+    const [userPassword, setUserPassword] = useState("");
     
     const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -22,7 +22,7 @@ const Login: React.FC = () => {
     
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        logIn(email, userPassword)
+        logIn(email, userPassword);
     };
 
     return (

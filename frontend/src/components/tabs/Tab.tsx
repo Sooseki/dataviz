@@ -11,6 +11,6 @@ const Tab = ({ component }: TabProps) => {
             {component}
         </div>
     );
-}
+};
 
 export default Tab;

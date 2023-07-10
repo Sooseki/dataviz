@@ -12,7 +12,7 @@ const clientSchema = new Schema({
         ref: "Domain",
         required: true,
     }]
-})
+});
 
 const Client = model("Client", clientSchema);
 export default Client;

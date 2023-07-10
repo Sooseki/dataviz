@@ -14,12 +14,12 @@ const UserSettings = () => {
             label: "Change theme",
             component: <ThemeSettings />,
         }
-    ]
+    ];
     return (
         <>
             <Tabs tabs={tabs} />
         </>
-    )
-}
+    );
+};
 
 export default UserSettings;
