@@ -1,10 +1,6 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "parser": "@typescript-eslint/parser",
-  "plugins": [
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
     "@typescript-eslint"
   ],
   "extends": [
@@ -13,7 +9,7 @@
     "next/core-web-vitals"
   ],
   "parserOptions": {
-    "ecmaVersion": 2021,
+    "ecmaVersion": 2022,
     "sourceType": "module"
   },
   "rules": {
@@ -30,7 +26,9 @@
       "always"
     ],
     "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/array-type": ["error", {
+    "@typescript-eslint/array-type": [
+      "error",
+      {
         "default": "array",
         "readonly": "array"
       }

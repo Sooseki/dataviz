@@ -9,7 +9,7 @@ const ThemeSettings = () => {
     useEffect(() => {
         if (!selectedTheme || !setNewTheme) return;
         setNewTheme(selectedTheme);
-    }, [selectedTheme])
+    }, [selectedTheme]);
 
     return (
         <>
@@ -20,14 +20,14 @@ const ThemeSettings = () => {
                         onClick={() => setSelectedTheme(theme.name)} 
                         classes={
                             selectedTheme === theme.name
-                            ? ""
-                            : "main-button-hidden"
+                                ? ""
+                                : "main-button-hidden"
                         }
                     />
-                )
+                );
             })}
         </>
-    )
-}
+    );
+};
 
 export default ThemeSettings;

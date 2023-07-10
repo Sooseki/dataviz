@@ -19,22 +19,22 @@ const PasswordSettings = () => {
         e.preventDefault();
 
         if (!currentPassword) {
-            setInputError("Current password must be provided.")
+            setInputError("Current password must be provided.");
             return;
         }
 
         if (!newPassword || !newPasswordConfirmation) {
-            setInputError("New password must be provided.")
+            setInputError("New password must be provided.");
             return;
         }
 
         if (newPassword !== newPasswordConfirmation) {
-            setInputError("New password and new password confirmation don't match.")
+            setInputError("New password and new password confirmation don't match.");
             return;
         }
         
         try {
-            changePassword(user.email, newPassword, currentPassword)
+            changePassword(user.email, newPassword, currentPassword);
             toast(
                 "Password changed successfully !", 
                 { 
@@ -42,7 +42,7 @@ const PasswordSettings = () => {
                     theme: "colored",
                     position: "bottom-left"
                 }
-            )
+            );
         } catch (err) {
             toast(
                 "There has been an error in reseting your password. Please try again.", 
@@ -51,9 +51,9 @@ const PasswordSettings = () => {
                     theme: "colored",
                     position: "bottom-left"
                 }
-            )
+            );
         }
-    }
+    };
 
     return (
         <>
@@ -85,7 +85,7 @@ const PasswordSettings = () => {
                 <SubmitButton text="Submit" />
             </form>
         </>
-    )
-}
+    );
+};
 
 export default PasswordSettings;

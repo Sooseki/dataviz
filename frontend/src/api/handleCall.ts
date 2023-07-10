@@ -1,5 +1,5 @@
-import { User, Client } from '@/types';
-import axios from 'axios';
+import { User, Client } from "@/types";
+import axios from "axios";
 
 type AxiosResponse<T> = {
     data: T;
@@ -7,7 +7,7 @@ type AxiosResponse<T> = {
 
 const config = {
     headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
     }
 };
 
@@ -19,7 +19,7 @@ export const handleGet = async <T>(url: string): Promise<AxiosResponse<T> | unde
     if(!res) return undefined;
 
     return res;
-}
+};
 
 export const handlePost = async <T>(url: string, data: {}): Promise<AxiosResponse<T> | undefined> => {
     const res = await axios.post(url, data, config)
@@ -29,7 +29,7 @@ export const handlePost = async <T>(url: string, data: {}): Promise<AxiosRespons
     if(!res) return undefined;
 
     return res;
-}
+};
 
 export const handlePut = async <T>(url: string, data: {}): Promise<AxiosResponse<T> | undefined> => {
     const res = await axios.put(url, data, config)
@@ -39,4 +39,4 @@ export const handlePut = async <T>(url: string, data: {}): Promise<AxiosResponse
     if(!res) return undefined;
 
     return res;
-}
+};

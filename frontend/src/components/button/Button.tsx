@@ -12,7 +12,7 @@ const Button = ({ content, onClick, classes }: Props) => {
         >
             {content}
         </button>
-    )
-}
+    );
+};
 
 export default Button;

@@ -1,15 +1,15 @@
-"use client"
-import { ChangeEvent, useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
-import InputText from '@/components/InputText';
-import SubmitButton from '@/components/button/SubmitButton';
+"use client";
+import { ChangeEvent, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
+import InputText from "@/components/InputText";
+import SubmitButton from "@/components/button/SubmitButton";
 
 const Register: React.FC = () => {
     const { signUp } = useAuth();
-    const [username, setUsername] = useState('');
-    const [userPassword, setUserPassword] = useState('');
-    const [userMail, setUserMail] = useState('');
-    const [userCompany, setUserCompany] = useState('');
+    const [username, setUsername] = useState("");
+    const [userPassword, setUserPassword] = useState("");
+    const [userMail, setUserMail] = useState("");
+    const [userCompany, setUserCompany] = useState("");
 
     const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);

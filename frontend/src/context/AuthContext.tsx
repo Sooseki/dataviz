@@ -1,13 +1,13 @@
-"use client"
+"use client";
 import { handlePost, handlePut } from "@/api/handleCall";
 import { useLocalStorage } from "@/lib/useLocalStorage";
 import { AuthContextType, User, LoginResponse } from "@/types";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
 import { decodeToken } from "react-jwt";
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
 
-const AuthContext = createContext<AuthContextType>({})
+const AuthContext = createContext<AuthContextType>({});
 export const useAuth = () => useContext(AuthContext);
 
 
@@ -32,11 +32,11 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
             router.push("/");
         } catch (err) {
             toast("There has been an error. Please try again", 
-            { 
-                type: "error",
-                theme: "colored",
-                position: "bottom-left"
-            })
+                { 
+                    type: "error",
+                    theme: "colored",
+                    position: "bottom-left"
+                });
         }
     };
 
@@ -60,7 +60,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
                     theme: "colored",
                     position: "bottom-left"
                 }
-            )
+            );
         }
     };
 
@@ -91,7 +91,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
                         theme: "colored",
                         position: "bottom-left"
                     }
-                )
+                );
                 throw new Error("There was an error in password reseting");
             }
             
@@ -104,12 +104,12 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
                     theme: "colored",
                     position: "bottom-left"
                 }
-            )
+            );
         }
-    }
+    };
 
     useEffect(() => {
-        console.log("use useeffect")
+        console.log("use useeffect");
         if (!user) { 
             const userToken = getItem("token");
 
@@ -121,8 +121,8 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
                 router.push("/login");
                 return logOut();
             }
-        };
-    }, [])
+        }
+    }, []);
 
     const value: AuthContextType = { 
         user, 
@@ -136,5 +136,5 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
-    )
+    );
 };
