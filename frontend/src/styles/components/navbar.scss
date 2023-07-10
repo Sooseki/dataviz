@@ -9,9 +9,9 @@
     transform: translateX(-100%);
     display: block;
     @media (min-width: 1024px) {
-          width: 15%;
-          display: block;
-          transform: unset;
+      width: 15%;
+      display: block;
+      transform: unset;
     }
     &_active{
         display: block;
