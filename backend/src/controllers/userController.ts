@@ -3,6 +3,7 @@ import Client from '../models/Client';
 import bcrypt from 'bcryptjs'
 import { Request, Response } from 'express';
 import { getToken } from '../utils/handleToken';
+import { benchJWT } from '../utils/benchJwt';
 
 export const register = async (req: Request, res: Response): Promise<Response> => {
     const { name, email, password, company } = req.body
@@ -22,15 +23,15 @@ export const register = async (req: Request, res: Response): Promise<Response> =
             password: hashedPassword,
         });
 
-        const client = await Client.create({
+        await Client.create({
             name: company,
             users: [user.id]
         })
 
-        const payload = { user: { email, role, name }, client: {name}};
+        const payload = { user: { email, role, name,  id: user.id,  }, client: { name } };
         const token = await getToken(payload);
-
-        return res.status(200).json({ msg: "register sucessfull", token, user, client})
+        benchJWT(token);
+        return res.status(200).json({ msg: "register sucessfull", token})
     } catch (err) {
         console.error(err);
         return res.status(500).json({ msg: "something went wrong" });
@@ -49,11 +50,12 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 
             const payload = {
                 user: {
-                    email, role: user.role, name: user.name
+                    email, role: user.role, name: user.name, id: user.id,
                 },
             }
             const token = await getToken(payload)
-            return res.status(200).json({ msg: "Loged in", token, user })
+            benchJWT(token);
+            return res.status(200).json({ msg: "Loged in", token })
         }
 
         return res.status(400).json({ msg: "User do not exist" })
@@ -62,4 +64,23 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         console.error(err)
         return res.status(500).json({ msg: "something went wrong" })
     }
+}
+
+export const updateUser = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+    const { name, email, password, company } = req.body;
+    console.log(name, email, password, company)
+    console.log(id)
+    // try {
+    //     const user = await User.findById(id);
+    //     if (!user) {
+    //         return res.status(400).json({ msg: "User not found" });
+    //     }
+    //     else {
+    //         return res.status(200).json({ msg: "User found" });
+    //     }
+    // } catch (err) {
+    //     console.error(err);
+    // }
+    return res.status(200).json({ msg: "Loged in" })
 }
