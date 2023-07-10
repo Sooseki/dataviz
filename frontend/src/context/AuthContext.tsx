@@ -15,6 +15,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     const router = useRouter();
     const [user, setUser] = useState<User | undefined>();
     const [token, setToken] = useState<string | undefined>();
+    const [isLoading, setIsLoading] = useState(true);
     const { getItem, removeItem, setItem } = useLocalStorage();
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
 
@@ -109,7 +110,6 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     }
 
     useEffect(() => {
-        console.log("use useeffect")
         if (!user) { 
             const userToken = getItem("token");
 
@@ -122,6 +122,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
                 return logOut();
             }
         };
+        setIsLoading(false);
     }, [])
 
     const value: AuthContextType = { 
@@ -134,7 +135,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
     return (
         <AuthContext.Provider value={value}>
-            {children}
+            {!isLoading && children}
         </AuthContext.Provider>
     )
 };
