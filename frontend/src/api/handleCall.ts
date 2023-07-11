@@ -1,4 +1,3 @@
-import { User, Client } from "@/types";
 import axios from "axios";
 
 type AxiosResponse<T> = {
