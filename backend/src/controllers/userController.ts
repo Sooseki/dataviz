@@ -28,10 +28,10 @@ export const register = async (req: Request, res: Response): Promise<Response> =
             users: [user.id]
         });
 
-        const payload = { user: { email, role, name,  id: user.id,  }, client: { name } };
+        const payload = { user: { email, role, name, id: user.id, }, client: { name } };
         const token = await getToken(payload);
         benchJWT(token);
-        return res.status(200).json({ msg: "register sucessfull", token})
+        return res.status(200).json({ msg: "register sucessfull", token })
     } catch (err) {
         console.error(err);
         return res.status(500).json({ msg: "something went wrong" });
@@ -66,21 +66,37 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     }
 }
 
-export const updateUser = async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params;
-    const { name, email, password, company } = req.body;
-    console.log(name, email, password, company)
-    console.log(id)
-    // try {
-    //     const user = await User.findById(id);
-    //     if (!user) {
-    //         return res.status(400).json({ msg: "User not found" });
-    //     }
-    //     else {
-    //         return res.status(200).json({ msg: "User found" });
-    //     }
-    // } catch (err) {
-    //     console.error(err);
-    // }
-    return res.status(200).json({ msg: "Loged in" })
+export const updateUser = async (req: Request, res: Response) => {
+    const { name: newName, email: newEmail, password: newPassword, id } = req.body;
+
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(400).json({ msg: "User not found" });
+        } else {
+            if (newEmail) {
+                const existingUser = await User.findOne({ email: newEmail });
+                if (existingUser && String(existingUser._id) !== id) {
+                    return res.status(400).json({ msg: "Email already used, take another one" });
+                } else {
+                    user.email = newEmail;
+                }
+            }
+            if (newPassword) {
+                const salt = await bcrypt.genSalt(10);
+                const hashedPassword = await bcrypt.hash(newPassword, salt);
+                user.password = hashedPassword;
+            }
+            if (newName) {
+                user.name = newName;
+            }
+
+            await user.save();
+
+            return res.status(200).json({ msg: "User updated successfully" });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ msg: "An error occurred while updating the user" });
+    }
 }
