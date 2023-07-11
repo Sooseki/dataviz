@@ -119,6 +119,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
                 setUser(decodedToken.user);
             } else {
                 router.push("/login");
+                setIsLoading(false);
                 return logOut();
             }
         }
