@@ -6,5 +6,5 @@ const datasetSchema = new Schema({
     timeToLoad: Number,
 });
 
-const Domain = model("Dataset", datasetSchema);
-export default Domain;
+const Dataset = model("Dataset", datasetSchema);
+export default Dataset;
