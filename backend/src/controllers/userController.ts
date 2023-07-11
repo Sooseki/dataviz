@@ -1,9 +1,9 @@
-import User from '../models/User'
-import Client from '../models/Client';
-import bcrypt from 'bcryptjs'
-import { Request, Response } from 'express';
-import { getToken } from '../utils/handleToken';
-import { benchJWT } from '../utils/benchJwt';
+import User from "../models/User";
+import Client from "../models/Client";
+import bcrypt from "bcryptjs";
+import { Request, Response } from "express";
+import { getToken } from "../utils/handleToken";
+import { benchJWT } from "../utils/benchJwt";
 
 export const register = async (req: Request, res: Response): Promise<Response> => {
     const { name, email, password, company } = req.body;
@@ -31,7 +31,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
         const payload = { user: { email, role, name, id: user.id, }, client: { name } };
         const token = await getToken(payload);
         benchJWT(token);
-        return res.status(200).json({ msg: "register sucessfull", token })
+        return res.status(200).json({ msg: "register sucessfull", token });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ msg: "something went wrong" });
@@ -52,10 +52,11 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
                 user: {
                     email, role: user.role, name: user.name, id: user.id,
                 },
-            }
-            const token = await getToken(payload)
-            benchJWT(token);
-            return res.status(200).json({ msg: "Loged in", token })
+            };
+            const token = await getToken(payload);
+            // benchJWT(token);
+            console.log("its sounds good");
+            return res.status(200).json({ msg: "Loged in", token });
         }
 
         return res.status(400).json({ msg: "User do not exist" });
@@ -64,7 +65,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         console.error(err);
         return res.status(500).json({ msg: "something went wrong" });
     }
-}
+};
 
 export const updateUser = async (req: Request, res: Response) => {
     const { name: newName, email: newEmail, password: newPassword, id } = req.body;
@@ -99,4 +100,4 @@ export const updateUser = async (req: Request, res: Response) => {
         console.error(err);
         return res.status(500).json({ msg: "An error occurred while updating the user" });
     }
-}
+};

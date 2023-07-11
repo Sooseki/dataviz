@@ -23,13 +23,15 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         try {
             const authresult = await handlePost<LoginResponse>(`${host}/users/login`, { email, password });
 
-            if (!authresult || !authresult.data?.user || !authresult.data?.token) {
+            if (!authresult  || !authresult.data?.token) {
                 throw new Error("no user found");
             }
             
             setUser(authresult.data?.user);
             setToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
+            // DEL 
+            console.log(authresult.data?.token);
             router.push("/");
         } catch (err) {
             toast("There has been an error. Please try again", 
