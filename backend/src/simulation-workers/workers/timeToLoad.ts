@@ -1,5 +1,6 @@
 import puppeteer from "puppeteer";
 
+
 export const timeToLoad = async (url: string) => {
     const browser = await puppeteer.launch(); 
     
