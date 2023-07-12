@@ -4,7 +4,7 @@ import cors from "cors";
 import { connectDB } from "./config/database";
 import { getEnvVariable } from "./utils/getEnvVariable";
 import { userRoutes } from "./routes/userRoutes";
-
+import { metricRoutes } from "./routes/metricRoutes";
 const app = express();
 const port = getEnvVariable("PORT");
 
@@ -19,6 +19,7 @@ app.use(cors({
 }));
 
 app.use("/users", userRoutes());
+app.use("/metrics", metricRoutes());
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");
 });
