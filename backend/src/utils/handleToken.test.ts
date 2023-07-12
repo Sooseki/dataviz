@@ -1,7 +1,7 @@
 const mGetEnvVariable = jest.fn();
 jest.mock("./getEnvVariable", () => ({
     getEnvVariable: mGetEnvVariable,
-}))
+}));
 
 import { getToken } from "./handleToken";
 
@@ -17,7 +17,7 @@ describe("getToken", () => {
         const token = await getToken(mPayload);
 
         expect(mGetEnvVariable).toHaveBeenCalledTimes(1);
-        expect(mGetEnvVariable).toHaveBeenCalledWith('JWT_SECRET');
+        expect(mGetEnvVariable).toHaveBeenCalledWith("JWT_SECRET");
         expect(typeof token).toBe("string");
     });
 
@@ -27,7 +27,7 @@ describe("getToken", () => {
         await expect(() => getToken(mPayload)).rejects.toThrowError("JWT_SECRET is not defined in the environment variables.");
 
         expect(mGetEnvVariable).toHaveBeenCalledTimes(1);
-        expect(mGetEnvVariable).toHaveBeenCalledWith('JWT_SECRET');
+        expect(mGetEnvVariable).toHaveBeenCalledWith("JWT_SECRET");
     });
 });
 
