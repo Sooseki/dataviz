@@ -1,29 +1,31 @@
-import { Request, Response, NextFunction } from 'express';
-import User from '../models/User';
-import { getToken } from '../utils/handleToken';
-import jwt from 'jsonwebtoken'
-import { getEnvVariable } from "./getEnvVariable";
+import { Request, Response, NextFunction } from "express";
+import User from "../models/User";
+import { getToken } from "../utils/handleToken";
+import jwt from "jsonwebtoken";
+import { getEnvVariable } from "../utils/getEnvVariable";
 
 export const AutoLogin = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
     if (authHeader) {
-        const token = authHeader.split(' ')[1];
-        const jwtSecret = getEnvVariable('JWT_SECRET');
+        const token = authHeader.split(" ")[1];
+        const jwtSecret = getEnvVariable("JWT_SECRET");
 
         if (!jwtSecret) {
-            res.status(500).json({ msg: 'Internal server error' });
+            res.status(500).json({ msg: "Internal server error" });
             process.exit(1);
         }
 
-        jwt.verify(token, jwtSecret, async (err, userDecoded: any): Promise<any> => {
+        jwt.verify(token, jwtSecret, async (err, userDecoded): Promise<any> => {
             if (err) {
-                next()
+                next();
             } else {
-                console.log(userDecoded.user.email)
+                if(!userDecoded){
+                    next();   
+                }
                 const user = await User.findOne({ email: userDecoded.user.email });
 
                 if (!user) {
-                    return res.status(401).json({ msg: 'User not found' });
+                    return res.status(401).json({ msg: "User not found" });
                 } else {
                     const payload = {
                         user: {
@@ -34,11 +36,11 @@ export const AutoLogin = (req: Request, res: Response, next: NextFunction) => {
                         },
                     };
                     const newToken = await getToken(payload);
-                    return res.status(200).json({ msg: "Loged in auto mod", newToken })
+                    return res.status(200).json({ msg: "Loged in auto mod", newToken });
                 }
             }
         });
     } else {
-        next()
+        next();
     }
-}
+};

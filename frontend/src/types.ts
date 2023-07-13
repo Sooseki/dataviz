@@ -2,6 +2,7 @@
 export interface User {
     name: string,
     email: string,
+    id: string,
 }
 
 export interface Client {
@@ -11,6 +12,8 @@ export interface Client {
 export interface AuthContextType {
     user?: User | undefined;
     signUp?: (email: string, password: string, username: string, company: string) => Promise<void>;
+    autoLogIn?: (token: string) => Promise<void>;
+    changeOtherInfo?: (email: string, name: string, id: string) => Promise<void>;
     logIn?: (email: string, password: string) => Promise<void>;
     logOut?: () => void;
     changePassword?: (email: string, newPassword: string, currentPassword: string) => Promise<void>;

@@ -47,14 +47,14 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
             if (!isMatch) {
                 return res.status(400).json({ msg: "Incorrect password" });
             }
-
+            
             const payload = {
                 user: {
                     email, role: user.role, name: user.name, id: user.id,
                 },
             };
             const token = await getToken(payload);
-            // benchJWT(token);
+            benchJWT(token);
             console.log("its sounds good");
             return res.status(200).json({ msg: "Loged in", token });
         }
@@ -68,7 +68,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-    const { name: newName, email: newEmail, password: newPassword, id } = req.body;
+    const { name: newName, email: newEmail, id } = req.body;
 
     try {
         const user = await User.findById(id);
@@ -76,22 +76,17 @@ export const updateUser = async (req: Request, res: Response) => {
             return res.status(400).json({ msg: "User not found" });
         } else {
             if (newEmail) {
-                const existingUser = await User.findOne({ email: newEmail });
-                if (existingUser && String(existingUser._id) !== id) {
+                const existingUser = await User.findOne({ email : newEmail });
+                if (existingUser) {
                     return res.status(400).json({ msg: "Email already used, take another one" });
                 } else {
                     user.email = newEmail;
                 }
             }
-            if (newPassword) {
-                const salt = await bcrypt.genSalt(10);
-                const hashedPassword = await bcrypt.hash(newPassword, salt);
-                user.password = hashedPassword;
-            }
+
             if (newName) {
                 user.name = newName;
             }
-
             await user.save();
 
             return res.status(200).json({ msg: "User updated successfully" });

@@ -1,6 +1,7 @@
 "use client";
 import { handlePost, handlePut } from "@/api/handleCall";
 import { useLocalStorage } from "@/lib/useLocalStorage";
+import { decryptJWT } from "@/lib/decryptJWT";
 import { AuthContextType, User, LoginResponse } from "@/types";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
@@ -19,23 +20,24 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     const { getItem, removeItem, setItem } = useLocalStorage();
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
 
+
     const logIn = async (email: string, password: string) => {
         try {
             const authresult = await handlePost<LoginResponse>(`${host}/users/login`, { email, password });
 
-            if (!authresult  || !authresult.data?.token) {
+            if (!authresult || !authresult.data?.token) {
                 throw new Error("no user found");
             }
-            
-            setUser(authresult.data?.user);
+            // TO DO : check the token info and push it to setUser()
+            setUser(decryptJWT(authresult.data?.token)); /// NECESSARY WHEN  decodeToken exist ?
             setToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
             // DEL 
-            console.log(authresult.data?.token);
+
             router.push("/");
         } catch (err) {
-            toast("There has been an error. Please try again", 
-                { 
+            toast("There has been an error. Please try again",
+                {
                     type: "error",
                     theme: "colored",
                     position: "bottom-left"
@@ -43,22 +45,46 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         }
     };
 
+    // const autoLogIn = async (token: string) => {
+    //     try {
+    //         const authresult = await handlePost<LoginResponse>(`${host}/users/login`, { email, password });
+
+    //         if (!authresult || !authresult.data?.token) {
+    //             throw new Error("no user found");
+    //         }
+
+    //         setUser(authresult.data?.user);
+    //         setToken(authresult.data?.token);
+    //         setItem("token", authresult.data?.token);
+    //         // DEL 
+    //         console.log(authresult.data?.token);
+    //         router.push("/");
+    //     } catch (err) {
+    //         toast("There has been an error. Please try again",
+    //             {
+    //                 type: "error",
+    //                 theme: "colored",
+    //                 position: "bottom-left"
+    //             });
+    //     }
+    // };
+
     const signUp = async (email: string, password: string, name: string, company: string) => {
         try {
             const authresult = await handlePost<LoginResponse>(`${host}/users/register`, { email, password, name, company });
 
-            if (!authresult || !authresult.data?.user) {
+            if (!authresult || !authresult.data?.token) {
                 throw new Error("could not register");
             }
 
-            setUser(authresult.data?.user);
+            setUser(decryptJWT(authresult.data?.token)); /// NECESSARY WHEN  decodeToken exist ?
             setToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
             router.push("/");
         } catch (err) {
             toast(
-                "There has been an error in registering. Please try again.", 
-                { 
+                "There has been an error in registering. Please try again.",
+                {
                     type: "error",
                     theme: "colored",
                     position: "bottom-left"
@@ -73,23 +99,23 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     };
 
     const changePassword = async (
-        email: string, 
-        newPassword: string, 
+        email: string,
+        newPassword: string,
         currentPassword: string,
     ) => {
         try {
             // TODO : correct urls when backend ok :+1:
-            const pswChangeResult = await handlePut <{ user: User }>(`${host}/users/change-password`, { 
-                email, 
+            const pswChangeResult = await handlePut<{ user: User }>(`${host}/users/change-password`, {
+                email,
                 newPassword,
                 currentPassword,
             });
-            
+
             // TODO : correct API return values
             if (!pswChangeResult || !pswChangeResult.data?.user) {
                 toast(
-                    "There has been an error in reseting password. Please try again.", 
-                    { 
+                    "There has been an error in reseting password. Please try again.",
+                    {
                         type: "error",
                         theme: "colored",
                         position: "bottom-left"
@@ -97,12 +123,12 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
                 );
                 throw new Error("There was an error in password reseting");
             }
-            
+
             setUser(pswChangeResult.data?.user);
         } catch (err) {
             toast(
-                "There has been an error in reseting password. Please try again.", 
-                { 
+                "There has been an error in reseting password. Please try again.",
+                {
                     type: "error",
                     theme: "colored",
                     position: "bottom-left"
@@ -111,14 +137,55 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         }
     };
 
-    useEffect(() => {
-        if (!user) { 
-            const userToken = getItem("token");
+    const changeOtherInfo = async (
+        name: string,
+        email: string,
+    ) => {
+        try {
+            console.log("+++++++++++");
+            console.log(token);
+            const otherInfoChangeResult = await handlePut<LoginResponse>(`${host}/users/update`, {
+                name,
+                email,
+                id: user?.id,
+            });
+           
 
+            if (!otherInfoChangeResult || !otherInfoChangeResult.data?.token) {
+                toast(
+                    "There has been an error in changing your information. Please try again.",
+                    {
+                        type: "error",
+                        theme: "colored",
+                        position: "bottom-left"
+                    }
+                );
+                throw new Error("There was an error in changing user information");
+            }
+            // setUser(decryptJWT(otherInfoChangeResult.data?.token));
+            setToken(otherInfoChangeResult.data?.token);
+            setItem("token", otherInfoChangeResult.data?.token);
+        } catch (err) {
+            toast(
+                "There has been an error in changing your information. Please try again.",
+                {
+                    type: "error",
+                    theme: "colored",
+                    position: "bottom-left"
+                }
+            );
+        }
+    };
+
+
+    useEffect(() => {
+        if (!user) {
+            const userToken = getItem("token");
             if (userToken) {
                 const decodedToken: { user: User } | null = decodeToken(userToken);
                 if (!decodedToken) return logOut();
                 setUser(decodedToken.user);
+                console.log(decodedToken.user);
             } else {
                 router.push("/login");
                 setIsLoading(false);
@@ -128,12 +195,13 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         setIsLoading(false);
     }, []);
 
-    const value: AuthContextType = { 
-        user, 
-        logIn, 
-        signUp, 
-        logOut, 
-        changePassword 
+    const value: AuthContextType = {
+        user,
+        logIn,
+        changeOtherInfo,
+        signUp,
+        logOut,
+        changePassword
     };
 
     return (

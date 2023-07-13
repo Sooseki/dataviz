@@ -4,9 +4,12 @@ type AxiosResponse<T> = {
     data: T;
 }
 
+// TO DO REMOVE THIS TOKEN
+const tokenTest = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoiYWFhYSIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiJ0ZXN0IiwiaWQiOiI2NGFmMzRhYWYyYmY1NGEwNDFkN2UyYTgifSwiaWF0IjoxNjg5MjEwMzUxLCJleHAiOjE2ODkyMTM5NTF9.sQlTGsJPoGWsHMGInn7rHp4rRqRYT0eKTff1x7fSD-A";
 const config = {
     headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${tokenTest}`
     }
 };
 
