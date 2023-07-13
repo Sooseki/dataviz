@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartSimple, faChartPie, faChartLine } from "@fortawesome/free-solid-svg-icons";
+import { faChartSimple, faChartPie, faChartLine, faSitemap } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "@/context/AuthContext";
 
 function Navbar(){
@@ -24,6 +24,7 @@ function Navbar(){
             <Link className='navigation_item' href="/login"> <FontAwesomeIcon icon={faChartSimple} /> Item 1</Link>
             <Link className='navigation_item navigation_item_active' href="/login"> <FontAwesomeIcon icon={faChartPie} /> Item 2</Link>
             <Link className='navigation_item' href="/login"> <FontAwesomeIcon icon={faChartLine} /> Item 3</Link>
+            <Link className='navigation_item' href="/domains"> <FontAwesomeIcon icon={faSitemap} /> Domains</Link>
         </div>
         <div className="navigation_userContainer">
             <Link className="navigation_user" href="/user/settings">

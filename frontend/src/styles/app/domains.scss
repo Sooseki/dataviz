@@ -1,0 +1,14 @@
+.domains-container {
+    width: 90%;
+    height: 90%;
+    background-color: bisque;
+    .domain-card {
+        width: 30%;
+        color: grey;
+        .domain-link {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}

@@ -2,8 +2,12 @@
 export interface User {
     name: string,
     email: string,
+    clientId: string
 }
-
+export interface Domain {
+    id: number,
+    url: string
+}
 export interface Client {
     name: string,
 }
