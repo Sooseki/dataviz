@@ -1,18 +1,9 @@
 "use client";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { handleGet } from "@/api/handleCall";
 import { useAuth } from "@/context/AuthContext";
 import { Domain } from "../../../src/types";
-import Navbar from "@/components/Navbar";
-
-
-const DomainsWrapper: React.FC = () => {
-    return (
-        <QueryClientProvider client={new QueryClient()}>
-            <Domains />
-        </QueryClientProvider>
-    );
-};
+import Link from "next/link";
 
 const Domains:React.FC = () => {
     const { user} = useAuth();
@@ -25,11 +16,11 @@ const Domains:React.FC = () => {
 
     return (
         <>  
-            <Navbar/>
             <div className="domains-container">
                 {useQueryDomains?.data.map((domain) => (
                     <div className="domain-card" key={domain.id}>
                         <a className="domain-link" href={domain.url}></a>
+                        <Link className='miscellaneous-services-link' href={`/domains/${domain.id}`}>Domain metrics page</Link>
                         {domain.id}
                     </div>
                 ))}
@@ -38,4 +29,4 @@ const Domains:React.FC = () => {
     );
 };
 
-export default DomainsWrapper;
+export default Domains;
