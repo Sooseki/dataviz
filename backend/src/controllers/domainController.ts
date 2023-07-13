@@ -9,7 +9,7 @@ export const createDomain = async (req: Request, res: Response): Promise<Respons
     try {
         const { url, clientId } = req.body as { url: string | undefined, clientId: string | undefined };
         if(!url || typeof url !== "string") throw new Error("wrong url param");
-        if(!clientId || typeof url !== "string") throw new Error("wrong clientId param");
+        if(!clientId || typeof clientId !== "string") throw new Error("wrong clientId param");
 
         const client: IClientPopulated | null = await Client.findOne({_id: clientId }).populate("domains");
         if (!client) throw new Error("no client found");
@@ -23,4 +23,21 @@ export const createDomain = async (req: Request, res: Response): Promise<Respons
         });
         return res.status(200).json({ domain: newDomain });
     } catch (err) { return handleControllerErrors(err, res, "domain could not be created") };
+};
+
+export const getDomains = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        // TODO : get clientId from token
+        const { clientId } = req.body as { url: string | undefined, clientId: string | undefined };
+        if(!clientId || typeof clientId !== "string") throw new Error("wrong clientId param");
+
+        const client = await Client.findOne({ _id: clientId });
+        if(!client) throw new Error("no client found");
+
+        const domains = await Domain.find({
+            "_id": { "$in": client.domains }
+        });
+
+        return res.status(200).json({ domains });
+    } catch (err) { return handleControllerErrors(err, res, "could not get domains") };
 };
