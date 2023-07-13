@@ -9,7 +9,7 @@ export const createDomain = async (req: Request, res: Response): Promise<Respons
     try {
         const { url, clientId } = req.body as { url: string | undefined, clientId: string | undefined };
         if(!url || typeof url !== "string") throw new Error("wrong url param");
-        if(!clientId || typeof url !== "string") throw new Error("wrong clientId param");
+        if(!clientId || typeof clientId !== "string") throw new Error("wrong clientId param");
 
         const client: IClientPopulated | null = await Client.findOne({_id: clientId }).populate("domains");
         if (!client) throw new Error("no client found");
