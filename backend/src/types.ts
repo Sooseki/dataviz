@@ -1,3 +1,5 @@
+import { ObjectId } from "mongoose"
+
 export interface IDataset {
     timeToLoad: number | undefined,
 } 
@@ -5,7 +7,11 @@ export interface IDataset {
 export interface IClient {
     id?: string,
     name?: string | undefined,
-    domains: any[]
+    domains: ObjectId[]
+}
+
+export type IClientPopulated = Omit<IClient, "domains"> & {
+    domains: IDomain[]
 }
 
 export interface IDomain {
