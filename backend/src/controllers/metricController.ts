@@ -27,7 +27,7 @@ export const createMetric = async (req: Request, res: Response): Promise<Respons
 export const getMetrics = async (req: Request, res: Response): Promise<Response> => {
     try {
         // TODO : use token instead to get clientId to make sure user has only access to his own resources
-        const { domainId, clientId } = req.body as { domainId: string | undefined, clientId: string | undefined };
+        const { domainId, clientId } = req.params as { domainId: string | undefined, clientId: string | undefined };
         if(!domainId || typeof domainId !== "string") throw new Error("domainId must be a string");
         if(!clientId || typeof clientId !== "string") throw new Error("clientId must be a string");
 

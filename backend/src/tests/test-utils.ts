@@ -5,11 +5,13 @@ jest.mock("../models/Dataset", () => ({
 
 const mDomainCreate = jest.fn();
 const mDomainFindOne = jest.fn();
+const mDomainFind = jest.fn();
 const mDomainUpdateOne = jest.fn();
 jest.mock("../models/Domain", () => ({
     create: mDomainCreate,
     findOne: mDomainFindOne,
     updateOne: mDomainUpdateOne,
+    find: mDomainFind,
 }));
 
 const mClientFindOne = jest.fn();
@@ -26,4 +28,5 @@ export {
     mDomainUpdateOne,
     mClientFindOne,
     mClientUpdateOne,
+    mDomainFind,
 };

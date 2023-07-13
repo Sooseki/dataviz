@@ -142,7 +142,7 @@ describe("getMetrics", () => {
     it("should retrieve all the metrics", async () => {
         const domainId = "domainIdTest";
         const clientId = "clientIdTest";
-        const req = { body: { domainId, clientId } } as unknown as Request;
+        const req = { params: { domainId, clientId } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus} as unknown as Response;
@@ -178,7 +178,7 @@ describe("getMetrics", () => {
     it("should return an error if wrong domainId param", async () => {
         const domainId = 1234;
         const clientId = "clientIdTest";
-        const req = { body: { domainId, clientId } } as unknown as Request;
+        const req = { params: { domainId, clientId } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus} as unknown as Response;
@@ -196,7 +196,7 @@ describe("getMetrics", () => {
     it("should return an error if wrong clientId param", async () => {
         const domainId = "domainIdTest";
         const clientId = "";
-        const req = { body: { domainId, clientId } } as unknown as Request;
+        const req = { params: { domainId, clientId } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus} as unknown as Response;
@@ -210,12 +210,11 @@ describe("getMetrics", () => {
         expect(mJson).toHaveBeenCalledTimes(1);
         expect(mJson).toHaveBeenCalledWith({ error: "clientId must be a string"});
     });
-
-    
+ 
     it("should return an error if no domain found", async () => {
         const domainId = "domainIdTest";
         const clientId = "clientIdTest";
-        const req = { body: { domainId, clientId } } as unknown as Request;
+        const req = { params: { domainId, clientId } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus} as unknown as Response;
@@ -239,7 +238,7 @@ describe("getMetrics", () => {
     it("should return an error if domain is not cient's", async () => {
         const domainId = "domainIdTest";
         const clientId = "clientIdTest";
-        const req = { body: { domainId, clientId } } as unknown as Request;
+        const req = { params: { domainId, clientId } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus} as unknown as Response;
