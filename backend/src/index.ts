@@ -5,6 +5,7 @@ import { connectDB } from "./config/database";
 import { getEnvVariable } from "./utils/getEnvVariable";
 import { userRoutes } from "./routes/userRoutes";
 import { metricRoutes } from "./routes/metricRoutes";
+import { domainRoutes } from "./routes/domainRoutes";
 const app = express();
 const port = getEnvVariable("PORT");
 
@@ -20,6 +21,7 @@ app.use(cors({
 
 app.use("/users", userRoutes());
 app.use("/metrics", metricRoutes());
+app.use("/domains", domainRoutes());
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");
 });
