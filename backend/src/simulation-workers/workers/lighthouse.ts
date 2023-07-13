@@ -23,7 +23,6 @@ export const lighthouseFromPuppeteer = async (
     };
 
     // Launch chrome using chrome-launcher
-    console.log(chromeLauncher);
     const chrome = await chromeLauncher.launch(options);
     options.port = chrome.port;
 
