@@ -1,13 +1,11 @@
 import { useAuth } from "@/context/AuthContext";
 import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 import InputText from "../InputText";
 import { toast } from "react-toastify";
 import SubmitButton from "../button/SubmitButton";
 
 const PasswordSettings = () => {
-    const router = useRouter();
-    const { user, changePassword } = useAuth();
+    const { changePassword } = useAuth();
     const [ inputError, setInputError ] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
@@ -32,27 +30,7 @@ const PasswordSettings = () => {
             setInputError("New password and new password confirmation don't match.");
             return;
         }
-        
-        try {
-            changePassword(user.email, newPassword, currentPassword);
-            toast(
-                "Password changed successfully !", 
-                { 
-                    type: "success",
-                    theme: "colored",
-                    position: "bottom-left"
-                }
-            );
-        } catch (err) {
-            toast(
-                "There has been an error in reseting your password. Please try again.", 
-                { 
-                    type: "error",
-                    theme: "colored",
-                    position: "bottom-left"
-                }
-            );
-        }
+        changePassword(newPassword, currentPassword);
     };
 
     return (

@@ -99,33 +99,24 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     };
 
     const changePassword = async (
-        email: string,
         newPassword: string,
         currentPassword: string,
     ) => {
-        try {
-            // TODO : correct urls when backend ok :+1:
-            const pswChangeResult = await handlePut<{ user: User }>(`${host}/users/change-password`, {
-                email,
-                newPassword,
-                currentPassword,
-            });
 
-            // TODO : correct API return values
-            if (!pswChangeResult || !pswChangeResult.data?.user) {
-                toast(
-                    "There has been an error in reseting password. Please try again.",
-                    {
-                        type: "error",
-                        theme: "colored",
-                        position: "bottom-left"
-                    }
-                );
-                throw new Error("There was an error in password reseting");
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
-
-            setUser(pswChangeResult.data?.user);
-        } catch (err) {
+        };
+        const pswChangeResult = await handlePut<LoginResponse>(`${host}/users/password`, {
+            newPassword,
+            currentPassword,
+            id: user?.id,
+        }, config);
+        console.log(pswChangeResult?.data);
+        // TODO : correct API return values
+        if (!pswChangeResult || !pswChangeResult.data?.token) {
             toast(
                 "There has been an error in reseting password. Please try again.",
                 {
@@ -134,38 +125,39 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
                     position: "bottom-left"
                 }
             );
+            return
         }
+        toast(
+            "Password changed successfully !",
+            {
+                type: "success",
+                theme: "colored",
+                position: "bottom-left"
+            }
+        );
+        setToken(pswChangeResult.data?.token);
+        // setUser(pswChangeResult.data?.user);
     };
 
     const changeOtherInfo = async (
-        name: string,
         email: string,
+        name: string,
     ) => {
-        try {
-            console.log("+++++++++++");
-            console.log(token);
-            const otherInfoChangeResult = await handlePut<LoginResponse>(`${host}/users/update`, {
-                name,
-                email,
-                id: user?.id,
-            });
-           
 
-            if (!otherInfoChangeResult || !otherInfoChangeResult.data?.token) {
-                toast(
-                    "There has been an error in changing your information. Please try again.",
-                    {
-                        type: "error",
-                        theme: "colored",
-                        position: "bottom-left"
-                    }
-                );
-                throw new Error("There was an error in changing user information");
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
-            // setUser(decryptJWT(otherInfoChangeResult.data?.token));
-            setToken(otherInfoChangeResult.data?.token);
-            setItem("token", otherInfoChangeResult.data?.token);
-        } catch (err) {
+        };
+        const otherInfoChangeResult = await handlePut<LoginResponse>(`${host}/users/update`, {
+            email,
+            name,
+            id: user?.id,
+        }, config);
+
+
+        if (!otherInfoChangeResult || !otherInfoChangeResult.data?.token) {
             toast(
                 "There has been an error in changing your information. Please try again.",
                 {
@@ -174,9 +166,20 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
                     position: "bottom-left"
                 }
             );
+            return;
         }
+        toast(
+            "info changed successfully !",
+            {
+                type: "success",
+                theme: "colored",
+                position: "bottom-left"
+            }
+        );
+        // setUser(decryptJWT(otherInfoChangeResult.data?.token));
+        setToken(otherInfoChangeResult.data?.token);
+        setItem("token", otherInfoChangeResult.data?.token);
     };
-
 
     useEffect(() => {
         if (!user) {
@@ -185,7 +188,6 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
                 const decodedToken: { user: User } | null = decodeToken(userToken);
                 if (!decodedToken) return logOut();
                 setUser(decodedToken.user);
-                console.log(decodedToken.user);
             } else {
                 router.push("/login");
                 setIsLoading(false);

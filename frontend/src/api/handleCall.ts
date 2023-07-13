@@ -4,17 +4,17 @@ type AxiosResponse<T> = {
     data: T;
 }
 
-// TO DO REMOVE THIS TOKEN
-const tokenTest = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoiYWFhYSIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiJ0ZXN0IiwiaWQiOiI2NGFmMzRhYWYyYmY1NGEwNDFkN2UyYTgifSwiaWF0IjoxNjg5MjEwMzUxLCJleHAiOjE2ODkyMTM5NTF9.sQlTGsJPoGWsHMGInn7rHp4rRqRYT0eKTff1x7fSD-A";
-const config = {
+
+const defaultConfig = {
     headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${tokenTest}`
+        "Content-Type": "application/json"
+        // "Authorization": `Bearer ${tokenTest}`
     }
 };
 
-export const handleGet = async <T>(url: string): Promise<AxiosResponse<T> | undefined> => {
-    const res = await axios.get(url, config)
+
+export const handleGet = async <T>(url: string, config?: Record<string, unknown>): Promise<AxiosResponse<T> | undefined> => {
+    const res = await axios.get(url, config??defaultConfig)
         .then((data) => data)
         .catch((err) => console.error(err));
     
@@ -23,8 +23,8 @@ export const handleGet = async <T>(url: string): Promise<AxiosResponse<T> | unde
     return res;
 };
 
-export const handlePost = async <T>(url: string, data: {}): Promise<AxiosResponse<T> | undefined> => {
-    const res = await axios.post(url, data, config)
+export const handlePost = async <T>(url: string, data: Record<string, unknown>, config?: Record<string, unknown>): Promise<AxiosResponse<T> | undefined> => {
+    const res = await axios.post(url, data, config??defaultConfig)
         .then((data) => data)
         .catch((err) => console.error(err));
     
@@ -33,8 +33,8 @@ export const handlePost = async <T>(url: string, data: {}): Promise<AxiosRespons
     return res;
 };
 
-export const handlePut = async <T>(url: string, data: {}): Promise<AxiosResponse<T> | undefined> => {
-    const res = await axios.put(url, data, config)
+export const handlePut = async <T>(url: string, data: Record<string, unknown>, config?: Record<string, unknown>): Promise<AxiosResponse<T> | undefined> => {
+    const res = await axios.put(url, data, config??defaultConfig)
         .then((data) => data)
         .catch((err) => console.error(err));
     

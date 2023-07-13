@@ -1,7 +1,7 @@
 const mGetEnvVariable = jest.fn();
 jest.mock("../utils/getEnvVariable", () => ({
     getEnvVariable: mGetEnvVariable,
-}))
+}));
 
 const mConnect = jest.fn();
 jest.mock("mongoose", () => ({
@@ -10,12 +10,12 @@ jest.mock("mongoose", () => ({
 
 import { connectDB } from "./database";
 
-const mockProcessExit = jest.spyOn(process, 'exit').mockImplementation();
+const mockProcessExit = jest.spyOn(process, "exit").mockImplementation();
 
 describe("connectDB", () => {
     beforeEach(() => {
         jest.resetAllMocks();
-        mockProcessExit.mockImplementation((number) => { throw new Error('process.exit: ' + number); });
+        mockProcessExit.mockImplementation((number) => { throw new Error("process.exit: " + number); });
     });
 
     it("should connect to DB", async () => {
@@ -24,7 +24,7 @@ describe("connectDB", () => {
         await connectDB();
 
         expect(mGetEnvVariable).toHaveBeenCalledTimes(1);
-        expect(mGetEnvVariable).toHaveBeenCalledWith('MONGODB_URI');
+        expect(mGetEnvVariable).toHaveBeenCalledWith("MONGODB_URI");
         expect(mConnect).toHaveBeenCalledTimes(1);
         expect(mConnect).toHaveBeenCalledWith(mongoDbUri);
     });
@@ -34,8 +34,8 @@ describe("connectDB", () => {
         await expect(() => connectDB()).rejects.toThrowError();
 
         expect(mGetEnvVariable).toHaveBeenCalledTimes(1);
-        expect(mGetEnvVariable).toHaveBeenCalledWith('MONGODB_URI');
+        expect(mGetEnvVariable).toHaveBeenCalledWith("MONGODB_URI");
         expect(mConnect).toHaveBeenCalledTimes(0);
         expect(mockProcessExit).toHaveBeenCalledTimes(1);
     });
-})
+});

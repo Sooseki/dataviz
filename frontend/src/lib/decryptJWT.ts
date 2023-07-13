@@ -6,6 +6,5 @@ export const decryptJWT = (token: string): User => {
     }
     const payload = parts[1];
     const decodedPayload = JSON.parse(atob(payload));
-    console.log("Payload:", decodedPayload.user);
     return decodedPayload.user;
 };

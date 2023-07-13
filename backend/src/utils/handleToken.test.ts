@@ -1,7 +1,7 @@
 const mGetEnvVariable = jest.fn();
 jest.mock("./getEnvVariable", () => ({
     getEnvVariable: mGetEnvVariable,
-}))
+}));
 
 import { getToken } from "./handleToken";
 

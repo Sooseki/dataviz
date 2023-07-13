@@ -13,10 +13,10 @@ export interface AuthContextType {
     user?: User | undefined;
     signUp?: (email: string, password: string, username: string, company: string) => Promise<void>;
     autoLogIn?: (token: string) => Promise<void>;
-    changeOtherInfo?: (email: string, name: string, id: string) => Promise<void>;
+    changeOtherInfo?: (email: string, name: string) => Promise<void>;
     logIn?: (email: string, password: string) => Promise<void>;
     logOut?: () => void;
-    changePassword?: (email: string, newPassword: string, currentPassword: string) => Promise<void>;
+    changePassword?: (newPassword: string, currentPassword: string) => Promise<void>;
 }
 
 export interface ThemeContextType {
@@ -26,8 +26,6 @@ export interface ThemeContextType {
 }
 
 export type LoginResponse = {
-    user: User;
-    msg: string;
     token: string;
     client: Client;
 };

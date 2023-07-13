@@ -7,8 +7,8 @@ export const benchJWT = async (token: string) => {
         const decodedJWT = jwt.verify(token, jwtSecret);
         console.log(decodedJWT);
         console.log(token);
-        console.log("------------------------------------------------------");
-        console.log("------------------------------------------------------");
+        console.log("-**********");
+        console.log("-**********");
     } catch (err) {
         console.error(err);
     }
