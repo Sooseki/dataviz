@@ -32,11 +32,13 @@ const Navbar = () => {
                     <img src="https://picsum.photos/200" alt="image utilisateur" />
                     <p>{ user?.name }</p>
                 </Link>
+                <Link href="/login">
+                Login
+                </Link>
             </div>
-            
         </div>
         <Burger/>
     </div>;
-}
+};
 
 export default Navbar;

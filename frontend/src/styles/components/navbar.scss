@@ -8,7 +8,7 @@
     transition: transform 0.3s ease-out;
     transform: translateX(-100%);
     display: block;
-
+    z-index: 9;
     @media (min-width: $md) {
       width: 15%;
       display: block;
@@ -73,6 +73,7 @@
     &_userContainer{
         display: flex;
         position: absolute;
+        align-items: center;
         bottom: 0;
         width: 100%;
     } 
