@@ -1,3 +1,4 @@
+
 body {
   background-color: $milky-white-color;
   font-family: $text-font;
@@ -16,19 +17,24 @@ body {
 
 @media (max-width: $sm) {
   .logo {
-      margin-bottom: 30px;
+    margin-bottom: 30px;
   }
   .login-miscellaneous-services {
-      flex-direction: column;
-      & a, span {
-          margin-bottom: 10px;
-      }
+    flex-direction: column;
+    & a,
+    span {
+      margin-bottom: 10px;
+    }
   }
 }
 
 .container {
   padding: 1rem 2rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   @media (min-width: $md) {
-      margin-left: 15%;
-    }
+    margin-left: 15%;
+  }
 }

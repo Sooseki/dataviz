@@ -19,8 +19,8 @@ const Navbar = () => {
                 <img className='navigation_logo' src="/perfguardian-text-and-logo.svg" alt='perfguardian-text-and-logo-black' />
             </div>
             <div className="navigation_items">
-                { Object.values(navConfig).map(({ href, name, icon }) => 
-                    <Link key={name} className={pathname === href ? "navigation_item navigation_item_active" : "navigation_item"} href={href}>{ name }</Link>
+                {Object.values(navConfig).map(({ href, name, icon }) =>
+                    <Link key={name} className={pathname === href ? "navigation_item navigation_item_active" : "navigation_item"} href={href}>{name}</Link>
                 )}
                 {
                     // Keep track on how to put icons
@@ -30,12 +30,15 @@ const Navbar = () => {
             <div className="navigation_userContainer">
                 <Link className="navigation_user" href="/user/settings">
                     <img src="https://picsum.photos/200" alt="image utilisateur" />
-                    <p>{ user?.name }</p>
+                    <p>{user?.name}</p>
+                </Link>
+                <Link href="/login">
+                    Login
                 </Link>
             </div>
-            
+
         </div>
-        <Burger/>
+        <Burger />
     </div>;
 }
 
