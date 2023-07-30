@@ -1,4 +1,4 @@
-.navigation{
+.navigation {
     position: fixed;
     background-color: $grey-color;
     top:0;
@@ -8,54 +8,72 @@
     transition: transform 0.3s ease-out;
     transform: translateX(-100%);
     display: block;
-    @media (min-width: 1024px) {
+    z-index: 9;
+    @media (min-width: $md) {
       width: 15%;
       display: block;
       transform: unset;
     }
-    &_active{
-        display: block;
-        transform: translateX(0);
-    }
+
     h1{
         position: absolute;
         left: -500000px;
+    } 
+
+    &_active {
+        display: block;
+        transform: translateX(0);
     }
+}
+
+.navigation {
     .logoContainer{
         width: 100%;
         display: flex;
         justify-content: center;
-        margin-top: 15px;
+        padding: 1rem;
+
+        @media (max-width: $md) {
+            margin-top: 2rem;
+        }  
     }
+
     &_logo{
-        max-width: 80%;
-        display: none;
-        @media (min-width: 1024px) {
-            display: block;
-      }
-    }
-    &_items{
+        max-width: 15rem;
+        width: 100%;
+        object-fit: contain;
+        display: block; 
+    }   
+}
+
+.navigation {
+    &_items {
         display: flex;
         flex-direction: column;
-        margin-top: 70px;
-        @media (min-width: 1024px) {
-            margin-top: 20px;
-      }   
+        margin-top: 1rem;
     }
-    &_item{
+
+    &_item {
         width: 100%;
         padding: 12px;
         padding-left: 20px;
         text-decoration: none;
+        border-left: 4px solid transparent;
+        transition: background-color 0.3s ease, border-left-color 0.3s ease;
         @include font($text-font, $title-font-size-xs, 700, $nightblue-darker-color, 22px);
-        &_active{
-            border-left: 4px solid $red-color;
+
+        &_active, &:hover{
+            border-left-color: $red-color;
             background-color: $milky-white-darker-color;
         }
     }
+}
+
+.navigation {
     &_userContainer{
         display: flex;
         position: absolute;
+        align-items: center;
         bottom: 0;
         width: 100%;
     } 
@@ -75,8 +93,5 @@
             @include font($text-font, $title-font-size-xs, 400, $nightblue-darker-color, 22px);
             text-align: center;
         }
-    }
-
-  
-    
+    }   
 }
