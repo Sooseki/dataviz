@@ -1,0 +1,34 @@
+body {
+  background-color: $milky-white-color;
+  font-family: $text-font;
+  font-size: $body-font-size;
+  color: $charcoal-darker-color;
+  height: 100vh;
+}
+
+.logo {
+  filter: $milky-white-color-filter;
+  width: 60%;
+  margin-bottom: 50px;
+  width: 80%;
+  max-width: 421px;
+}
+
+@media (max-width: $sm) {
+  .logo {
+      margin-bottom: 30px;
+  }
+  .login-miscellaneous-services {
+      flex-direction: column;
+      & a, span {
+          margin-bottom: 10px;
+      }
+  }
+}
+
+.container {
+  padding: 1rem 2rem;
+  @media (min-width: $md) {
+      margin-left: 15%;
+    }
+}
