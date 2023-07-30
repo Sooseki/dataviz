@@ -1,7 +1,7 @@
 "use client";
 import { handlePost, handlePut } from "@/api/handleCall";
 import { useLocalStorage } from "@/lib/useLocalStorage";
-import { AuthContextType, User, LoginResponse } from "@/types";
+import { AuthContextType, User, LoginResponse, Client } from "@/types";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
 import { decodeToken } from "react-jwt";
@@ -14,6 +14,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     const router = useRouter();
     const [user, setUser] = useState<User | undefined>();
+    const [client, setClient] = useState<Client | undefined>();
     const [token, setToken] = useState<string | undefined>();
     const [isLoading, setIsLoading] = useState(true);
     const { getItem, removeItem, setItem } = useLocalStorage();
@@ -28,6 +29,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
             }
             
             setUser(authresult.data?.user);
+            setClient(authresult.data?.client);
             setToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
             router.push("/");
@@ -116,6 +118,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
             if (userToken) {
                 const decodedToken: { user: User } | null = decodeToken(userToken);
                 if (!decodedToken) return logOut();
+                console.log("newtest",decodedToken.user);
                 setUser(decodedToken.user);
             } else {
                 router.push("/login");
@@ -126,7 +129,8 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         setIsLoading(false);
     }, []);
 
-    const value: AuthContextType = { 
+    const value: AuthContextType = {
+        client,
         user, 
         logIn, 
         signUp, 

@@ -6,14 +6,16 @@ import { Domain } from "../../../src/types";
 import Link from "next/link";
 
 const Domains:React.FC = () => {
-    const { user} = useAuth();
+    const { user, client } = useAuth();
+    //console.log("client", client);
+    console.log("user", user);
     /** TODO: CHECK URL PATH */
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
     const getDomains = async () => {
         return await handleGet<Domain[]>(`${host}/domains?clientId=${user?.clientId}`);
     };
-    const { data: useQueryDomains } = useQuery("get_domains", getDomains);
-
+    const { data: useQueryDomains } = useQuery("domains", getDomains);
+    //console.log("useQueryDomains",useQueryDomains);
     return (
         <>  
             <div className="domains-container">

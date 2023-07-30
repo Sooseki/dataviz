@@ -21,13 +21,13 @@ export const register = async (req: Request, res: Response): Promise<Response> =
             email,
             password: hashedPassword,
         });
-
         const client = await Client.create({
             name: company,
             users: [user.id]
         });
-
-        const payload = { user: { email, role, name }, client: {name}};
+        
+        const payload = { user: { email, role, name, }, client: { name, users: [user.id] }};
+        console.log("register user",payload);
         const token = await getToken(payload);
 
         return res.status(200).json({ msg: "register sucessfull", token, user, client});
@@ -41,6 +41,10 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email });
+        const client = await Client.findOne({ _id: user?._id});
+        console.log("backend user", user?._id);
+        //console.log("backend client", client);
+
         if (user && user.password) {
             const isMatch = await bcrypt.compare(password, user?.password);
             if (!isMatch) {
@@ -51,9 +55,10 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
                 user: {
                     email, role: user.role, name: user.name
                 },
+                client: { name: client?.name, id: client?.id }
             };
             const token = await getToken(payload);
-            return res.status(200).json({ msg: "Loged in", token, user });
+            return res.status(200).json({ msg: "Logged in", token, user, client });
         }
 
         return res.status(400).json({ msg: "User do not exist" });

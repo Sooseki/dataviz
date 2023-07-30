@@ -21,7 +21,7 @@ export const createMetric = async (req: Request, res: Response): Promise<Respons
         });
 
         return res.status(200).json({ msg: "metrics creation sucessfull", metrics });
-    } catch (err) { return handleControllerErrors(err, res, "something went wrong in metrics creation") };
+    } catch (err) { return handleControllerErrors(err, res, "something went wrong in metrics creation");}
 };
 
 export const getMetrics = async (req: Request, res: Response): Promise<Response> => {
@@ -39,5 +39,5 @@ export const getMetrics = async (req: Request, res: Response): Promise<Response>
             throw new Error("cannot access this resource");
 
         return res.status(200).json({ metrics: domain.datasets });
-    } catch (err) { return handleControllerErrors(err, res, "metrics could not be retrieved") };
+    } catch (err) { return handleControllerErrors(err, res, "metrics could not be retrieved");}
 };
