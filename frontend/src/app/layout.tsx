@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import Navbar from "@/components/navbar/Navbar";
 import "../styles/main.css";
 import "react-toastify/dist/ReactToastify.css";
+import ContentContainer from "@/components/contentContainer/ContentContainer";
 
 export const metadata = {
     title: "PerfGuardian"
@@ -18,9 +19,7 @@ const RootLayout = ({children}: {
                 <AuthContextProvider>
                     <ThemeContextProvider>
                         <Navbar/>
-                        <div className="container">
-                            {children}
-                        </div>
+                        <ContentContainer children={children} />
                         <ToastContainer />
                     </ThemeContextProvider>
                 </AuthContextProvider>
