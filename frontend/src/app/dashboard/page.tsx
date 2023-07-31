@@ -3,9 +3,9 @@
 const Home = () => {
 
     return (
-        <div>
+        <p>
             Dashboard
-        </div>
+        </p>
     );
 };
 

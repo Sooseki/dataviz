@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 const MenuLayout = ({ children }: { children: ReactNode }) => {
     return (
         <>
-            <Navbar />                                
+            <Navbar />
             <div className="container">
                 {children}
             </div>

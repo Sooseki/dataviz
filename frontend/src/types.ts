@@ -37,7 +37,7 @@ export interface AuthContextType {
     user?: User | undefined;
     signUp?: (email: string, password: string, username: string, company: string) => Promise<void>;
     logIn?: (email: string, password: string) => Promise<void>;
-    logOut?: () => void;
+    logOut: () => void;
     changePassword?: (email: string, newPassword: string, currentPassword: string) => Promise<void>;
 }
 

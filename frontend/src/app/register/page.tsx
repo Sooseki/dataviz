@@ -34,7 +34,7 @@ const Register: React.FC = () => {
     const handleSubmit = () => signUp(userMail, userPassword, username, userCompany);
 
     return (
-        <>
+        <div className="login-container">
             <form onSubmit={handleSubmit} className='register-container' method='POST'>
                 <img className='logo' src="/perfguardian-text-and-logo.svg" alt='perfguardian-text-and-logo' />
                 <InputText type='text' name='username' label="username" value={username} onChange={handleNameChange} />
@@ -43,7 +43,7 @@ const Register: React.FC = () => {
                 <InputText type='company' name='company' label="company" value={userCompany} onChange={handleCompanyChange} />
                 <SubmitButton text="Submit" />
             </form>
-        </>
+        </div>
     );
 };
 

@@ -1,5 +1,11 @@
 .main-button {
    @include largebutton;
+    &.hidden {
+        background-color: $nightblue-darker-color;
+    }
+}
+.nav-button {
+    @include smallbutton;
     &-hidden {
         background-color: $nightblue-darker-color;
     }

@@ -5,12 +5,12 @@ import { faChartSimple,
 export const navConfig = {
     "Dashboard": {
         name: "Dashboard",
-        href: "/",
+        href: "/dashboard",
         icon: undefined
     },
     "Domains": {
-        name: "Domaines",
-        href: "/domains",
+        name: "Domains",
+        href: "/dashboard/domains",
         icon: faChartSimple
     },
 };
