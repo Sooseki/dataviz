@@ -3,15 +3,15 @@ import Link from "next/link";
 
 const DomainCard = ({ domain }: { domain: Domain }) => {
   // TODO : when we manage analyzing all pages of domain fix it
-  const domainName = new URL(domain.url).hostname;
+  // const domainName = new URL(domain.url).hostname;
 
   return <div className="domain-card" key={domain._id}>
       <Link
           className="domain-link"
-          href={`/domains/${domain._id}?name=${domainName}`}
+          href={`/domains/${domain._id}?name=${domain.url}`}
           target="_blank"
       >
-          {domainName}
+          {domain.url}
       </Link>
   </div>;
 }

@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import InputText from "../InputText";
 import { handlePost } from "@/api/handleCall";
 import { Domain } from "domain";
 import { toast } from "react-toastify";
 import { useAuth } from "@/context/AuthContext";
 
-const NewDomainForm = ({ closeModal }: { closeModal?: VoidFunction }) => {
+const NewDomainForm = ({ closeModal, refetch }: { closeModal: VoidFunction, refetch: VoidFunction }) => {
   const { user } = useAuth();
 
   if (!user) return null;
@@ -14,7 +14,9 @@ const NewDomainForm = ({ closeModal }: { closeModal?: VoidFunction }) => {
   const [inputError, setInputError] = useState("");
   const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     if(newDomain === "") {
       setInputError("Veuillez renseigner une url")
       return;
@@ -22,6 +24,7 @@ const NewDomainForm = ({ closeModal }: { closeModal?: VoidFunction }) => {
 
     try {
       const data = await handlePost<{ domain: Domain }>(`${host}/domains/create`, { url: newDomain, clientId: user.client.id });
+
       if (data?.error) throw new Error("Could not add domain");
 
       toast(
@@ -32,7 +35,8 @@ const NewDomainForm = ({ closeModal }: { closeModal?: VoidFunction }) => {
             position: "bottom-left"
         }
       );
-      if (closeModal) closeModal();
+      refetch();
+      closeModal();
     } catch {
       toast(
         "Ce domaine n'a pas pu être ajouté. Veuillez réessayer", 

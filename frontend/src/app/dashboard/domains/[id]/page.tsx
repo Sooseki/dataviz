@@ -21,7 +21,7 @@ const Domain: React.FC = () => {
         <>
             <div className="metrics-container">
                 <h1> {domainName} </h1>
-                {useQueryMetrics?.data.metrics.map((metric) => {
+                {useQueryMetrics?.data?.metrics.map((metric) => {
                     return (
                         <div key={metric._id}>
                             <p>
