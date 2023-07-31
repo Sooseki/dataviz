@@ -21,14 +21,14 @@ export const createMetric = async (req: Request, res: Response): Promise<Respons
         });
 
         return res.status(200).json({ msg: "metrics creation sucessfull", metrics });
-    } catch (err) { return handleControllerErrors(err, res, "something went wrong in metrics creation") };
+    } catch (err) { return handleControllerErrors(err, res, "something went wrong in metrics creation");}
 };
 
 export const getMetrics = async (req: Request, res: Response): Promise<Response> => {
     try {
         // TODO : use token instead to get clientId to make sure user has only access to his own resources
-        const { domainId, clientId } = req.params as { domainId: string | undefined, clientId: string | undefined };
-        if(!domainId || typeof domainId !== "string") throw new Error("domainId must be a string");
+        const { domainId, clientId } = req.query as { domainId: string | undefined, clientId: string | undefined };
+        if (!domainId || typeof domainId !== "string") throw new Error("domainId must be a string");
         if(!clientId || typeof clientId !== "string") throw new Error("clientId must be a string");
 
         const domain = await Domain.findOne({_id: domainId }).populate("datasets");
@@ -39,5 +39,5 @@ export const getMetrics = async (req: Request, res: Response): Promise<Response>
             throw new Error("cannot access this resource");
 
         return res.status(200).json({ metrics: domain.datasets });
-    } catch (err) { return handleControllerErrors(err, res, "metrics could not be retrieved") };
+    } catch (err) { return handleControllerErrors(err, res, "metrics could not be retrieved");}
 };

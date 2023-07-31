@@ -1,5 +1,4 @@
 "use client";
-
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 
 const Home = () => {

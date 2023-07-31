@@ -26,8 +26,8 @@ const Login: React.FC = () => {
     };
 
     return (
-        <>
-            <form onSubmit={handleSubmit} className='login-container' method="POST">
+        <div className="login-container">
+            <form onSubmit={handleSubmit} className='login-form' method="POST">
                 <img className='logo' src="/perfguardian-text-and-logo.svg" alt='perfguardian-text-and-logo' />
                 <InputText type='email' label="email" name="email" value={email} onChange={handleEmailChange} />
                 <InputText type='password' label="password" name="password" value={userPassword} onChange={handlePasswordChange} />
@@ -40,7 +40,7 @@ const Login: React.FC = () => {
                     <Link className='miscellaneous-services-link' href="/password-request">Forgot your password ?</Link>
                 </div>
             </form>
-        </>
+        </div>
     );
 };
 
