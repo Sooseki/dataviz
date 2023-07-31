@@ -2,7 +2,7 @@
 
 import DomainCards from "@/components/domains/DomainCards";
 
-const Domains: React.FC<{ params: { dounga: string; name: string} }> = ({ params }) => {
+const Domains = () => {
     return (
         <>
             <div className="domains-container">

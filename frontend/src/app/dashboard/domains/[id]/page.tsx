@@ -5,7 +5,7 @@ import { Metrics } from "@/types";
 import { useParams, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
-const Domain: React.FC = () => {
+const Domain = () => {
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
     const domainName = useSearchParams().get("name");
     const domain= useParams();

@@ -13,7 +13,7 @@ const PasswordSettings = () => {
     const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
     const [currentPassword, setCurrentPassword] = useState("");
 
-    if (!changePassword) return null;
+    if (!changePassword || !user) return null;
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -57,7 +57,7 @@ const PasswordSettings = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit} className="password-settings .form">
+            <form onSubmit={handleSubmit} className="password-settings form">
                 {inputError &&
                     <div className="form-input-error">{inputError}</div>
                 }
