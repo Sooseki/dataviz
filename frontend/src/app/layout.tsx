@@ -21,15 +21,13 @@ const RootLayout = ({children}: {
                     <ThemeContextProvider>
                         <QueryLayout>
                             <MenuLayout>
-                                {children}
+                                <Navbar />
+                                <div className="container">
+                                    {children}
+                                </div>
                                 <ToastContainer />
                             </MenuLayout>
                         </QueryLayout>
-                        <Navbar/>
-                        <div className="container">
-                            {children}
-                        </div>
-                        <ToastContainer />
                     </ThemeContextProvider>
                 </AuthContextProvider>
             </body>
