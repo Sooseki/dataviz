@@ -12,6 +12,8 @@ const Navbar = () => {
     const { user } = useAuth();
     const pathname = usePathname();
 
+    if (!user) return null;
+
     return <div>
         <div className='navigation'>
             <div className="logoContainer">
