@@ -67,7 +67,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         removeItem("token");
         setToken(undefined);
         setUser(undefined);
-        router.push("/login");
+        router.push("/dashboard/login");
     };
 
     const changePassword = async (

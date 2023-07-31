@@ -3,3 +3,25 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
+.domains-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Set the width of each item to 33.33% */
+.domains-cards > div {
+  flex-basis: 33.33%;
+}
+
+/* Allow items to grow and fill the available space */
+.domains-cards > div {
+  flex-grow: 1;
+  max-width: calc(33.33% - 1rem); /* Subtract the gap from the max-width */
+}
+
+/* To limit each line to 3 items, add the following rule */
+.domains-cards > div:nth-child(3n + 1) {
+  flex-grow: 0;
+  max-width: 100%; /* Reset the max-width to take the full width on the first item of each line */
+}

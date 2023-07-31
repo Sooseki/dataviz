@@ -18,30 +18,32 @@ const Navbar: React.FC = () => {
     return (
         <div>
             <div className="navigation">
-                <div className="logoContainer">
-                    <Image
-                        className="navigation_logo"
-                        src="/perfguardian-text-and-logo.svg"
-                        alt="perfguardian-text-and-logo-black"
-                        width="30"
-                        height="30"
-                    />
-                </div>
-                <div className="navigation_items">
-                    {Object.values(navConfig).map(({ href, name, icon }) => (
-                        <Link
-                            key={name}
-                            className={
-                                pathname === href
-                                    ? "navigation_item navigation_item_active"
-                                    : "navigation_item"
-                            }
-                            href={href}
-                        >
-                            {icon && <FontAwesomeIcon icon={icon} />} &nbsp;
-                            {name}
-                        </Link>
-                    ))}
+                <div className="navigation_header">
+                    <div className="navigation_header_logo_container">
+                        <Image
+                            className="navigation_logo"
+                            src="/perfguardian-text-and-logo.svg"
+                            alt="perfguardian-text-and-logo-black"
+                            width="30"
+                            height="30"
+                        />
+                    </div>
+                    <div className="navigation_header_items">
+                        {Object.values(navConfig).map(({ href, name, icon }) => (
+                            <Link
+                                key={name}
+                                className={
+                                    pathname === href
+                                        ? "navigation_item navigation_item_active"
+                                        : "navigation_item"
+                                }
+                                href={href}
+                            >
+                                {icon && <FontAwesomeIcon icon={icon} />} &nbsp;
+                                {name}
+                            </Link>
+                        ))}
+                    </div>
                 </div>
                 <div className="navigation_userContainer">
                     <Link className="navigation_user" href="/user/settings">
