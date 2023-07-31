@@ -1,6 +1,7 @@
 import { AuthContextProvider } from "@/context/AuthContext";
 import { ThemeContextProvider } from "@/context/ThemeContext";
 import { ToastContainer } from "react-toastify";
+import Navbar from "@/components/navbar/Navbar";
 import "../styles/main.css";
 import "react-toastify/dist/ReactToastify.css";
 import QueryLayout from "@/layouts/QueryLayout";
@@ -24,6 +25,11 @@ const RootLayout = ({children}: {
                                 <ToastContainer />
                             </MenuLayout>
                         </QueryLayout>
+                        <Navbar/>
+                        <div className="container">
+                            {children}
+                        </div>
+                        <ToastContainer />
                     </ThemeContextProvider>
                 </AuthContextProvider>
             </body>

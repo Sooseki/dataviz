@@ -3,6 +3,9 @@
 @import './config/variables.scss';
 @import './config/mixins.scss';
 
+// Global
+@import './general.scss';
+
 // Pages
 @import './app/login.scss';
 @import './app/domains.scss';
@@ -22,41 +25,4 @@
 // Theme
 @import '~@fortawesome/fontawesome-svg-core/styles.css';
 @import './themes/dark.scss';
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: $milky-white-color;
-    font-family: $text-font;
-    font-size: $body-font-size;
-    color: $charcoal-darker-color;
-    height: 100vh;
-}
-
-h1 {
-    font-family: $title-font;
-    text-transform: uppercase;
-    font-size: $title-font-size-xl;
-    color: $milky-white-color;
-}
-
-.logo {
-    filter: $milky-white-color-filter;
-    width: 60%;
-    margin-bottom: 50px;
-    width: 80%;
-    max-width: 421px;
-}
-
-@media (max-width: $sm) {
-    .logo {
-        margin-bottom: 30px;
-    }
-    .login-miscellaneous-services {
-        flex-direction: column;
-        & a, span {
-            margin-bottom: 10px;
-        }
-    }
-}
+@import './themes/fonts.scss';

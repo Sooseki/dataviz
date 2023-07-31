@@ -9,6 +9,7 @@ const Home = () => {
             <Link href="/login">
                 Login
             </Link>
+            Dashboard
         </div>
     );
 };

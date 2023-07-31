@@ -2,11 +2,11 @@
 .burgerContainer{
     fill: #1e272e;
     position: fixed;
-    right: 25px;
-    top: 25px;
+    right: 1rem;
+    top: 1rem;
     display: block;
     z-index: 99;
-    @media (min-width: 1024px) {
+    @media (min-width: $md) {
       display: none;
     }
 } 

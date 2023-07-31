@@ -111,8 +111,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
             if (userToken) {
                 const decodedToken: { user: User } | null = decodeToken(userToken);
-                if (!decodedToken) return logOut();
-                console.log("newtest",decodedToken.user);
+                if (!decodedToken) return logOut(); // TODO change condition to !decodedToken?.user
                 setUser(decodedToken.user);
             } else {
                 router.push("/login");
