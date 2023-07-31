@@ -13,9 +13,7 @@ const Navbar: React.FC = () => {
     const { user, logOut } = useAuth();
     const pathname = usePathname();
 
-    const handleLogout = () => {
-        logOut();
-    };
+    const handleLogout = () => logOut();
 
     return (
         <div>

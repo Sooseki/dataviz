@@ -29,10 +29,14 @@ body {
 .container {
   padding: 1rem 2rem;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   @media (min-width: $md) {
       margin-left: 15%;
     }
+}
+
+.notConnected-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
 }

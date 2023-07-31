@@ -1,19 +1,17 @@
 import { useAuth } from "@/context/AuthContext";
 import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 import InputText from "../InputText";
 import { toast } from "react-toastify";
 import SubmitButton from "../button/SubmitButton";
 
 const PasswordSettings = () => {
-    const router = useRouter();
     const { user, changePassword } = useAuth();
     const [ inputError, setInputError ] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
     const [currentPassword, setCurrentPassword] = useState("");
 
-    if (!changePassword) return null;
+    if (!changePassword || !user) return null;
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -57,7 +55,7 @@ const PasswordSettings = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit} className="password-settings">
+            <form onSubmit={handleSubmit} className="password-settings form">
                 {inputError &&
                     <div className="form-input-error">{inputError}</div>
                 }

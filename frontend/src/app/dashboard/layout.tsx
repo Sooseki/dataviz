@@ -1,3 +1,4 @@
+"use client";
 
 import { ThemeContextProvider } from "@/context/ThemeContext";
 import QueryLayout from "@/layouts/QueryLayout";

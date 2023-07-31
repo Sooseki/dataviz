@@ -4,6 +4,7 @@ export interface Client {
     name: string,
 }
 export interface User {
+    id: string,
     name: string,
     email: string,
     client: Client,

@@ -1,7 +1,7 @@
 "use client";
 import { handlePost, handlePut } from "@/api/handleCall";
 import { useLocalStorage } from "@/lib/useLocalStorage";
-import { AuthContextType, User, LoginResponse, Client } from "@/types";
+import { AuthContextType, User, LoginResponse } from "@/types";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
 import { decodeToken } from "react-jwt";

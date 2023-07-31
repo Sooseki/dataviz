@@ -27,10 +27,15 @@ export const register = async (req: Request, res: Response): Promise<Response> =
             users: [user.id]
         });
         
-        const payload = { user: { email, role, name, }, client: { name, id: client._id }};
+        const payload = {           
+            user: {
+                email, role: user.role, name: user.name, id: user.id,
+                client: { name: client.name, id: client._id.toString() }
+            },
+        };
         const token = await getToken(payload);
 
-        return res.status(200).json({ msg: "register sucessfull", token, user, client});
+        return res.status(200).json({ msg: "register sucessfull", token });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ msg: "something went wrong" });
@@ -64,10 +69,10 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
             },
         };
 
-        console.log(payload);
         const token = await getToken(payload);
         return res.status(200).json({ msg: "Logged in", token });
     } catch (err) {
+        // TODO : remove this log
         console.error(err);
         return res.status(500).json({ msg: "something went wrong" });
     }
