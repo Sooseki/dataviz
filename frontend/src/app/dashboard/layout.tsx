@@ -1,4 +1,4 @@
-"use client";
+
 import { ThemeContextProvider } from "@/context/ThemeContext";
 import QueryLayout from "@/layouts/QueryLayout";
 import MenuLayout from "@/layouts/MenuLayout";
@@ -18,7 +18,6 @@ const DashboardLayout = ({ children }: {
             <QueryLayout>
                 <MenuLayout>
                     {children}
-                    {/*<ToastContainer />*/}
                 </MenuLayout>
             </QueryLayout>
         </ThemeContextProvider>
