@@ -1,12 +1,10 @@
 import { useAuth } from "@/context/AuthContext";
 import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 import InputText from "../InputText";
 import { toast } from "react-toastify";
 import SubmitButton from "../button/SubmitButton";
 
 const PasswordSettings = () => {
-    const router = useRouter();
     const { user, changePassword } = useAuth();
     const [ inputError, setInputError ] = useState("");
     const [newPassword, setNewPassword] = useState("");
