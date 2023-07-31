@@ -1,8 +1,5 @@
 import { AuthContextProvider } from "@/context/AuthContext";
-import { ThemeContextProvider } from "@/context/ThemeContext";
 import { ToastContainer } from "react-toastify";
-import QueryLayout from "@/layouts/QueryLayout";
-import MenuLayout from "@/layouts/MenuLayout";
 import "../styles/main.css";
 import "react-toastify/dist/ReactToastify.css";
 
