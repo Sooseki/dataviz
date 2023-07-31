@@ -7,7 +7,7 @@ interface Props {
 const Button = ({ content, onClick, classes }: Props) => {
     return (
         <button 
-            className={`${classes}`}
+            className={classes}
             onClick={onClick}
         >
             {content}
