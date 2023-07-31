@@ -57,7 +57,7 @@ const PasswordSettings = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit} className="password-settings">
+            <form onSubmit={handleSubmit} className="password-settings .form">
                 {inputError &&
                     <div className="form-input-error">{inputError}</div>
                 }

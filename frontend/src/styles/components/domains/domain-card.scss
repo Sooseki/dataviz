@@ -1,0 +1,12 @@
+.domainCard {
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid $charcoal-color;
+  background-color: $milky-white-darker-color;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: $grey-color;
+    cursor: pointer;
+  }
+}
