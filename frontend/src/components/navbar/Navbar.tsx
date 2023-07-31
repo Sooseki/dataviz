@@ -46,7 +46,7 @@ const Navbar: React.FC = () => {
                     </div>
                 </div>
                 <div className="navigation_userContainer">
-                    <Link className="navigation_user" href="/user/settings">
+                    <Link className="navigation_user" href="/dashboard/user/settings">
                         <Image src="/user.svg" alt="user-image" width="30" height="30"/>
                         <p>{user?.name}</p>
                     </Link>
