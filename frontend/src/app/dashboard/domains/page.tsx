@@ -2,7 +2,7 @@
 import { useQuery } from "react-query";
 import { handleGet } from "@/api/handleCall";
 import { useAuth } from "@/context/AuthContext";
-import { Domain } from "../../../src/types";
+import { Domain } from "../../../types";
 import Link from "next/link";
 
 const Domains: React.FC<{ params: { dounga: string; name: string} }> = ({ params }) => {
@@ -25,7 +25,7 @@ const Domains: React.FC<{ params: { dounga: string; name: string} }> = ({ params
                         <div className="domain-card" key={domain._id}>
                             <Link
                                 className="domain-link"
-                                href={`/domains/${domain._id}?name=${domainName}`}
+                                href={`/dashboard/domains/${domain._id}?name=${domainName}`}
                                 target="_blank"
                             >
                                 {domainName}
