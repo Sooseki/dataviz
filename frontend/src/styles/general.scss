@@ -29,8 +29,6 @@ body {
 .container {
   padding: 1rem 2rem;
   height: 100%;
-  display: flex;
-  justify-content: center;
   @media (min-width: $md) {
       margin-left: 15%;
     }
