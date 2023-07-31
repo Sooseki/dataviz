@@ -26,8 +26,8 @@ export const register = async (req: Request, res: Response): Promise<Response> =
             name: company,
             users: [user.id]
         });
-
-        const payload = { user: { email, role, name }, client: {name}};
+        
+        const payload = { user: { email, role, name, }, client: { name, id: client._id }};
         const token = await getToken(payload);
 
         return res.status(200).json({ msg: "register sucessfull", token, user, client});
@@ -41,23 +41,32 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email });
-        if (user && user.password) {
-            const isMatch = await bcrypt.compare(password, user?.password);
-            if (!isMatch) {
-                return res.status(400).json({ msg: "Incorrect password" });
-            }
 
-            const payload = {
-                user: {
-                    email, role: user.role, name: user.name
-                },
-            };
-            const token = await getToken(payload);
-            return res.status(200).json({ msg: "Loged in", token, user });
+        if (!user) {
+            return res.status(400).json({ msg: "User does not exist" });
         }
 
-        return res.status(400).json({ msg: "User do not exist" });
+        const client = await Client.findOne({ users: user._id});
 
+        if (!client) {
+            return res.status(400).json({ msg: "Client does not exist" });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ msg: "Incorrect password" });
+        }
+
+        const payload = {
+            user: {
+                email, role: user.role, name: user.name, id: user.id,
+                client: { name: client.name, id: client._id.toString()}
+            },
+        };
+
+        console.log(payload);
+        const token = await getToken(payload);
+        return res.status(200).json({ msg: "Logged in", token });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ msg: "something went wrong" });

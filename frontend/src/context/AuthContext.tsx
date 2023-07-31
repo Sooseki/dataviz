@@ -1,7 +1,7 @@
 "use client";
 import { handlePost, handlePut } from "@/api/handleCall";
 import { useLocalStorage } from "@/lib/useLocalStorage";
-import { AuthContextType, User, LoginResponse } from "@/types";
+import { AuthContextType, User, LoginResponse, Client } from "@/types";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
 import { decodeToken } from "react-jwt";
@@ -23,11 +23,9 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         try {
             const authresult = await handlePost<LoginResponse>(`${host}/users/login`, { email, password });
 
-            if (!authresult || !authresult.data?.user || !authresult.data?.token) {
+            if (!authresult || !authresult.data?.token) {
                 throw new Error("no user found");
             }
-            
-            setUser(authresult.data?.user);
             setToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
             router.push("/");
@@ -45,11 +43,9 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         try {
             const authresult = await handlePost<LoginResponse>(`${host}/users/register`, { email, password, name, company });
 
-            if (!authresult || !authresult.data?.user) {
-                throw new Error("could not register");
+            if (!authresult || !authresult.data?.token) {
+                throw new Error("Could not register");
             }
-
-            setUser(authresult.data?.user);
             setToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
             router.push("/");
@@ -126,7 +122,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         setIsLoading(false);
     }, []);
 
-    const value: AuthContextType = { 
+    const value: AuthContextType = {
         user, 
         logIn, 
         signUp, 
