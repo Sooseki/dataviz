@@ -7,7 +7,7 @@ import { handleControllerErrors } from "../utils/handleControllerErrors";
 
 export const createMetric = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { url } = req.query as { url: string | undefined };
+        const { url } = req.body as { url: string | undefined };
         if (!url || typeof url !== "string") throw new Error("wrong url param");
         const metrics = await simulationhub(url);
         const dataset = await Dataset.create({

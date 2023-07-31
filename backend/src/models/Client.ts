@@ -1,7 +1,6 @@
 import { Schema, SchemaTypes, model } from "mongoose";
 
 const clientSchema = new Schema({
-    id: String,
     name: String,
     users: [{
         type: SchemaTypes.ObjectId,

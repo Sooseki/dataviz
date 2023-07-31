@@ -42,7 +42,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     try {
         const user = await User.findOne({ email });
 
-        if (!user || !user.password) {
+        if (!user) {
             return res.status(400).json({ msg: "User does not exist" });
         }
 
@@ -52,7 +52,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
             return res.status(400).json({ msg: "Client does not exist" });
         }
 
-        const isMatch = await bcrypt.compare(password, user?.password);
+        const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ msg: "Incorrect password" });
         }
@@ -63,6 +63,8 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
                 client: { name: client.name, id: client._id.toString()}
             },
         };
+
+        console.log(payload);
         const token = await getToken(payload);
         return res.status(200).json({ msg: "Logged in", token });
     } catch (err) {
