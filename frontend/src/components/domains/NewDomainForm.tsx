@@ -5,24 +5,37 @@ import { Domain } from "domain";
 import { toast } from "react-toastify";
 import { useAuth } from "@/context/AuthContext";
 
-const NewDomainForm = () => {
+const NewDomainForm = ({ closeModal }: { closeModal?: VoidFunction }) => {
+  const { user } = useAuth();
+
+  if (!user) return null;
+
   const [newDomain, setNewDomain] = useState("");
   const [inputError, setInputError] = useState("");
   const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
 
   const handleSubmit = async () => {
-    const { user } = useAuth();
-
     if(newDomain === "") {
       setInputError("Veuillez renseigner une url")
       return;
     }
 
     try {
-      await handlePost<{ domain: Domain }>(`${host}/domain/create`, { url: newDomain, clientId: user.client.id });
+      const data = await handlePost<{ domain: Domain }>(`${host}/domains/create`, { url: newDomain, clientId: user.client.id });
+      if (data?.error) throw new Error("Could not add domain");
+
+      toast(
+        "Domaine ajouté avec succès", 
+        { 
+            type: "success",
+            theme: "colored",
+            position: "bottom-left"
+        }
+      );
+      if (closeModal) closeModal();
     } catch {
       toast(
-        "Ce domaine n'a pas pu être ajouté", 
+        "Ce domaine n'a pas pu être ajouté. Veuillez réessayer", 
         { 
             type: "error",
             theme: "colored",

@@ -1,9 +1,19 @@
-.domainCard {
+.domain-card {
+  display: flex;
   padding: 2rem;
-  border-radius: 10px;
   border: 1px solid $charcoal-color;
-  background-color: $milky-white-darker-color;
   transition: background-color 0.3s ease;
+  flex-direction: column;
+  background: $milky-white-color;
+  border-radius: $border-radius-md;
+  
+  .domain-link {
+    padding: 5px;
+    text-align: center;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
 
   &:hover {
     background-color: $grey-color;

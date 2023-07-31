@@ -1,4 +1,4 @@
-import { MouseEvent, ReactNode } from "react";
+import { ReactNode } from "react";
 
 interface Props {
   component: ReactNode;
@@ -11,7 +11,7 @@ const Modal = ({ component, isOpen, closeModal }: Props) => {
     { isOpen && 
       <>
         <div className="modal">
-          <div className="modal_background"  onClick={closeModal}></div>
+          <div className="modal_background" onClick={closeModal}></div>
           <div className="modal_content">{component}</div> 
         </div>
       </>

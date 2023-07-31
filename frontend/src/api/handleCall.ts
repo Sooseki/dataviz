@@ -1,7 +1,8 @@
 import axios from "axios";
 
 type AxiosResponse<T> = {
-    data: T;
+    data?: T;
+    error?: string;
 }
 
 const config = {

@@ -8,6 +8,8 @@
 
 // Pages
 @import './app/login.scss';
+@import './app/domains.scss';
+@import './app/singleDomain.scss';
 
 // Components
 @import './components/form.scss';
@@ -20,6 +22,7 @@
 @import './components/toasts.scss';
 @import './components/burger.scss';
 @import './components/domains/domain-card.scss';
+@import './components/domains/domain-cards.scss';
 @import './components/modal.scss';
 
 // Theme

@@ -28,7 +28,7 @@ export const createDomain = async (req: Request, res: Response): Promise<Respons
 export const getDomains = async (req: Request, res: Response): Promise<Response> => {
     try {
         // TODO : get clientId from token
-        const { clientId } = req.body as { url: string | undefined, clientId: string | undefined };
+        const { clientId } = req.query as { clientId: string | undefined };
         if(!clientId || typeof clientId !== "string") throw new Error("wrong clientId param");
 
         const client = await Client.findOne({ _id: clientId });
@@ -39,5 +39,5 @@ export const getDomains = async (req: Request, res: Response): Promise<Response>
         });
 
         return res.status(200).json({ domains });
-    } catch (err) { return handleControllerErrors(err, res, "could not get domains") };
+    } catch (err) { return handleControllerErrors(err, res, "could not get domains"); }
 };

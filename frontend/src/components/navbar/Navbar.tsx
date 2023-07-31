@@ -6,12 +6,11 @@ import { useAuth } from "@/context/AuthContext";
 import { navConfig } from "./navconfig";
 import Burger from "./Burger";
 import { usePathname } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Navbar = () => {
     const { user } = useAuth();
     const pathname = usePathname();
-
-    // if (!user) return null;
 
     return <div>
         <div className='navigation'>
@@ -20,7 +19,11 @@ const Navbar = () => {
             </div>
             <div className="navigation_items">
                 { Object.values(navConfig).map(({ href, name, icon }) => 
-                    <Link key={name} className={pathname === href ? "navigation_item navigation_item_active" : "navigation_item"} href={href}>{ name }</Link>
+                    <Link key={name} className={pathname === href ? "navigation_item navigation_item_active" : "navigation_item"} href={href}>
+                        {icon && 
+                        <FontAwesomeIcon icon={icon}/>} &nbsp;
+                        {name}
+                    </Link>
                 )}
                 {
                     // Keep track on how to put icons
