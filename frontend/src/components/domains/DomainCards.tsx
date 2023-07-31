@@ -22,7 +22,7 @@ const DomainCards = () => {
     );
 
     if (!user) {
-        router.push("/dashboard/login");
+        router.push("/login");
         return null;
     }
 
