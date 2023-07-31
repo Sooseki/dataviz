@@ -5,27 +5,34 @@ import { useAuth } from "@/context/AuthContext";
 import { Domain } from "../../../src/types";
 import Link from "next/link";
 
-const Domains:React.FC = () => {
-    const { user, client } = useAuth();
-    //console.log("client", client);
-    console.log("user", user);
-    /** TODO: CHECK URL PATH */
+const Domains: React.FC<{ params: { dounga: string; name: string} }> = ({ params }) => {
+    const { user } = useAuth();
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
-    const getDomains = async () => {
-        return await handleGet<Domain[]>(`${host}/domains?clientId=${user?.clientId}`);
-    };
-    const { data: useQueryDomains } = useQuery("domains", getDomains);
-    //console.log("useQueryDomains",useQueryDomains);
+
+    const { data: useQueryDomains } = useQuery("domains", async () => {
+        const domain = await handleGet<{ domains: Domain[] }>(
+            `${host}/domains?clientId=${user?.client.id}`
+        );
+        return domain;
+    });
+
     return (
-        <>  
+        <>
             <div className="domains-container">
-                {useQueryDomains?.data.map((domain) => (
-                    <div className="domain-card" key={domain.id}>
-                        <a className="domain-link" href={domain.url}></a>
-                        <Link className='miscellaneous-services-link' href={`/domains/${domain.id}`}>Domain metrics page</Link>
-                        {domain.id}
-                    </div>
-                ))}
+                {useQueryDomains?.data.domains.map((domain) => {
+                    const domainName = new URL(domain.url).hostname;
+                    return (
+                        <div className="domain-card" key={domain._id}>
+                            <Link
+                                className="domain-link"
+                                href={`/domains/${domain._id}?name=${domainName}`}
+                                target="_blank"
+                            >
+                                {domainName}
+                            </Link>
+                        </div>
+                    );
+                })}
             </div>
         </>
     );

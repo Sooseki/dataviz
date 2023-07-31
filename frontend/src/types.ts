@@ -1,12 +1,16 @@
 // TODO : move interface User to types when mongoDB User return values available
+export interface Client {
+    id: string
+    name: string,
+}
 export interface User {
     name: string,
     email: string,
-    clientId: string,
+    client: Client,
     role: string
 }
 export interface Metrics {
-    id: number,
+    _id: string,
     date: string,
     timeToLoad: number | undefined,
     jsUseRate: JsUseRateResult[] | undefined,
@@ -25,15 +29,11 @@ export interface LighthouseMetrics {
     time_to_interactive: string;
 }
 export interface Domain {
-    id: number,
+    _id: string,
     url: string
-}
-export interface Client {
-    name: string,
 }
 
 export interface AuthContextType {
-    client?: Client | undefined;
     user?: User | undefined;
     signUp?: (email: string, password: string, username: string, company: string) => Promise<void>;
     logIn?: (email: string, password: string) => Promise<void>;
@@ -48,8 +48,6 @@ export interface ThemeContextType {
 }
 
 export type LoginResponse = {
-    user: User;
-    msg: string;
     token: string;
-    client: Client;
+    msg: string;
 };

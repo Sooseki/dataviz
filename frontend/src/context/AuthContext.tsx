@@ -14,7 +14,6 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     const router = useRouter();
     const [user, setUser] = useState<User | undefined>();
-    const [client, setClient] = useState<Client | undefined>();
     const [token, setToken] = useState<string | undefined>();
     const [isLoading, setIsLoading] = useState(true);
     const { getItem, removeItem, setItem } = useLocalStorage();
@@ -24,12 +23,9 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         try {
             const authresult = await handlePost<LoginResponse>(`${host}/users/login`, { email, password });
 
-            if (!authresult || !authresult.data?.user || !authresult.data?.token) {
+            if (!authresult || !authresult.data?.token) {
                 throw new Error("no user found");
             }
-            
-            setUser(authresult.data?.user);
-            setClient(authresult.data?.client);
             setToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
             router.push("/");
@@ -47,11 +43,9 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         try {
             const authresult = await handlePost<LoginResponse>(`${host}/users/register`, { email, password, name, company });
 
-            if (!authresult || !authresult.data?.user) {
-                throw new Error("could not register");
+            if (!authresult || !authresult.data?.token) {
+                throw new Error("Could not register");
             }
-
-            setUser(authresult.data?.user);
             setToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
             router.push("/");
@@ -130,7 +124,6 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     }, []);
 
     const value: AuthContextType = {
-        client,
         user, 
         logIn, 
         signUp, 
