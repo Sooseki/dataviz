@@ -3,3 +3,12 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
+.domains-cards > div {
+  flex-basis: 33.33%;
+  flex-grow: 1;
+  max-width: calc(33.33% - 1rem);
+}
+.domains-cards > div:nth-child(3n + 1) {
+  flex-grow: 0;
+  max-width: 100%;
+}
