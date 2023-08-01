@@ -1,4 +1,4 @@
-import puppeteer, { CoverageEntry } from "puppeteer";
+import { Browser, CoverageEntry } from "puppeteer";
 import { JsUseRateResult } from "../../types";
 
 const calculateUsedBytes = (coverage: CoverageEntry[]): JsUseRateResult[] =>
@@ -16,8 +16,8 @@ const calculateUsedBytes = (coverage: CoverageEntry[]): JsUseRateResult[] =>
             percentUsed: `${((usedBytes / text.length) * 100).toFixed(2)}%`,
         };
     });
-export const jsUseRate = async (url: string): Promise<JsUseRateResult[]> => {
-    const browser = await puppeteer.launch();
+
+export const jsUseRate = async (url: string, browser: Browser): Promise<JsUseRateResult[]> => {
     const page = await browser.newPage();
 
     await Promise.all([page.coverage.startJSCoverage()]);
@@ -28,8 +28,5 @@ export const jsUseRate = async (url: string): Promise<JsUseRateResult[]> => {
         page.coverage.stopJSCoverage(),
     ]);
 
-    
-
-    await browser.close();
     return calculateUsedBytes(jsCoverage);
 };

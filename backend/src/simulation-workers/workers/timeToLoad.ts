@@ -1,12 +1,9 @@
-import puppeteer from "puppeteer";
+import { Browser } from "puppeteer";
 
 
-export const timeToLoad = async (url: string) => {
-    const browser = await puppeteer.launch({ headless: "new" }); 
-    
+export const timeToLoad = async (url: string, browser: Browser) => {
     const page = await browser.newPage();
     await page.goto(url);
     const {TaskDuration} = await page.metrics();
-    await browser.close();
     return TaskDuration;
 };

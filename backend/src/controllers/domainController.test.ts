@@ -145,7 +145,7 @@ describe("getDomains", () => {
 
     it("should retrieve client's domains", async () => {
         const clientId = "clientIdTest";
-        const req = { body: { clientId }} as unknown as Request;
+        const req = { query: { clientId }} as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
@@ -169,7 +169,7 @@ describe("getDomains", () => {
 
     it("should return a 500 error status if no client found", async () => {
         const clientId = "clientIdTest";
-        const req = { body: { clientId }} as unknown as Request;
+        const req = { query: { clientId }} as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
