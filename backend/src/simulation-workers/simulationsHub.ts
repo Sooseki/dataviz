@@ -9,8 +9,9 @@ export const simulationhub = async (url: string): Promise<IDataset> => {
     const timeToLoadData = await timeToLoad(url);
     const jsUseRateData = await jsUseRate(url);
     const lighthouseFromPuppeteerData = await lighthouseFromPuppeteer(url);
-    return { timeToLoad: timeToLoadData,
+    return { 
+        timeToLoad: timeToLoadData,
         jsUseRate: jsUseRateData,
-        lightHouse: lighthouseFromPuppeteerData
+        ...lighthouseFromPuppeteerData
     };
 };

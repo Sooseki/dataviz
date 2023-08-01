@@ -28,8 +28,6 @@ export const jsUseRate = async (url: string): Promise<JsUseRateResult[]> => {
         page.coverage.stopJSCoverage(),
     ]);
 
-    
-
     await browser.close();
     return calculateUsedBytes(jsCoverage);
 };

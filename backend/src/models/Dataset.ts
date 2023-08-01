@@ -2,8 +2,12 @@ import { Schema, model } from "mongoose";
 
 const datasetSchema = new Schema({
     date: Date,
-    // here we can add all the data we want to get
     timeToLoad: Number,
+    firstContentfulPaint: String,
+    cumulativeLayoutShift: String,
+    totalBlockingTime: String,
+    timeToInteractive: String,
+    jsUseRate: [Schema.Types.Mixed]
 });
 
 const Dataset = model("Dataset", datasetSchema);

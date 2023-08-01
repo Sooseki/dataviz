@@ -16,10 +16,10 @@ export const lighthouseFromPuppeteer = async (
     url: string,
 ): Promise<LighthouseMetrics> => {
     const results: LighthouseMetrics = {
-        first_contentful_paint: "",
-        cumulative_layout_shift: "",
-        total_blocking_time: "",
-        time_to_interactive: ""
+        firstContentfulPaint: "",
+        cumulativeLayoutShift: "",
+        totalBlockingTime: "",
+        timeToInteractive: ""
     };
 
     // Launch chrome using chrome-launcher
@@ -39,10 +39,10 @@ export const lighthouseFromPuppeteer = async (
     const json = ReportGenerator.generateReport(lhr, "json");
 
     const audits = JSON.parse(json).audits;
-    results.first_contentful_paint = audits["first-contentful-paint"].displayValue;
-    results.cumulative_layout_shift = audits["cumulative-layout-shift"].displayValue;
-    results.total_blocking_time = audits["total-blocking-time"].displayValue;
-    results.time_to_interactive = audits["interactive"].displayValue;
+    results.firstContentfulPaint = audits["first-contentful-paint"].displayValue;
+    results.cumulativeLayoutShift = audits["cumulative-layout-shift"].displayValue;
+    results.totalBlockingTime = audits["total-blocking-time"].displayValue;
+    results.timeToInteractive = audits["interactive"].displayValue;
 
     return results;
 };
