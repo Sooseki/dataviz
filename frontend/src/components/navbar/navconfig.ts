@@ -1,12 +1,12 @@
-import { faChartSimple, 
-    //faChartPie, faChartLine, faSitemap 
+import {faChartSimple, faSitemap
+    //faChartPie, faChartLine 
 } from "@fortawesome/free-solid-svg-icons";
 
 export const navConfig = {
     "Dashboard": {
         name: "Dashboard",
         href: "/dashboard",
-        icon: undefined
+        icon: faSitemap
     },
     "Domains": {
         name: "Domains",

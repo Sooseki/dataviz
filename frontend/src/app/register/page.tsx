@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import InputText from "@/components/InputText";
 import SubmitButton from "@/components/button/SubmitButton";
+import Image from "next/image";
 
 const Register: React.FC = () => {
     const { signUp } = useAuth();
@@ -10,6 +11,7 @@ const Register: React.FC = () => {
     const [userPassword, setUserPassword] = useState("");
     const [userMail, setUserMail] = useState("");
     const [userCompany, setUserCompany] = useState("");
+
 
     const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
@@ -36,7 +38,7 @@ const Register: React.FC = () => {
     return (
         <div className="login-container">
             <form onSubmit={handleSubmit} className='register-container' method='POST'>
-                <img className='logo' src="/perfguardian-text-and-logo.svg" alt='perfguardian-text-and-logo' />
+                <Image className="logo" src="/perfguardian-text-and-logo.svg" alt="perfguardian-text-and-logo" width="30" height="30" />
                 <InputText type='text' name='username' label="username" value={username} onChange={handleNameChange} />
                 <InputText type='password' name='password' label="password" value={userPassword} onChange={handlePasswordChange} />
                 <InputText type='email' name='email' label="email" value={userMail} onChange={handleUsermailChange} />
