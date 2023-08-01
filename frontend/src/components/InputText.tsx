@@ -5,14 +5,15 @@ interface InputProps {
     value: string;
     type: string;
     name: string;
+    placeholder: string;
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const InputText = ({ type, label, value, name, onChange }: InputProps) => {
+const InputText = ({ type, label, value, name, onChange, placeholder }: InputProps) => {
     return (
         <div className='user-data-input text-over-background'>
             <label>{label}</label>
-            <input type={type} value={value} name={name} onChange={onChange} />
+            <input placeholder={placeholder} type={type} value={value} name={name} onChange={onChange} />
         </div>
     );
 };

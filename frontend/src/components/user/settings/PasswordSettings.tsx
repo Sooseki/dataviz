@@ -1,7 +1,7 @@
 import { useAuth } from "@/context/AuthContext";
 import { FormEvent, useState } from "react";
-import InputText from "../../InputText";
 import { toast } from "react-toastify";
+import InputText from "../../InputText";
 import SubmitButton from "../../button/SubmitButton";
 
 const PasswordSettings = () => {
@@ -20,12 +20,10 @@ const PasswordSettings = () => {
             setInputError("Current password must be provided.");
             return;
         }
-
         if (!newPassword || !newPasswordConfirmation) {
             setInputError("New password must be provided.");
             return;
         }
-
         if (newPassword !== newPasswordConfirmation) {
             setInputError("New password and new password confirmation don't match.");
             return;
@@ -59,7 +57,8 @@ const PasswordSettings = () => {
                 {inputError &&
                     <div className="form-input-error">{inputError}</div>
                 }
-                <InputText 
+                <InputText
+                    placeholder=""
                     name="currentPassword" 
                     onChange={(event) => setCurrentPassword(event.target.value)}
                     label="Current password"
@@ -67,6 +66,7 @@ const PasswordSettings = () => {
                     value={currentPassword}
                 />
                 <InputText 
+                    placeholder=""
                     name="newPassword"
                     onChange={(event) => setNewPassword(event.target.value)}
                     label="New password"
@@ -74,6 +74,7 @@ const PasswordSettings = () => {
                     value={newPassword}
                 />
                 <InputText 
+                    placeholder=""
                     name="newPasswordConfirmation"
                     onChange={(event) => setNewPasswordConfirmation(event.target.value)}
                     label="New password confirmation"

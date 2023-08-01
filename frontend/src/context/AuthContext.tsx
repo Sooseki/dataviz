@@ -1,5 +1,5 @@
 "use client";
-import { handlePost, handlePut, handleGet } from "@/api/handleCall";
+import { handlePost, handlePut } from "@/api/handleCall";
 import { useLocalStorage } from "@/lib/useLocalStorage";
 import { AuthContextType, User, LoginResponse } from "@/types";
 import { useRouter } from "next/navigation";
@@ -9,8 +9,6 @@ import { toast } from "react-toastify";
 
 const AuthContext = createContext<AuthContextType>({});
 export const useAuth = () => useContext(AuthContext);
-
-
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     const router = useRouter();
     const [user, setUser] = useState<User | undefined>();
@@ -112,7 +110,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         if (!userToken) return logOut();
 
         const decodedToken: { user: User } | null = decodeToken(userToken);
-        if (!decodedToken) return logOut(); // TODO change condition to !decodedToken?.user
+        if (!decodedToken?.user) return logOut();
         setUser(decodedToken.user);
     };
     useEffect(() => {

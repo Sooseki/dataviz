@@ -1,6 +1,4 @@
-import {faChartSimple, faSitemap, faPeopleCarry
-    //faChartPie, faChartLine 
-} from "@fortawesome/free-solid-svg-icons";
+import { faChartSimple, faSitemap, faPeopleCarry } from "@fortawesome/free-solid-svg-icons";
 
 export const navConfig = {
     "Dashboard": {

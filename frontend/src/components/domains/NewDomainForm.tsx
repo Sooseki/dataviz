@@ -7,28 +7,29 @@ import { useAuth } from "@/context/AuthContext";
 
 const NewDomainForm = ({ closeModal, refetch }: { closeModal: VoidFunction, refetch: VoidFunction }) => {
     const { user } = useAuth();
-
-    
     const [newDomain, setNewDomain] = useState("");
     const [inputError, setInputError] = useState("");
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
-    
+    const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/i;
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
         if (newDomain === "") {
-            setInputError("Veuillez renseigner une url");
+            setInputError("Please fill in an URL !");
             return;
         }
-
-        if (!user) return null;
+        if (!urlRegex.test(newDomain)) {
+            setInputError("Domain name must be an URL !");
+            return;
+        }
         try {
-            const data = await handlePost<{ domain: Domain }>(`${host}/domains/create`, { url: newDomain, clientId: user.client.id });
+            const data = await handlePost<{ domain: Domain }>(`${host}/domains/create`, { url: newDomain, clientId: user?.client.id });
 
-            if (data?.error) throw new Error("Could not add domain");
+            if (data?.error) throw new Error("Could not add Domain");
 
             toast(
-                "Domaine ajouté avec succès",
+                "Domain added with success !",
                 {
                     type: "success",
                     theme: "colored",
@@ -39,7 +40,7 @@ const NewDomainForm = ({ closeModal, refetch }: { closeModal: VoidFunction, refe
             closeModal();
         } catch {
             toast(
-                "Ce domaine n'a pas pu être ajouté. Veuillez réessayer",
+                "This domain could not be added. Try Again",
                 {
                     type: "error",
                     theme: "colored",
@@ -50,13 +51,13 @@ const NewDomainForm = ({ closeModal, refetch }: { closeModal: VoidFunction, refe
     };
 
     return <div>
-        <h2>Ajouter un nouveau domaine</h2>
-        <form method="POST" onSubmit={handleSubmit}>
+        <h2>add a new Domain</h2>
+        <form className="create-domain-form" method="POST" onSubmit={handleSubmit}>
             {inputError &&
-              <div className="form-input-error">{inputError}</div>
+                <div className="create-domain-form-input-error">{inputError}</div>
             }
-            <InputText name="domain" label="url" value={newDomain} type="text" onChange={(e) => setNewDomain(e.target.value)} />
-            <button type="submit">Valider</button>
+            <InputText placeholder="Ex: http://www.hetic.net/" name="domain" label="url" value={newDomain} type="text" onChange={(e) => setNewDomain(e.target.value)} />
+            <button className="add-domain-button" type="submit">Validate</button>
         </form>
     </div>;
 };

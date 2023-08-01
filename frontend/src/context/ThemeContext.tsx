@@ -5,7 +5,6 @@ import { PropsWithChildren, createContext, useContext, useEffect, useState } fro
 
 const ThemeContext = createContext<ThemeContextType>({});
 export const useTheme = () => useContext(ThemeContext);
-
 export const ThemeContextProvider = ({ children }: PropsWithChildren) => {
     const { getItem, setItem } = useLocalStorage();
     const [theme, setTheme] = useState<string | undefined>("light");
@@ -20,6 +19,7 @@ export const ThemeContextProvider = ({ children }: PropsWithChildren) => {
     const setNewTheme = (theme: string) => {
         setTheme(theme);
         setItem("theme", theme);
+        
         for(const theme of allThemes) {
             document.body.classList.remove(theme.name); 
         }

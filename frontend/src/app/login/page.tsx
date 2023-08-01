@@ -30,8 +30,8 @@ const Login: React.FC = () => {
         <div className="login-container">
             <form onSubmit={handleSubmit} className='login-form' method="POST">
                 <Image className="logo" src="/perfguardian-text-and-logo.svg" alt="perfguardian-text-and-logo" width="30" height="30" />
-                <InputText type='email' label="email" name="email" value={email} onChange={handleEmailChange} />
-                <InputText type='password' label="password" name="password" value={userPassword} onChange={handlePasswordChange} />
+                <InputText placeholder="Ex: Donkey@kong.com" type='email' label="email" name="email" value={email} onChange={handleEmailChange} />
+                <InputText placeholder="*****" type='password' label="password" name="password" value={userPassword} onChange={handlePasswordChange} />
                 <SubmitButton text="Submit" />
                 <div className='login-miscellaneous-services text-over-background'>
                     <span>

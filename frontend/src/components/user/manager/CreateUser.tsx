@@ -1,12 +1,12 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import InputText from "@/components/InputText";
 import { useAuth } from "@/context/AuthContext";
-import Image from "next/image";
-import SubmitButton from "@/components/button/SubmitButton";
 import { toast } from "react-toastify";
 import { handlePost } from "@/api/handleCall";
 import { User } from "@/types";
 import { Select } from "antd";
+import InputText from "@/components/InputText";
+import Image from "next/image";
+import SubmitButton from "@/components/button/SubmitButton";
 
 
 const CreateUser = ({ closeModal, refetch }: { closeModal: VoidFunction, refetch: VoidFunction }) => {
@@ -14,8 +14,7 @@ const CreateUser = ({ closeModal, refetch }: { closeModal: VoidFunction, refetch
     const [username, setUsername] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [userMail, setUserMail] = useState("");
-    const [role, setRole] = useState("Administrator"); // Set default role to Administrator
-
+    const [role, setRole] = useState("administrator");
 
     const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
@@ -74,9 +73,9 @@ const CreateUser = ({ closeModal, refetch }: { closeModal: VoidFunction, refetch
         <div className="create-user-container">
             <form onSubmit={handleSubmit} className='create-user-form' method='POST'>
                 <Image className="logo" src="/perfguardian-text-and-logo.svg" alt="perfguardian-text-and-logo" width="30" height="30" />
-                <InputText type='text' name='username' label="username" value={username} onChange={handleNameChange} />
-                <InputText type='password' name='password' label="password" value={userPassword} onChange={handlePasswordChange} />
-                <InputText type='email' name='email' label="email" value={userMail} onChange={handleUsermailChange} />
+                <InputText placeholder="Donkey Kong" type='text' name='username' label="username" value={username} onChange={handleNameChange} />
+                <InputText placeholder="******" type='password' name='password' label="password" value={userPassword} onChange={handlePasswordChange} />
+                <InputText placeholder="Donkey@Kong.fr" type='email' name='email' label="email" value={userMail} onChange={handleUsermailChange} />
                 <label className="create-user-dropdown-label">Role:</label>
                 <Select
                     className="create-user-dropdown"
