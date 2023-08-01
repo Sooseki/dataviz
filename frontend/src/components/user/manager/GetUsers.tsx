@@ -33,10 +33,6 @@ const GetUsers = () => {
         return useQueryUsers;
     });
 
-    if (!useQueryUsers) {
-        return null;
-    }
-
     const columns = [
         {
             title: "Name",
@@ -56,7 +52,7 @@ const GetUsers = () => {
     ];
     const startIndex = (currentPage - 1) * usersPerPage;
     const endIndex = startIndex + usersPerPage;
-    const currentUsers = useQueryUsers.data?.users?.slice(startIndex, endIndex);
+    const currentUsers = useQueryUsers?.data?.users?.slice(startIndex, endIndex);
 
     return (
         <div>
@@ -72,7 +68,7 @@ const GetUsers = () => {
                     <Pagination
                         current={currentPage}
                         pageSize={usersPerPage}
-                        total={useQueryUsers.data?.users?.length || 0}
+                        total={useQueryUsers?.data?.users?.length || 0}
                         onChange={(page) => setCurrentPage(page)}
                         style={{ marginTop: "10px", textAlign: "center" }}
                     />
