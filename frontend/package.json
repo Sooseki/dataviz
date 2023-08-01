@@ -16,6 +16,7 @@
     "@types/node": "20.3.1",
     "@types/react": "18.2.13",
     "@types/react-dom": "18.2.6",
+    "antd": "^5.7.3",
     "axios": "^1.4.0",
     "eslint-config-next": "13.4.6",
     "lighthouse": "^10.3.0",

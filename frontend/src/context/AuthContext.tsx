@@ -1,5 +1,5 @@
 "use client";
-import { handlePost, handlePut } from "@/api/handleCall";
+import { handlePost, handlePut, handleGet } from "@/api/handleCall";
 import { useLocalStorage } from "@/lib/useLocalStorage";
 import { AuthContextType, User, LoginResponse } from "@/types";
 import { useRouter } from "next/navigation";

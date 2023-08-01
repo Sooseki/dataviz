@@ -51,7 +51,7 @@ describe("createDomain", () => {
         expect(mClientUpdateOne).toHaveBeenCalledTimes(1);
         expect(mClientUpdateOne).toHaveBeenCalledWith({_id: "clientIdTest" }, {
             domains: [ ...mDomains, "newDomainId" ]
-        })
+        });
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
         expect(mJson).toHaveBeenCalledTimes(1);
@@ -71,7 +71,7 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "wrong clientId param" })
+        expect(mJson).toHaveBeenCalledWith({ error: "wrong clientId param" });
     });
 
     it("should return an error if url param is missing", async () => {

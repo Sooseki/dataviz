@@ -3,10 +3,11 @@ import Client from "../models/Client";
 import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import { getToken } from "../utils/handleToken";
+import { handleControllerErrors } from "../utils/handleControllerErrors";
 
 export const register = async (req: Request, res: Response): Promise<Response> => {
     const { name, email, password, company } = req.body;
-    const role = "admin";
+    const role = "administrator";
     try {
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -76,4 +77,52 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         console.error(err);
         return res.status(500).json({ msg: "something went wrong" });
     }
+};
+
+export const create = async (req: Request, res: Response): Promise<Response> => {
+    const { email, password, name, clientId, role } = req.body;
+    try {
+        if (!clientId) {
+            throw new Error("ClientId is missing");
+        }
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            throw new Error("Email already used, user already created");
+        }
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const user = await User.create({
+            name,
+            role,
+            email,
+            password: hashedPassword,
+        });
+
+        const client = await Client.findByIdAndUpdate(
+            clientId,
+            { $push: { users: user._id } },
+            { new: true }
+        );
+        
+        if (!client) {
+            throw new Error("Client not found");
+        }
+
+        return res.status(200).json({ msg: "User creation sucessfull", user });
+    } catch (err) { return handleControllerErrors(err, res, "Something went wrong in user creation");}
+};
+
+export const get = async (req: Request, res: Response): Promise<Response> => {
+    const { clientId } = req.query as { clientId: string | undefined };
+
+    try {
+        const client = await Client.findById(clientId).populate("users");
+        
+        if (!client) {
+            throw new Error("Client not found");
+        }
+
+        return res.status(200).json({ msg: "User recuperation is a sucess", users: client.users });
+    } catch (err) { return handleControllerErrors(err, res, "Something went wrong while fetching users");}
 };

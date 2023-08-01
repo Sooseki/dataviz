@@ -15,8 +15,8 @@ export const handleGet = async <T>(url: string): Promise<AxiosResponse<T> | unde
     const res = await axios.get(url, config)
         .then((data) => data)
         .catch((err) => console.error(err));
-    
-    if(!res) return undefined;
+
+    if (!res) return undefined;
 
     return res;
 };

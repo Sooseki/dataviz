@@ -26,6 +26,6 @@
 
 .add-domain-button {
   margin-top: 30px;
-  width: 25%;
+  width: fit-content;
   @include smallbutton;
 }

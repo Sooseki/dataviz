@@ -16,9 +16,21 @@ jest.mock("../models/Domain", () => ({
 
 const mClientFindOne = jest.fn();
 const mClientUpdateOne = jest.fn();
+const mClientFindByIdAndUpdate = jest.fn();
+const mClientFindById = jest.fn();
 jest.mock("../models/Client", () => ({
     findOne: mClientFindOne,
     updateOne: mClientUpdateOne,
+    findByIdAndUpdate: mClientFindByIdAndUpdate,
+    findById: mClientFindById
+}));
+
+
+const mUserCreate = jest.fn();
+const mUserFindOne = jest.fn();
+jest.mock("../models/User", () => ({
+    create: mUserCreate,
+    findOne: mUserFindOne
 }));
 
 export {
@@ -26,7 +38,11 @@ export {
     mDomainCreate,
     mDomainFindOne,
     mDomainUpdateOne,
+    mDomainFind,
     mClientFindOne,
     mClientUpdateOne,
-    mDomainFind,
+    mClientFindByIdAndUpdate,
+    mClientFindById,
+    mUserCreate,
+    mUserFindOne,
 };

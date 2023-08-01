@@ -4,7 +4,7 @@ export interface Client {
     name: string,
 }
 export interface User {
-    id: string,
+    _id: string;
     name: string,
     email: string,
     client: Client,
@@ -50,5 +50,10 @@ export interface ThemeContextType {
 
 export type LoginResponse = {
     token: string;
+    msg: string;
+};
+
+export type GetUsersResponse = {
+    users: User[];
     msg: string;
 };
