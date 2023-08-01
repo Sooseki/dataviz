@@ -98,12 +98,13 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
             email,
             password: hashedPassword,
         });
-        //TODO Setup cette requete dans tout le code
+
         const client = await Client.findByIdAndUpdate(
             clientId,
             { $push: { users: user._id } },
             { new: true }
         );
+        
         if (!client) {
             throw new Error("Client not found");
         }
