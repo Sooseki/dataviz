@@ -13,7 +13,7 @@ const simulationhub = async (url: string, browser: Browser): Promise<IDataset> =
     return { 
         timeToLoad: timeToLoadData,
         jsUseRate: jsUseRateData,
-        lightHouse: lighthouseFromPuppeteerData
+        ...lighthouseFromPuppeteerData
     };
 };
 
