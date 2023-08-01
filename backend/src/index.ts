@@ -6,6 +6,7 @@ import { getEnvVariable } from "./utils/getEnvVariable";
 import { userRoutes } from "./routes/userRoutes";
 import { metricRoutes } from "./routes/metricRoutes";
 import { domainRoutes } from "./routes/domainRoutes";
+import { createMetricsForAllDomains } from "./cron";
 const app = express();
 const port = getEnvVariable("PORT");
 
@@ -25,6 +26,8 @@ app.use("/domains", domainRoutes());
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");
 });
+
+createMetricsForAllDomains();
 
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);

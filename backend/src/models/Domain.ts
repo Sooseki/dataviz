@@ -1,7 +1,7 @@
 import { Schema, SchemaTypes, model } from "mongoose";
 
 const domainSchema = new Schema({
-    url: String,
+    url: { type: String, required: true },
     datasets: [{
         type: SchemaTypes.ObjectId,
         ref: "Dataset",

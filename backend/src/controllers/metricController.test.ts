@@ -1,10 +1,9 @@
-const mSimulationHub = jest.fn();
+const mRunSimulationForDomains = jest.fn();
 jest.mock("../simulation-workers/simulationsHub", () => ({
-    simulationhub: mSimulationHub,
+    runSimulationForDomains: mRunSimulationForDomains,
 }));
 
 import { mClientFindOne, mDatasetCreate, mDomainCreate, mDomainFindOne, mDomainUpdateOne } from "../tests/test-utils";
-import { IDataset } from "../types";
 import { createMetric, getMetrics } from "./metricController";
 import { Request, Response } from "express";
 
@@ -23,20 +22,19 @@ describe("createMetric", () => {
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus} as unknown as Response;
-        const simulationhubResponse: IDataset = {
-            timeToLoad: 0.760524,
-        };
-        mSimulationHub.mockResolvedValueOnce(simulationhubResponse);
-        mDomainFindOne.mockResolvedValueOnce({
+        const simulationhubResponse = [{ data: { timeToLoad: 0.760524 } }];
+        const mDomain = {
             id: "domainId",
             datasets: ["datasetId1", "datasetId2"]
-        });
+        }
+        mRunSimulationForDomains.mockResolvedValueOnce(simulationhubResponse);
+        mDomainFindOne.mockResolvedValueOnce(mDomain);
         mDatasetCreate.mockResolvedValueOnce({id: "newDatasetId"});
 
         await createMetric(req, res);
 
-        expect(mSimulationHub).toHaveBeenCalledTimes(1);
-        expect(mSimulationHub).toHaveBeenCalledWith(url);
+        expect(mRunSimulationForDomains).toHaveBeenCalledTimes(1);
+        expect(mRunSimulationForDomains).toHaveBeenCalledWith([mDomain]);
 
         expect(mDatasetCreate).toHaveBeenCalledTimes(1);
         expect(mDatasetCreate).toHaveBeenCalledWith({
@@ -45,7 +43,6 @@ describe("createMetric", () => {
         });
         expect(mDomainFindOne).toHaveBeenCalledTimes(1);
         expect(mDomainFindOne).toHaveBeenCalledWith({url});
-        expect(mDomainCreate).toHaveBeenCalledTimes(0);
         expect(mDomainUpdateOne).toHaveBeenCalledWith({ _id: "domainId" }, { datasets: ["datasetId1", "datasetId2", "newDatasetId"]});
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mJson).toHaveBeenCalledTimes(1);
@@ -53,40 +50,27 @@ describe("createMetric", () => {
         expect(mJson).toHaveBeenCalledWith({ msg: "metrics creation sucessfull", metrics: simulationhubResponse});
     });
 
-    it("should return the metrics to the user if domain doesn't exist", async () => {
+    it("should return 500 error status if domain doesn't exist", async () => {
         const url = "urlTest";
         const req = { body: { url } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
-        const simulationhubResponse: IDataset = {
-            timeToLoad: 0.760524,
-        };
-        mSimulationHub.mockResolvedValueOnce(simulationhubResponse);
+        const simulationhubResponse = [{ data: { timeToLoad: 0.760524 } }];
+        mRunSimulationForDomains.mockResolvedValueOnce(simulationhubResponse);
         mDomainFindOne.mockResolvedValueOnce(undefined);
-        mDatasetCreate.mockResolvedValueOnce({ id: "newDatasetId" });
-        mDomainCreate.mockResolvedValueOnce({ id: "newDomainId", datasets: ["datasetId1", "datasetId2"]});
 
         await createMetric(req, res);
 
-        expect(mSimulationHub).toHaveBeenCalledTimes(1);
-        expect(mSimulationHub).toHaveBeenCalledWith(url);
-
-        expect(mDatasetCreate).toHaveBeenCalledTimes(1);
-        expect(mDatasetCreate).toHaveBeenCalledWith({
-            date: new Date("2020-01-01"),
-            timeToLoad: 0.760524,
-        });
         expect(mDomainFindOne).toHaveBeenCalledTimes(1);
         expect(mDomainFindOne).toHaveBeenCalledWith({ url });
-        expect(mDomainCreate).toHaveBeenCalledTimes(1);
-        expect(mDomainCreate).toHaveBeenCalledWith({ url });
-        
-        expect(mDomainUpdateOne).toHaveBeenCalledWith({ _id: "newDomainId" }, { datasets: ["datasetId1", "datasetId2", "newDatasetId"] });
+        expect(mRunSimulationForDomains).toHaveBeenCalledTimes(0);
+        expect(mDatasetCreate).toHaveBeenCalledTimes(0);
+        expect(mDomainUpdateOne).toHaveBeenCalledTimes(0);
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mStatus).toHaveBeenCalledWith(200);
-        expect(mJson).toHaveBeenCalledWith({ msg: "metrics creation sucessfull", metrics: simulationhubResponse });
+        expect(mStatus).toHaveBeenCalledWith(500);
+        expect(mJson).toHaveBeenCalledWith({ error: "no domain found"});
     });
 
     it("should return 500 error status if simulationhub fails", async () => {
@@ -96,15 +80,19 @@ describe("createMetric", () => {
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
         const error = "error: couldn't get simulationhub";
-        mSimulationHub.mockRejectedValueOnce(error);
+        const mDomain = {
+            id: "domainId",
+            datasets: ["datasetId1", "datasetId2"]
+        }
+
+        mDomainFindOne.mockResolvedValueOnce(mDomain)
+        mRunSimulationForDomains.mockRejectedValueOnce(error);
         
         await createMetric(req, res);
 
-        expect(mSimulationHub).toHaveBeenCalledTimes(1);
-        expect(mSimulationHub).toHaveBeenCalledWith(url);
-
-        expect(mDatasetCreate).toHaveBeenCalledTimes(0);
-        expect(mDomainFindOne).toHaveBeenCalledTimes(0);
+        expect(mDomainFindOne).toHaveBeenCalledTimes(1);
+        expect(mRunSimulationForDomains).toHaveBeenCalledTimes(1);
+        expect(mRunSimulationForDomains).toHaveBeenCalledWith([mDomain]);
         expect(mDomainCreate).toHaveBeenCalledTimes(0);
 
         expect(mStatus).toHaveBeenCalledTimes(1);
@@ -119,14 +107,13 @@ describe("createMetric", () => {
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
         const error = "error: couldn't get simulationhub";
-        mSimulationHub.mockRejectedValueOnce(error);
+        mRunSimulationForDomains.mockRejectedValueOnce(error);
         
         await createMetric(req, res);
 
-        expect(mSimulationHub).toHaveBeenCalledTimes(0);
+        expect(mRunSimulationForDomains).toHaveBeenCalledTimes(0);
         expect(mDatasetCreate).toHaveBeenCalledTimes(0);
         expect(mDomainFindOne).toHaveBeenCalledTimes(0);
-        expect(mDomainCreate).toHaveBeenCalledTimes(0);
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mJson).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
@@ -142,7 +129,7 @@ describe("getMetrics", () => {
     it("should retrieve all the metrics", async () => {
         const domainId = "domainIdTest";
         const clientId = "clientIdTest";
-        const req = { params: { domainId, clientId } } as unknown as Request;
+        const req = { query: { domainId, clientId } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus} as unknown as Response;
@@ -178,7 +165,7 @@ describe("getMetrics", () => {
     it("should return an error if wrong domainId param", async () => {
         const domainId = 1234;
         const clientId = "clientIdTest";
-        const req = { params: { domainId, clientId } } as unknown as Request;
+        const req = { query: { domainId, clientId } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus} as unknown as Response;
@@ -196,7 +183,7 @@ describe("getMetrics", () => {
     it("should return an error if wrong clientId param", async () => {
         const domainId = "domainIdTest";
         const clientId = "";
-        const req = { params: { domainId, clientId } } as unknown as Request;
+        const req = { query: { domainId, clientId } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus} as unknown as Response;
@@ -214,7 +201,7 @@ describe("getMetrics", () => {
     it("should return an error if no domain found", async () => {
         const domainId = "domainIdTest";
         const clientId = "clientIdTest";
-        const req = { params: { domainId, clientId } } as unknown as Request;
+        const req = { query: { domainId, clientId } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus} as unknown as Response;
@@ -238,7 +225,7 @@ describe("getMetrics", () => {
     it("should return an error if domain is not cient's", async () => {
         const domainId = "domainIdTest";
         const clientId = "clientIdTest";
-        const req = { params: { domainId, clientId } } as unknown as Request;
+        const req = { query: { domainId, clientId } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus} as unknown as Response;
