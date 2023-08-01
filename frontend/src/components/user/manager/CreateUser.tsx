@@ -33,7 +33,7 @@ const CreateUser = ({ closeModal, refetch }: { closeModal: VoidFunction, refetch
         setRole(value);
     };
 
-    if (!user) {
+    if (!user || user.role !== "administrator") {
         return null;
     }
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
