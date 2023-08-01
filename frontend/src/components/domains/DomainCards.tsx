@@ -22,7 +22,6 @@ const DomainCards = () => {
     );
 
     if (!user) {
-        router.push("/login");
         return null;
     }
 

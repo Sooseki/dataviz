@@ -5,6 +5,12 @@ const Home = () => {
 
     return (
         <div>
+            <Breadcrumb items={[
+                {
+                    label: "Dashboard",
+                    path: "/"
+                }
+            ]} />
             <div className="dashboard">
                 <header className="dashboard-header">
                     <h1>Dashboard</h1>
@@ -79,13 +85,6 @@ const Home = () => {
                     <p>&copy; 2023 Your Dashboard</p>
                 </footer>
             </div>
-
-            <Breadcrumb items={[
-                {
-                    label: "Dashboard",
-                    path: "/"
-                }
-            ]}/>
         </div>
     );
 };
