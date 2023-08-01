@@ -16,9 +16,7 @@ const DomainCards = () => {
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
 
     const { data: useQueryDomains, refetch } = useQuery("get_domains", async () => 
-        await handleGet<{ domains: Domain[] }>(
-            `${host}/domains?clientId=${user?.client.id}`
-        )
+        await handleGet<{ domains: Domain[] }>(`${host}/domains?clientId=${user?.client.id}`)
     );
 
     if (!user) {
