@@ -1,8 +1,8 @@
 import { useAuth } from "@/context/AuthContext";
 import { FormEvent, useState } from "react";
-import InputText from "../InputText";
+import InputText from "../../InputText";
 import { toast } from "react-toastify";
-import SubmitButton from "../button/SubmitButton";
+import SubmitButton from "../../button/SubmitButton";
 
 const PasswordSettings = () => {
     const { user, changePassword } = useAuth();
