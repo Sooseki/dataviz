@@ -63,7 +63,6 @@ const GetUsers = () => {
                         columns={columns}
                         pagination={false}
                         rowKey={(user) => user._id}
-
                     />
                     <Pagination
                         current={currentPage}
@@ -78,7 +77,7 @@ const GetUsers = () => {
             )}
             {user?.role === "administrator" && 
                 <>
-                    <button className="add-user-button " onClick={() => setIsModalOpen(!isModalOpen)}>Ajouter un user</button>
+                    <button className="add-user-button " onClick={() => setIsModalOpen(!isModalOpen)}>Add User</button>
                     <Modal component={<CreateUser closeModal={() => setIsModalOpen(false)} refetch={refetch} />} isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} />
                 </>
             }

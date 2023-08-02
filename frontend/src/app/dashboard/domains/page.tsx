@@ -7,7 +7,7 @@ const Domains = () => {
         <>
             <div className="domains-container">
                 <div className="page-title">
-                    <h1>Domaines</h1>
+                    <h1>Domains</h1>
                 </div>
                 <DomainCards />
             </div>

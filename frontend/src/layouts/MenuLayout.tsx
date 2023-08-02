@@ -1,9 +1,7 @@
 "use client";
-
-import Navbar from "@/components/navbar/Navbar";
 import { ReactNode } from "react";
+import Navbar from "@/components/navbar/Navbar";
 
-/**TODO DEAL WITH STYLE => Navbar is floating */
 const MenuLayout = ({ children }: { children: ReactNode }) => {
     return (
         <>

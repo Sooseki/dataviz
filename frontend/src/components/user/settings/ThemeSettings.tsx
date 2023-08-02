@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Button from "../../button/Button";
 import { useTheme } from "@/context/ThemeContext";
+import Button from "../../button/Button";
 
 const ThemeSettings = () => {
     const { theme, allThemes, setNewTheme } = useTheme();
