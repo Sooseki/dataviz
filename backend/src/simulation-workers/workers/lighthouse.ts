@@ -10,7 +10,6 @@ import request from "request-promise-native";
 export const lighthouseFromPuppeteer = async (
     url: string
 ): Promise<LighthouseMetrics> => {
-    console.log(url)
     const results: LighthouseMetrics = {
         firstContentfulPaint: "",
         cumulativeLayoutShift: "",
@@ -37,7 +36,6 @@ export const lighthouseFromPuppeteer = async (
 };
 
 const getLightHouseBrowser = async (): Promise<{lighthouseBrowser: Browser, chrome: any, options: Options}> => {
-    
     const options: Options = {
         logLevel: "info",
         chromeFlags: ["--disable-mobile-emulation"]
@@ -52,4 +50,4 @@ const getLightHouseBrowser = async (): Promise<{lighthouseBrowser: Browser, chro
     const { webSocketDebuggerUrl } = JSON.parse(resp);
     const lighthouseBrowser = await puppeteer.connect({ browserWSEndpoint: webSocketDebuggerUrl });
     return {lighthouseBrowser, chrome, options};
-}
+};
