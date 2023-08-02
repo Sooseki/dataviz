@@ -39,7 +39,7 @@ const Register: React.FC = () => {
         <div className="login-container">
             <form onSubmit={handleSubmit} className='register-container' method='POST'>
                 <Image className="logo" src="/perfguardian-text-and-logo.svg" alt="perfguardian-text-and-logo" width="30" height="30" />
-                <InputText placeholder="Ex: Donkey Kong" type='text' name='username' label="username" value={username} onChange={handleNameChange} />
+                <InputText placeholder="E.g: Donkey Kong" type='text' name='username' label="username" value={username} onChange={handleNameChange} />
                 <InputText placeholder="*****" type='password' name='password' label="password" value={userPassword} onChange={handlePasswordChange} />
                 <InputText placeholder="Donkey@kong.com" type='email' name='email' label="email" value={userMail} onChange={handleUsermailChange} />
                 <InputText placeholder="Nintendo" type='company' name='company' label="company" value={userCompany} onChange={handleCompanyChange} />

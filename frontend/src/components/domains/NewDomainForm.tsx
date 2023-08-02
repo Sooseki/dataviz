@@ -56,8 +56,8 @@ const NewDomainForm = ({ closeModal, refetch }: { closeModal: VoidFunction, refe
             {inputError &&
                 <div className="create-domain-form-input-error">{inputError}</div>
             }
-            <InputText placeholder="Ex: http://www.hetic.net/" name="domain" label="url" value={newDomain} type="text" onChange={(e) => setNewDomain(e.target.value)} />
-            <button className="add-domain-button" type="submit">Validate</button>
+            <InputText placeholder="E.g: http://www.hetic.net/" name="domain" label="url" value={newDomain} type="text" onChange={(e) => setNewDomain(e.target.value)} />
+            <button className="add-domain-button" type="submit">Submit</button>
         </form>
     </div>;
 };

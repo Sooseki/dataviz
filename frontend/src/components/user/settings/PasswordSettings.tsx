@@ -58,7 +58,6 @@ const PasswordSettings = () => {
                     <div className="form-input-error">{inputError}</div>
                 }
                 <InputText
-                    placeholder=""
                     name="currentPassword" 
                     onChange={(event) => setCurrentPassword(event.target.value)}
                     label="Current password"
@@ -66,7 +65,6 @@ const PasswordSettings = () => {
                     value={currentPassword}
                 />
                 <InputText 
-                    placeholder=""
                     name="newPassword"
                     onChange={(event) => setNewPassword(event.target.value)}
                     label="New password"
@@ -74,7 +72,6 @@ const PasswordSettings = () => {
                     value={newPassword}
                 />
                 <InputText 
-                    placeholder=""
                     name="newPasswordConfirmation"
                     onChange={(event) => setNewPasswordConfirmation(event.target.value)}
                     label="New password confirmation"
