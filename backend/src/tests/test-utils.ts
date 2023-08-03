@@ -18,19 +18,26 @@ const mClientFindOne = jest.fn();
 const mClientUpdateOne = jest.fn();
 const mClientFindByIdAndUpdate = jest.fn();
 const mClientFindById = jest.fn();
+const mClientCreate = jest.fn();
 jest.mock("../models/Client", () => ({
     findOne: mClientFindOne,
     updateOne: mClientUpdateOne,
     findByIdAndUpdate: mClientFindByIdAndUpdate,
-    findById: mClientFindById
+    findById: mClientFindById,
+    create: mClientCreate,
+
 }));
 
 
 const mUserCreate = jest.fn();
 const mUserFindOne = jest.fn();
+const mUserFindById = jest.fn();
+const mUserUpdateOne = jest.fn();
 jest.mock("../models/User", () => ({
     create: mUserCreate,
-    findOne: mUserFindOne
+    findOne: mUserFindOne,
+    findById: mUserFindById,
+    updateOne: mUserUpdateOne,
 }));
 
 export {
@@ -44,5 +51,8 @@ export {
     mClientFindByIdAndUpdate,
     mClientFindById,
     mUserCreate,
+    mClientCreate,
     mUserFindOne,
+    mUserFindById,
+    mUserUpdateOne,
 };

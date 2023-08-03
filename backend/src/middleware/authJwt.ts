@@ -11,20 +11,21 @@ export const authJwt = (req: Request, res: Response, next: NextFunction): void =
 
         if (!jwtSecret) {
             res.status(500).json({ msg: "Internal server error" });
-            process.exit(1);
+            return;
         }
 
         jwt.verify(token, jwtSecret, (err) => {
             if (err) {
+                /// TODO : log error
                 console.log("err =>");
                 console.error(err);
                 res.status(403).json({ msg: "Invalid token" });
-                process.exit(1);
+                return;
             }
             next();
         });
     } else {
         res.sendStatus(401);
-        process.exit(1);
+        return;
     }
 };
