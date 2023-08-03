@@ -71,7 +71,7 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "wrong clientId param" });
+        expect(mJson).toHaveBeenCalledWith({ error: "Domain could not be created for this client." });
     });
 
     it("should return an error if url param is missing", async () => {
@@ -86,7 +86,7 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "wrong url param" })
+        expect(mJson).toHaveBeenCalledWith({ error: "Domain could not be created. Wrong url param" })
     });
 
     it("should return an error if client does not exist in DB", async () => {
@@ -107,7 +107,7 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "no client found" })
+        expect(mJson).toHaveBeenCalledWith({ error: "Domain could not be created. Client not found." })
     });
 
     it("should return an error if client domain already exists", async () => {
@@ -128,7 +128,7 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "domain already exists" })
+        expect(mJson).toHaveBeenCalledWith({ error: "Domain already exists" })
     });
 });
 
@@ -184,6 +184,6 @@ describe("getDomains", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "no client found" });
+        expect(mJson).toHaveBeenCalledWith({ error: "Client not found." });
     });
 });

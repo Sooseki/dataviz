@@ -29,26 +29,7 @@ const PasswordSettings = () => {
             return;
         }
         
-        try {
-            changePassword(user.email, newPassword, currentPassword);
-            toast(
-                "Password changed successfully !", 
-                { 
-                    type: "success",
-                    theme: "colored",
-                    position: "bottom-left"
-                }
-            );
-        } catch (err) {
-            toast(
-                "There has been an error in reseting your password. Please try again.", 
-                { 
-                    type: "error",
-                    theme: "colored",
-                    position: "bottom-left"
-                }
-            );
-        }
+        changePassword(user.email, newPassword, currentPassword);
     };
 
     return (

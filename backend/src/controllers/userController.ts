@@ -84,13 +84,11 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 export const create = async (req: Request, res: Response): Promise<Response> => {
     const { email, password, name, clientId, role } = req.body;
     try {
-        if (!clientId) {
-            throw new Error("ClientId is missing");
-        }
+        if (!clientId) throw new Error("Cannot create user for this client");
+
         const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            throw new Error("Email already used, user already created");
-        }
+        if (existingUser) throw new Error("Email already used, user already created");
+        
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 

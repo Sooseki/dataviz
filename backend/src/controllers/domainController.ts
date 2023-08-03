@@ -8,13 +8,13 @@ import { IClientPopulated } from "../types";
 export const createDomain = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { url, clientId } = req.body as { url: string | undefined, clientId: string | undefined };
-        if(!url || typeof url !== "string") throw new Error("wrong url param");
-        if(!clientId || typeof clientId !== "string") throw new Error("wrong clientId param");
+        if(!url || typeof url !== "string") throw new Error("Domain could not be created. Wrong url param");
+        if(!clientId || typeof clientId !== "string") throw new Error("Domain could not be created for this client.");
 
         const client: IClientPopulated | null = await Client.findOne({_id: clientId }).populate("domains");
-        if (!client) throw new Error("no client found");
+        if (!client) throw new Error("Domain could not be created. Client not found.");
 
-        if (clientDomainExists(client, url)) throw new Error("domain already exists");
+        if (clientDomainExists(client, url)) throw new Error("Domain already exists");
 
         const newDomain = await Domain.create({ url });
 
@@ -29,10 +29,10 @@ export const getDomains = async (req: Request, res: Response): Promise<Response>
     try {
         // TODO : get clientId from token
         const { clientId } = req.query as { clientId: string | undefined };
-        if(!clientId || typeof clientId !== "string") throw new Error("wrong clientId param");
+        if(!clientId || typeof clientId !== "string") throw new Error("Cannot get domains for this client.");
 
         const client = await Client.findOne({ _id: clientId });
-        if(!client) throw new Error("no client found");
+        if(!client) throw new Error("Client not found.");
 
         const domains = await Domain.find({
             "_id": { "$in": client.domains }
