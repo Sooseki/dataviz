@@ -1,6 +1,5 @@
 "use client";
 import Chart from "chart.js/auto";
-import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import TestChart from "@/components/charts/TestChart";
 import { CategoryScale } from "chart.js";
 Chart.register(CategoryScale);
@@ -24,14 +23,8 @@ const Home = () => {
 
     return (
         <div>
-            <Breadcrumb items={[
-                {
-                    label: "Dashboard",
-                    path: "/"
-                }
-            ]} />
             <div className="dashboard">
-                <header className="dashboard-header">
+                <header className="page-title">
                     <h1>Dashboard</h1>
                 </header>
 

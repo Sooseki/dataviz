@@ -9,7 +9,6 @@ const DomainCard = ({ domain }: { domain: Domain }) => {
         <Link
             className="domain-link"
             href={`/dashboard/domains/${domain._id}?name=${domainName}`}
-            target="_blank"
         >
             {domainName}
         </Link>
