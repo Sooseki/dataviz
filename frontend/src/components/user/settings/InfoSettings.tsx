@@ -1,7 +1,7 @@
 import { useAuth } from "@/context/AuthContext";
 import { FormEvent, useState } from "react";
-import InputText from "../InputText";
-import SubmitButton from "../button/SubmitButton";
+import InputText from "../../InputText";
+import SubmitButton from "../../button/SubmitButton";
 
 const InfoSettings = () => {
     const { changeOtherInfo } = useAuth();

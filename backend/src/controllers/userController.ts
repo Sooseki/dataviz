@@ -24,7 +24,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
             password: hashedPassword,
         });
 
-        await Client.create({
+        const client = await Client.create({
             name: company,
             users: [user.id]
         });

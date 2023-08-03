@@ -1,6 +1,5 @@
 import { useAuth } from "@/context/AuthContext";
 import { FormEvent, useState } from "react";
-import { toast } from "react-toastify";
 import InputText from "../../InputText";
 import SubmitButton from "../../button/SubmitButton";
 
