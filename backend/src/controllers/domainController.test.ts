@@ -13,7 +13,7 @@ const mDomains = [
     },
     {
         id: "domainId3",
-        url: "domainUrl3",
+        url: "https://domainUrl3.com",
     },
 ];
 
@@ -29,7 +29,7 @@ describe("createDomain", () => {
     };
 
     it("should create a new domain", async () => {
-        const url = "testUrl";
+        const url = "https://example.com";
         const req = { body: { url, clientId: "clientIdTest" }} as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
@@ -59,7 +59,7 @@ describe("createDomain", () => {
     });
     
     it("should return an error if clientId param is missing", async () => {
-        const url = "testUrl";
+        const url = "https://example.com";
         const req = { body: { url }} as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
@@ -90,7 +90,7 @@ describe("createDomain", () => {
     });
 
     it("should return an error if client does not exist in DB", async () => {
-        const url = "testUrl";
+        const url = "https://example.com";
         const req = { body: { url, clientId: "clientIdTest" }} as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
@@ -111,7 +111,7 @@ describe("createDomain", () => {
     });
 
     it("should return an error if client domain already exists", async () => {
-        const url = "domainUrl1";
+        const url = "https://domainUrl3.com";
         const req = { body: { url, clientId: "clientIdTest" }} as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));

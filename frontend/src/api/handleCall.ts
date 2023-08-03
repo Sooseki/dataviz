@@ -12,9 +12,7 @@ const config = {
 };
 
 export const handleGet = async <T>(url: string): Promise<AxiosResponse<T> | undefined> => {
-    const res = await axios.get(url, config)
-        .then((data) => data)
-        .catch((err) => console.error(err));
+    const res = await axios.get(url, config).catch((err) => err.response);
 
     if (!res) return undefined;
 
@@ -22,19 +20,15 @@ export const handleGet = async <T>(url: string): Promise<AxiosResponse<T> | unde
 };
 
 export const handlePost = async <T>(url: string, data: {}): Promise<AxiosResponse<T> | undefined> => {
-    const res = await axios.post(url, data, config)
-        .then((data) => data)
-        .catch((err) => console.error(err));
-    
+    const res = await axios.post(url, data, config).catch((err) => err.response);
+
     if(!res) return undefined;
 
     return res;
 };
 
 export const handlePut = async <T>(url: string, data: {}): Promise<AxiosResponse<T> | undefined> => {
-    const res = await axios.put(url, data, config)
-        .then((data) => data)
-        .catch((err) => console.error(err));
+    const res = await axios.put(url, data, config).catch((err) => err.response);
     
     if(!res) return undefined;
 
