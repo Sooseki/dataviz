@@ -4,6 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import InputText from "@/components/InputText";
 import SubmitButton from "@/components/button/SubmitButton";
+import Image from "next/image";
 
 const Login: React.FC = () => {
     const { logIn } = useAuth();
@@ -27,22 +28,21 @@ const Login: React.FC = () => {
     };
 
     return (
-        <>
-            <form onSubmit={handleSubmit} className='login-container' method="POST">
-                {/* TODO : change img to Img component */}
-                <img className='logo' src="/perfguardian-text-and-logo.svg" alt='perfguardian-text-and-logo' />
-                <InputText type='email' label="email" name="email" value={email} onChange={handleEmailChange} />
-                <InputText type='password' label="password" name="password" value={userPassword} onChange={handlePasswordChange} />
+        <div className="login-container">
+            <form onSubmit={handleSubmit} className='login-form' method="POST">
+                <Image className="logo" src="/perfguardian-text-and-logo.svg" alt="perfguardian-text-and-logo" width="30" height="30" />
+                <InputText placeholder="E.g: Donkey@kong.com" type='email' label="email" name="email" value={email} onChange={handleEmailChange} />
+                <InputText placeholder="*****" type='password' label="password" name="password" value={userPassword} onChange={handlePasswordChange} />
                 <SubmitButton text="Submit" />
                 <div className='login-miscellaneous-services text-over-background'>
                     <span>
-                        You don't have an account ?
-                        <Link className='miscellaneous-services-link' href="/register">  Sign up</Link>
+                        You don&apos;t have an account?
+                        <Link className='miscellaneous-services-link' href="/register">Sign up</Link>
                     </span>
                     <Link className='miscellaneous-services-link' href="/password-request">Forgot your password ?</Link>
                 </div>
             </form>
-        </>
+        </div>
     );
 };
 

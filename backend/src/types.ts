@@ -1,9 +1,12 @@
-import { ObjectId } from "mongoose"
+import { ObjectId } from "mongoose";
 
 export interface IDataset {
     timeToLoad: number | undefined,
     jsUseRate: JsUseRateResult[] | undefined,
-    lightHouse: LighthouseMetrics;
+    firstContentfulPaint: string,
+    cumulativeLayoutShift: string,
+    totalBlockingTime: string,
+    timeToInteractive: string
 } 
 
 export interface JsUseRateResult {
@@ -13,10 +16,10 @@ export interface JsUseRateResult {
     percentUsed: string;
 }
 export interface LighthouseMetrics {
-    first_contentful_paint: string;
-    cumulative_layout_shift: string;
-    total_blocking_time: string;
-    time_to_interactive: string;
+    firstContentfulPaint: string,
+    cumulativeLayoutShift: string,
+    totalBlockingTime: string,
+    timeToInteractive: string
 } 
 
 export interface IClient {

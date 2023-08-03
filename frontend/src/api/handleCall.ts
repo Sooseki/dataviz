@@ -1,7 +1,8 @@
 import axios from "axios";
 
 type AxiosResponse<T> = {
-    data: T;
+    data?: T;
+    error?: string;
 }
 
 
@@ -17,8 +18,8 @@ export const handleGet = async <T>(url: string, config?: Record<string, unknown>
     const res = await axios.get(url, config??defaultConfig)
         .then((data) => data)
         .catch((err) => console.error(err));
-    
-    if(!res) return undefined;
+
+    if (!res) return undefined;
 
     return res;
 };

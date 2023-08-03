@@ -1,82 +1,99 @@
-.navigation{
+.navigation {
     position: fixed;
     background-color: $grey-color;
-    top:0;
-    left: 0;
+    display: flex;
+    transform: unset;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
     height: 100%;
-    width: 100%;
     transition: transform 0.3s ease-out;
     transform: translateX(-100%);
     display: block;
-    @media (min-width: 1024px) {
-      width: 15%;
-      display: block;
-      transform: unset;
-    }
-    &_active{
-        display: block;
-        transform: translateX(0);
+    z-index: 9;
+    @media (min-width: $md) {
+        width: 15%;
+        display: flex;
+        transform: unset;
     }
     h1{
         position: absolute;
         left: -500000px;
+    } 
+    
+    &_active {
+        display: block;
+        transform: translateX(0);
     }
-    .logoContainer{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin-top: 15px;
+    &_header {
+        &_logo_container{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+    
+            @media (max-width: $md) {
+                margin-top: 2rem;
+            }  
+        }
+        &_items {
+            display: flex;
+            flex-direction: column;
+            margin-top: 1rem;
+        }
     }
     &_logo{
-        max-width: 80%;
-        display: none;
-        @media (min-width: 1024px) {
-            display: block;
-      }
-    }
-    &_items{
-        display: flex;
-        flex-direction: column;
-        margin-top: 70px;
-        @media (min-width: 1024px) {
-            margin-top: 20px;
-      }   
-    }
-    &_item{
+        max-width: 15rem;
+        width: 100%;
+        object-fit: contain;
+        display: block;
+    }   
+    
+    &_item {
         width: 100%;
         padding: 12px;
         padding-left: 20px;
         text-decoration: none;
+        border-left: 4px solid transparent;
+        transition: background-color 0.3s ease, border-left-color 0.3s ease;
         @include font($text-font, $title-font-size-xs, 700, $nightblue-darker-color, 22px);
-        &_active{
-            border-left: 4px solid $red-color;
+    
+        &_active, &:hover{
+            border-left-color: $red-color;
             background-color: $milky-white-darker-color;
         }
     }
     &_userContainer{
         display: flex;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
+        position: relative;
+        align-items: center;
+        margin: 0px 10px;
+        border-top: 1px solid $charcoal-darker-color;
     } 
     &_user{
         display: flex;
-        padding: 20px;
-        border-top: 1px solid $nightblue-darker-color;
+        padding: 20px 0px;
         align-items: center;
         width: 100%;
+        text-decoration: none;
         img{
             width: 30px;
             height: 30px;
             border-radius: 50%;
             margin-right: 7px;
+            background-color: $milky-white-color;
+            padding: 3px;
+            border: 1px solid $charcoal-darker-color;
         }
         p{
+            text-transform: capitalize !important;
             @include font($text-font, $title-font-size-xs, 400, $nightblue-darker-color, 22px);
             text-align: center;
         }
-    }
-
-  
-    
+    }   
 }
+
+
+
+
+

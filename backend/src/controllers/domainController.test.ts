@@ -51,7 +51,7 @@ describe("createDomain", () => {
         expect(mClientUpdateOne).toHaveBeenCalledTimes(1);
         expect(mClientUpdateOne).toHaveBeenCalledWith({_id: "clientIdTest" }, {
             domains: [ ...mDomains, "newDomainId" ]
-        })
+        });
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
         expect(mJson).toHaveBeenCalledTimes(1);
@@ -71,7 +71,7 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "wrong clientId param" })
+        expect(mJson).toHaveBeenCalledWith({ error: "wrong clientId param" });
     });
 
     it("should return an error if url param is missing", async () => {
@@ -145,7 +145,7 @@ describe("getDomains", () => {
 
     it("should retrieve client's domains", async () => {
         const clientId = "clientIdTest";
-        const req = { body: { clientId }} as unknown as Request;
+        const req = { query: { clientId }} as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
@@ -169,7 +169,7 @@ describe("getDomains", () => {
 
     it("should return a 500 error status if no client found", async () => {
         const clientId = "clientIdTest";
-        const req = { body: { clientId }} as unknown as Request;
+        const req = { query: { clientId }} as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;

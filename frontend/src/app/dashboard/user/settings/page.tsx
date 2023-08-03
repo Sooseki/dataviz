@@ -1,8 +1,8 @@
 "use client";
 
 import Tabs from "@/components/tabs/Tabs";
-import PasswordSettings from "@/components/userSettings/PasswordSettings";
-import ThemeSettings from "@/components/userSettings/ThemeSettings";
+import PasswordSettings from "@/components/user/settings/PasswordSettings";
+import ThemeSettings from "@/components/user/settings/ThemeSettings";
 import InfoSettings from "@/components/userSettings/InfoSettings";
 
 const UserSettings = () => {

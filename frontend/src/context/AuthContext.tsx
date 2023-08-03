@@ -10,17 +10,14 @@ import { toast } from "react-toastify";
 
 const AuthContext = createContext<AuthContextType>({});
 export const useAuth = () => useContext(AuthContext);
-
-
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     const router = useRouter();
     const [user, setUser] = useState<User | undefined>();
     const [token, setToken] = useState<string | undefined>();
-    const [isLoading, setIsLoading] = useState(true);
     const { getItem, removeItem, setItem } = useLocalStorage();
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
-
-
+    const [isLoading, setIsLoading] = useState(true);
+    
     const logIn = async (email: string, password: string) => {
         try {
             const authresult = await handlePost<LoginResponse>(`${host}/users/login`, { email, password });
@@ -28,13 +25,10 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
             if (!authresult || !authresult.data?.token) {
                 throw new Error("no user found");
             }
-            // TO DO : check the token info and push it to setUser()
-            setUser(decryptJWT(authresult.data?.token)); /// NECESSARY WHEN  decodeToken exist ?
             setToken(authresult.data?.token);
+            getUserFromToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
-            // DEL 
-
-            router.push("/");
+            router.push("/dashboard/domains");
         } catch (err) {
             toast("There has been an error. Please try again",
                 {
@@ -74,13 +68,12 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
             const authresult = await handlePost<LoginResponse>(`${host}/users/register`, { email, password, name, company });
 
             if (!authresult || !authresult.data?.token) {
-                throw new Error("could not register");
+                throw new Error("Could not register");
             }
-
-            setUser(decryptJWT(authresult.data?.token)); /// NECESSARY WHEN  decodeToken exist ?
             setToken(authresult.data?.token);
+            getUserFromToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
-            router.push("/");
+            router.push("/dashboard");
         } catch (err) {
             toast(
                 "There has been an error in registering. Please try again.",
@@ -95,7 +88,9 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
     const logOut = () => {
         removeItem("token");
+        setToken(undefined);
         setUser(undefined);
+        router.push("/login");
     };
 
     const changePassword = async (
@@ -138,7 +133,13 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         setToken(pswChangeResult.data?.token);
         // setUser(pswChangeResult.data?.user);
     };
+    const getUserFromToken = (userToken: string) => {
+        if (!userToken) return logOut();
 
+        const decodedToken: { user: User } | null = decodeToken(userToken);
+        if (!decodedToken?.user) return logOut();
+        setUser(decodedToken.user);
+    };
     const changeOtherInfo = async (
         email: string,
         name: string,
@@ -182,17 +183,13 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     };
 
     useEffect(() => {
-        if (!user) {
-            const userToken = getItem("token");
-            if (userToken) {
-                const decodedToken: { user: User } | null = decodeToken(userToken);
-                if (!decodedToken) return logOut();
-                setUser(decodedToken.user);
-            } else {
-                router.push("/login");
-                setIsLoading(false);
-                return logOut();
-            }
+        const userToken = getItem("token");
+
+        if (userToken) {
+            getUserFromToken(userToken);
+        } else {
+            setIsLoading(false);
+            return logOut();
         }
         setIsLoading(false);
     }, []);

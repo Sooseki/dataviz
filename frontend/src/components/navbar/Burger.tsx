@@ -15,8 +15,8 @@ function Burger() {
         <div className="burgerContainer">
             <svg
                 className={`burger-btn ${isActive ? "active" : ""}`}
-                width="80"
-                height="52"
+                width="40"
+                height="40"
                 viewBox="0 0 40 26"
                 xmlns="http://www.w3.org/2000/svg"
                 onClick={handleClick}

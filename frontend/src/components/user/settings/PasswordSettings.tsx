@@ -1,17 +1,17 @@
 import { useAuth } from "@/context/AuthContext";
 import { FormEvent, useState } from "react";
-import InputText from "../InputText";
 import { toast } from "react-toastify";
-import SubmitButton from "../button/SubmitButton";
+import InputText from "../../InputText";
+import SubmitButton from "../../button/SubmitButton";
 
 const PasswordSettings = () => {
-    const { changePassword } = useAuth();
+    const { user, changePassword } = useAuth();
     const [ inputError, setInputError ] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
     const [currentPassword, setCurrentPassword] = useState("");
 
-    if (!changePassword) return null;
+    if (!changePassword || !user) return null;
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -20,12 +20,10 @@ const PasswordSettings = () => {
             setInputError("Current password must be provided.");
             return;
         }
-
         if (!newPassword || !newPasswordConfirmation) {
             setInputError("New password must be provided.");
             return;
         }
-
         if (newPassword !== newPasswordConfirmation) {
             setInputError("New password and new password confirmation don't match.");
             return;
@@ -35,11 +33,11 @@ const PasswordSettings = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit} className="password-settings">
+            <form onSubmit={handleSubmit} className="password-settings form">
                 {inputError &&
                     <div className="form-input-error">{inputError}</div>
                 }
-                <InputText 
+                <InputText
                     name="currentPassword" 
                     onChange={(event) => setCurrentPassword(event.target.value)}
                     label="Current password"

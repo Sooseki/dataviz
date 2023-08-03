@@ -1,5 +1,4 @@
 import { AuthContextProvider } from "@/context/AuthContext";
-import { ThemeContextProvider } from "@/context/ThemeContext";
 import { ToastContainer } from "react-toastify";
 import "../styles/main.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,16 +8,14 @@ export const metadata = {
 };
 
 const RootLayout = ({children}: {
-  children: React.ReactNode
+    children: React.ReactNode
 }) => {
     return (
         <html lang="en">
             <body>
                 <AuthContextProvider>
-                    <ThemeContextProvider>
-                        {children}
-                        <ToastContainer />
-                    </ThemeContextProvider>
+                    {children}
+                    <ToastContainer />
                 </AuthContextProvider>
             </body>
         </html>
