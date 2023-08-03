@@ -1,0 +1,48 @@
+.dashboard {
+    background-color: $milky-white-color;
+    padding: 1rem;
+    min-height: 100vh;
+}
+
+.dashboard-header {
+    padding: 1rem 0;
+}
+
+.dashboard-main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.dashboard-section {
+    flex: 1;
+    min-width: 300px;
+    background-color: $milky-white-color;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+.metric-card {
+    background-color: $milky-white-color;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.metric-description {
+    color: $grey-color;
+    font-size: 0.9rem;
+}
+
+.dashboard-footer {
+    text-align: center;
+    padding: 1rem 0;
+}

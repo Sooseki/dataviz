@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Button from "../button/Button";
 import { useTheme } from "@/context/ThemeContext";
+import Button from "../../button/Button";
 
 const ThemeSettings = () => {
     const { theme, allThemes, setNewTheme } = useTheme();
@@ -12,21 +12,18 @@ const ThemeSettings = () => {
     }, [selectedTheme]);
 
     return (
-        <>
+        <div className="tabs-content">
             {allThemes?.map((theme) => {
                 return (
                     <Button 
+                        key={theme.name}
                         content={theme.label} 
                         onClick={() => setSelectedTheme(theme.name)} 
-                        classes={
-                            selectedTheme === theme.name
-                                ? ""
-                                : "main-button-hidden"
-                        }
+                        classes={selectedTheme === theme.name ? "main-button hidden" : "main-button"}
                     />
                 );
             })}
-        </>
+        </div>
     );
 };
 

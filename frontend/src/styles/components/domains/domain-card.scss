@@ -1,0 +1,34 @@
+.domain-card {
+    display: flex;
+    padding: 2rem;
+    box-shadow: $box-shadow-light;
+    -webkit-box-shadow: $box-shadow-light;
+    -moz-box-shadow: $box-shadow-light;
+    transition: background-color 0.3s ease;
+    flex-direction: column;
+    background: $milky-white-color;
+    border-radius: $border-radius-md;
+    .domain-link {
+        padding: 5px;
+        text-decoration: none;
+        color: $charcoal-darker-color;
+        text-transform: lowercase;
+        text-align: center;
+        display: block;
+        width: 100%;
+        height: 100%;
+        &::first-letter {
+          text-transform: uppercase;
+        }
+    }
+    &:hover {
+      background-color: $grey-color;
+      cursor: pointer;
+    }
+}
+
+.add-domain-button {
+    margin-top: 30px;
+    width: fit-content;
+    @include smallbutton;
+}

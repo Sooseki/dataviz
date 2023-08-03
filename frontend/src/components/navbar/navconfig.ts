@@ -1,17 +1,19 @@
+import { faChartSimple, faSitemap, faPeopleCarry } from "@fortawesome/free-solid-svg-icons";
+
 export const navConfig = {
-  "Dashboard": {
-    name: "Dashboard",
-    href: "/",
-    icon: ""
-  },
-  "Item 2": {
-    name: "Item 2",
-    href: "/item",
-    icon: "icon"
-  },
-  "Item 3": {
-    name: "Item 3",
-    href: "/item-3",
-    icon: "icon"
-  },
-}
+    "Dashboard": {
+        name: "Dashboard",
+        href: "/dashboard",
+        icon: faSitemap
+    },
+    "Domains": {
+        name: "Domains",
+        href: "/dashboard/domains",
+        icon: faChartSimple
+    },
+    "User Manager": {
+        name: "User Manager",
+        href: "/dashboard/user/manager",
+        icon: faPeopleCarry
+    },
+};

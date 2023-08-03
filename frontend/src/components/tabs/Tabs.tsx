@@ -17,7 +17,7 @@ const Tabs = ({ tabs }: Props) => {
             <div className="tabs-nav">
                 {tabs.map((tab) => {
                     return (
-                        <button className="tab-button" onClick={() => handleClick(tab)}>
+                        <button key={tab.label} className="tab-button" onClick={() => handleClick(tab)}>
                             {tab.label}
                         </button>
                     );
