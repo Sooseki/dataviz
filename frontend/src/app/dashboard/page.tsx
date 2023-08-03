@@ -1,7 +1,26 @@
 "use client";
+import Chart from "chart.js/auto";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
+import TestChart from "@/components/charts/TestChart";
+import { CategoryScale } from "chart.js";
+Chart.register(CategoryScale);
 
 const Home = () => {
+    const data = {
+        labels: ["Red", "Orange", "Blue"],
+        datasets: [
+            {
+                label: "Popularity of colours",
+                data: [55, 23, 96],
+                backgroundColor: [
+                    "rgba(255, 255, 255, 0.6)",
+                    "rgba(255, 255, 255, 0.6)",
+                    "rgba(255, 255, 255, 0.6)"
+                ],
+                borderWidth: 1,
+            }
+        ]
+    };
 
     return (
         <div>
@@ -80,7 +99,7 @@ const Home = () => {
                         </div>
                     </section>
                 </main>
-
+                <TestChart data={data} />
                 <footer className="dashboard-footer">
                     <p>&copy; 2023 Your Dashboard</p>
                 </footer>
