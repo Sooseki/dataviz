@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import InputText from "@/components/InputText";
 import SubmitButton from "@/components/button/SubmitButton";
@@ -33,7 +33,10 @@ const Register: React.FC = () => {
         return null;
     }
 
-    const handleSubmit = () => signUp(userMail, userPassword, username, userCompany);
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => { 
+        e.preventDefault(); 
+        signUp(userMail, userPassword, username, userCompany);
+    };
 
     return (
         <div className="login-container">

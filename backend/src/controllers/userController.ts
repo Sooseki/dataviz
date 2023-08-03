@@ -11,7 +11,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
     try {
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ msg: "Email already used, take another one" });
+            throw new Error("Email already used, user already created !");
         }
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -22,6 +22,11 @@ export const register = async (req: Request, res: Response): Promise<Response> =
             email,
             password: hashedPassword,
         });
+
+        const existingClient = await Client.findOne({ name: company });
+        if (existingClient) {
+            throw new Error("Company already registered !");
+        }
 
         const client = await Client.create({
             name: company,
@@ -37,10 +42,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
         const token = await getToken(payload);
 
         return res.status(200).json({ msg: "register sucessfull", token });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ msg: "something went wrong" });
-    }
+    } catch (err) { return handleControllerErrors(err, res, "Something went wrong in registration");}
 };
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
