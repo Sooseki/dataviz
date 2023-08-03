@@ -11,11 +11,15 @@ export interface User {
     role: string
 }
 export interface Metrics {
-    _id: string,
-    date: string,
-    timeToLoad: number | undefined,
-    jsUseRate: JsUseRateResult[] | undefined,
+    _id: string;
+    date: string;
+    timeToLoad: number;
+    jsUseRate: JsUseRateResult[] | undefined;
     lightHouse: LighthouseMetrics;
+    timeToInteractive: string | undefined;
+    firstContentfulPaint: string | undefined;
+    cumulativeLayoutShift: string | undefined;
+    totalBlockingTime: string | undefined;
 }
 export interface JsUseRateResult {
     url: string;
