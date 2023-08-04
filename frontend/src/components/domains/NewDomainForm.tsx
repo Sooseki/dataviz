@@ -26,7 +26,7 @@ const NewDomainForm = ({ closeModal, refetch }: { closeModal: VoidFunction, refe
         try {
             const data = await handlePost<{ domain: Domain }>(`${host}/domains/create`, { url: newDomain, clientId: user?.client.id });
 
-            if (data?.error) throw new Error("Could not add Domain");
+            if (!data?.data?.domain) throw new Error("Could not add Domain");
 
             toast(
                 "Domain added with success !",
