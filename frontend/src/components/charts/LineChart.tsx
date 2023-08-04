@@ -1,11 +1,11 @@
-import { Chart as ChartJS, ChartData, ChartOptions, TimeScale, LinearScale, PointElement, LineElement, LogarithmicScale, CategoryScale, Title, Tooltip, Legend, RadialLinearScale } from "chart.js";
+import { Chart as ChartJS, ChartData, ChartOptions, TimeScale, LinearScale, PointElement, LineElement, CategoryScale, Title, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { format } from "date-fns-tz";
 import { MetricsDataset } from "@/types";
 import { AxiosResponse } from "@/api/handleCall";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
-ChartJS.register(TimeScale, RadialLinearScale, LinearScale, PointElement, LineElement, LogarithmicScale, ChartDataLabels, CategoryScale, Title, Tooltip, Legend);
+ChartJS.register(TimeScale, LinearScale, PointElement, LineElement, ChartDataLabels, CategoryScale, Title, Tooltip, Legend);
 type MetricProperty = keyof MetricsDataset;
 
 interface props {
@@ -15,7 +15,7 @@ interface props {
 }
 
 const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
-    const convertedMetrics = metricsDatasets?.data?.metrics.map((dataset: MetricsDataset) => {
+    const convertedMetrics = metricsDatasets?.data?.metrics.map((dataset) => {
         const date = new Date(dataset.date);
         return {
             ...dataset,
@@ -35,7 +35,7 @@ const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
         datasets: [
             {
                 label: metricToStudy,
-                data: convertedMetrics.map((dataset: MetricsDataset) => dataset[metricToStudy] as number),
+                data: convertedMetrics.map((dataset) => dataset[metricToStudy] as number),
                 fill: false,
                 backgroundColor: "transparent",
                 borderColor: "#06a1e1",
