@@ -10,12 +10,11 @@ export interface User {
     client: Client,
     role: string
 }
-export interface Metrics {
+export interface MetricsDataset {
     _id: string;
     date: string;
     timeToLoad: number;
     jsUseRate: JsUseRateResult[] | undefined;
-    lightHouse: LighthouseMetrics;
     timeToInteractive: string | undefined;
     firstContentfulPaint: string | undefined;
     cumulativeLayoutShift: string | undefined;
