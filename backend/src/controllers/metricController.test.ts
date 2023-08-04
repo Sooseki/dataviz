@@ -70,7 +70,7 @@ describe("createMetric", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mJson).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
-        expect(mJson).toHaveBeenCalledWith({ error: "no domain found"});
+        expect(mJson).toHaveBeenCalledWith({ error: "Domain urlTest not found"});
     });
 
     it("should return 500 error status if simulationhub fails", async () => {
@@ -177,7 +177,7 @@ describe("getMetrics", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "domainId must be a string"});
+        expect(mJson).toHaveBeenCalledWith({ error: "Wrong domain id."});
     });
 
     it("should return an error if wrong clientId param", async () => {
@@ -195,7 +195,7 @@ describe("getMetrics", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "clientId must be a string"});
+        expect(mJson).toHaveBeenCalledWith({ error: "Cannot get metrics for this client."});
     });
  
     it("should return an error if no domain found", async () => {
@@ -219,7 +219,7 @@ describe("getMetrics", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "could not find domain domainIdTest for client clientIdTest"});
+        expect(mJson).toHaveBeenCalledWith({ error: "Could not find domain domainIdTest for this client"});
     });
 
     it("should return an error if domain is not cient's", async () => {

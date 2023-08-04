@@ -41,6 +41,7 @@ describe("create", () => {
         expect(mJson).toHaveBeenCalledTimes(1);
         expect(mJson).toHaveBeenCalledWith({ msg: "User creation sucessfull", user: newUser });
     });
+
     it("Return error 500 if clientId is null", async () => {
         const email = "newUserMail";
         const password = "newUserPassword";
@@ -61,8 +62,9 @@ describe("create", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "ClientId is missing"});
+        expect(mJson).toHaveBeenCalledWith({ error: "Cannot create user for this client"});
     });
+
     it("should return error if an user is found", async () => {
         const email = "newUserMail";
         const password = "newUserPassword";
@@ -86,6 +88,7 @@ describe("create", () => {
         expect(mJson).toHaveBeenCalledTimes(1);
         expect(mJson).toHaveBeenCalledWith({ error: "Email already used, user already created"});
     });
+
     it("should return error if a client is not found", async () => {
         const email = "newUserMail";
         const password = "newUserPassword";

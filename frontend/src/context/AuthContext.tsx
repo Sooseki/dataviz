@@ -21,15 +21,15 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         try {
             const authresult = await handlePost<LoginResponse>(`${host}/users/login`, { email, password });
 
-            if (!authresult || !authresult.data?.token) {
-                throw new Error("no user found");
-            }
+            if (!authresult || !authresult.data?.token) throw new Error(authresult?.error);
+
             setToken(authresult.data?.token);
             getUserFromToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
             router.push("/dashboard/domains");
         } catch (err) {
-            toast("There has been an error. Please try again",
+            toast(
+                err instanceof Error ? err.message : "There has been an error. Please try again",
                 {
                     type: "error",
                     theme: "colored",
@@ -42,16 +42,15 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         try {
             const authresult = await handlePost<LoginResponse>(`${host}/users/register`, { email, password, name, company });
 
-            if (!authresult || !authresult.data?.token) {
-                throw new Error("Could not register");
-            }
+            if (!authresult || !authresult.data?.token)  throw new Error(authresult?.error);
+
             setToken(authresult.data?.token);
             getUserFromToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
             router.push("/dashboard");
         } catch (err) {
             toast(
-                "There has been an error in registering. Please try again.",
+                err instanceof Error ? err.message : "There has been an error in registering. Please try again.",
                 {
                     type: "error",
                     theme: "colored",
@@ -82,22 +81,20 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
             });
 
             // TODO : correct API return values
-            if (!pswChangeResult || !pswChangeResult.data?.user) {
-                toast(
-                    "There has been an error in resetting password. Please try again.",
-                    {
-                        type: "error",
-                        theme: "colored",
-                        position: "bottom-left"
-                    }
-                );
-                throw new Error("There was an error in password resetting");
-            }
-
+            if (!pswChangeResult || !pswChangeResult.data?.user) throw new Error(pswChangeResult?.error);
+            toast(
+                "Password changed successfully !", 
+                { 
+                    type: "success",
+                    theme: "colored",
+                    position: "bottom-left"
+                }
+            );
+            
             setUser(pswChangeResult.data?.user);
         } catch (err) {
             toast(
-                "There has been an error in resetting password. Please try again.",
+                err instanceof Error ? err.message : "There has been an error in resetting password. Please try again.",
                 {
                     type: "error",
                     theme: "colored",
@@ -106,6 +103,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
             );
         }
     };
+
     const getUserFromToken = (userToken: string) => {
         if (!userToken) return logOut();
 
@@ -113,6 +111,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         if (!decodedToken?.user) return logOut();
         setUser(decodedToken.user);
     };
+
     useEffect(() => {
         const userToken = getItem("token");
 
