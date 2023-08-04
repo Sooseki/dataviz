@@ -45,8 +45,8 @@ const convertValueToMsNumber = (value: string): number => {
     const formatedValue = value.replace(/,/g,""); // retrieve thousand separator ,
     const [count, unit] = formatedValue.split(/\s/);
 
-    if (!unit || unit === "ms") return parseFloat(count);
-    if (unit === "s") return parseFloat(count) * 1000;
+    if (!unit || unit === "s") return parseFloat(count);
+    if (unit === "ms") return parseFloat(count) * 1000;
 
     return 0
 }
