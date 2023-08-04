@@ -10,12 +10,15 @@ export interface User {
     client: Client,
     role: string
 }
-export interface Metrics {
-    _id: string,
-    date: string,
-    timeToLoad: number | undefined,
-    jsUseRate: JsUseRateResult[] | undefined,
-    lightHouse: LighthouseMetrics;
+export interface MetricsDataset {
+    _id: string;
+    date: string;
+    timeToLoad: number;
+    jsUseRate: JsUseRateResult[] | undefined;
+    timeToInteractive: number | undefined;
+    firstContentfulPaint: number | undefined;
+    cumulativeLayoutShift: number | undefined;
+    totalBlockingTime: number | undefined;
 }
 export interface JsUseRateResult {
     url: string;

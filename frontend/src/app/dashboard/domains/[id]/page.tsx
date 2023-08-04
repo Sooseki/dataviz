@@ -1,10 +1,11 @@
 "use client";
 import { handleGet } from "@/api/handleCall";
 import { useQuery } from "react-query";
-import { Metrics } from "@/types";
+import { MetricsDataset } from "@/types";
 import { useParams, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
+import LineChart from "@/components/charts/LineChart";
 
 const Domain = () => {
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
@@ -12,12 +13,12 @@ const Domain = () => {
     const domain = useParams();
     const { user } = useAuth();
 
-    const { data: useQueryMetrics } = useQuery("metrics", async () => {
-        return await handleGet<{ metrics: Metrics[] }>(
+    const { data: useQueryMetrics } = useQuery("get_metrics", async () => {
+        return await handleGet<{ metrics: MetricsDataset[] }>(
             `${host}/metrics?domainId=${domain.id}&clientId=${user?.client.id}`
         );
     });
-    
+
     return (
         <>
             <div className="metrics-container">
@@ -36,15 +37,7 @@ const Domain = () => {
                         path: domain.id.toString()
                     }
                 ]} />
-                {useQueryMetrics?.data?.metrics.map((metric) => {
-                    return (
-                        <div key={metric._id}>
-                            <p>
-                                Time to Load : {metric.timeToLoad}
-                            </p>
-                        </div>
-                    );
-                })}
+                {useQueryMetrics && <LineChart metricsDatasets={useQueryMetrics} metricToStudy={"timeToLoad"} graphTitle={"Time to load (In miliseconds by session)"}/>}
             </div>
         </>
     );
