@@ -11,7 +11,7 @@ export type BreadcrumbsProps = {
 
 const Breadcrumb = ({ items }: BreadcrumbsProps) => {
     return (
-        <div>
+        <div className="breadcrumb">
             {items.map((crumb, i) => {
                 const isLastItem = i === items.length - 1;
                 if (!isLastItem) {

@@ -21,7 +21,7 @@ h2 {
   display: block;
   font-family: $title-font;
   font-size: $title-font-size-xl;
-  margin-bottom: 2rem;
+  margin-bottom: 0.6rem;
   text-transform: lowercase;
   &::first-letter {
       text-transform: uppercase;

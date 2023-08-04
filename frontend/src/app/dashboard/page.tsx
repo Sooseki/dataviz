@@ -1,17 +1,10 @@
 "use client";
-import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 
 const Home = () => {
     return (
         <div>
-            <Breadcrumb items={[
-                {
-                    label: "Dashboard",
-                    path: "/"
-                }
-            ]} />
             <div className="dashboard">
-                <header className="dashboard-header">
+                <header className="page-title">
                     <h1>Dashboard</h1>
                 </header>
 
