@@ -3,10 +3,10 @@ import { Schema, model } from "mongoose";
 const datasetSchema = new Schema({
     date: Date,
     timeToLoad: Number,
-    firstContentfulPaint: String,
-    cumulativeLayoutShift: String,
-    totalBlockingTime: String,
-    timeToInteractive: String,
+    firstContentfulPaint: Number,
+    cumulativeLayoutShift: Number,
+    totalBlockingTime: Number,
+    timeToInteractive: Number,
     jsUseRate: [Schema.Types.Mixed]
 });
 
