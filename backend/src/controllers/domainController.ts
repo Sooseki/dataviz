@@ -4,11 +4,14 @@ import Domain from "../models/Domain";
 import { clientDomainExists } from "../utils/client";
 import { handleControllerErrors } from "../utils/handleControllerErrors";
 import { IClientPopulated } from "../types";
+import { isValidUrl } from "../utils/domain";
 
 export const createDomain = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { url, clientId } = req.body as { url: string | undefined, clientId: string | undefined };
-        if(!url || typeof url !== "string") throw new Error("Domain could not be created. Wrong url param");
+
+        const urlIsValid = isValidUrl(url);
+        if(!urlIsValid) throw new Error("Domain could not be created. Wrong url param");
         if(!clientId || typeof clientId !== "string") throw new Error("Domain could not be created for this client.");
 
         const client: IClientPopulated | null = await Client.findOne({_id: clientId }).populate("domains");
@@ -21,6 +24,7 @@ export const createDomain = async (req: Request, res: Response): Promise<Respons
         await Client.updateOne({_id: clientId }, {
             domains: [ ...client.domains, newDomain.id ]
         });
+
         return res.status(200).json({ domain: newDomain });
     } catch (err) { return handleControllerErrors(err, res, "domain could not be created") };
 };
