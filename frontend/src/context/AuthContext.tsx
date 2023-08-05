@@ -22,15 +22,15 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         try {
             const authresult = await handlePost<LoginResponse>(`${host}/users/login`, { email, password });
 
-            if (!authresult || !authresult.data?.token) {
-                throw new Error("no user found");
-            }
+            if (!authresult || !authresult.data?.token) throw new Error(authresult?.error);
+
             setToken(authresult.data?.token);
             getUserFromToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
             router.push("/dashboard/domains");
         } catch (err) {
-            toast("There has been an error. Please try again",
+            toast(
+                err instanceof Error ? err.message : "There has been an error. Please try again",
                 {
                     type: "error",
                     theme: "colored",
@@ -67,16 +67,15 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         try {
             const authresult = await handlePost<LoginResponse>(`${host}/users/register`, { email, password, name, company });
 
-            if (!authresult || !authresult.data?.token) {
-                throw new Error("Could not register");
-            }
+            if (!authresult || !authresult.data?.token)  throw new Error(authresult?.error);
+
             setToken(authresult.data?.token);
             getUserFromToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
             router.push("/dashboard");
         } catch (err) {
             toast(
-                "There has been an error in registering. Please try again.",
+                err instanceof Error ? err.message : "There has been an error in registering. Please try again.",
                 {
                     type: "error",
                     theme: "colored",
@@ -133,6 +132,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         setToken(pswChangeResult.data?.token);
         // setUser(pswChangeResult.data?.user);
     };
+
     const getUserFromToken = (userToken: string) => {
         if (!userToken) return logOut();
 

@@ -13,7 +13,7 @@ export const createMetric = async (req: Request, res: Response): Promise<Respons
 
         // TODO : find by url and client id when we can access it in token
         const domain = await Domain.findOne({ url });
-        if (!domain) throw new Error("no domain found");
+        if (!domain) throw new Error(`Domain ${url} not found`);
 
         const metrics = await runSimulationForDomains([domain]);
         const dataset = await Dataset.create({
@@ -33,11 +33,11 @@ export const getMetrics = async (req: Request, res: Response): Promise<Response>
     try {
         // TODO : use token instead to get clientId to make sure user has only access to his own resources
         const { domainId, clientId } = req.query as { domainId: string | undefined, clientId: string | undefined };
-        if (!domainId || typeof domainId !== "string") throw new Error("domainId must be a string");
-        if(!clientId || typeof clientId !== "string") throw new Error("clientId must be a string");
+        if (!domainId || typeof domainId !== "string") throw new Error("Wrong domain id.");
+        if(!clientId || typeof clientId !== "string") throw new Error("Cannot get metrics for this client.");
 
         const domain = await Domain.findOne({_id: domainId }).populate("datasets");
-        if(!domain) throw new Error(`could not find domain ${domainId} for client ${clientId}`);
+        if(!domain) throw new Error(`Could not find domain ${domainId} for this client`);
 
         const client = await Client.findOne({_id: clientId });
         if (!client?.domains.find((domain) => domain.toString() === domainId))

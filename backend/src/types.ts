@@ -3,10 +3,10 @@ import { ObjectId } from "mongoose";
 export interface IDataset {
     timeToLoad: number | undefined,
     jsUseRate: JsUseRateResult[] | undefined,
-    firstContentfulPaint: string,
-    cumulativeLayoutShift: string,
-    totalBlockingTime: string,
-    timeToInteractive: string
+    firstContentfulPaint: number,
+    cumulativeLayoutShift: number,
+    totalBlockingTime: number,
+    timeToInteractive: number
 } 
 
 export interface JsUseRateResult {
@@ -16,10 +16,10 @@ export interface JsUseRateResult {
     percentUsed: string;
 }
 export interface LighthouseMetrics {
-    firstContentfulPaint: string,
-    cumulativeLayoutShift: string,
-    totalBlockingTime: string,
-    timeToInteractive: string
+    firstContentfulPaint: number,
+    cumulativeLayoutShift: number,
+    totalBlockingTime: number,
+    timeToInteractive: number
 } 
 
 export interface IClient {

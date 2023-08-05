@@ -44,9 +44,8 @@ const CreateUser = ({ closeModal, refetch }: { closeModal: VoidFunction, refetch
         try {
             const createUserResult = await handlePost<{ user: User }>(`${host}/users/create`, { email: userMail, password: userPassword, name: username, clientId, role });
 
-            if (!createUserResult || !createUserResult.data?.user) {
-                throw new Error("Could not create a new user");
-            }
+            if (!createUserResult || !createUserResult.data?.user) throw new Error(createUserResult?.error);
+
             toast(
                 "User has been created !",
                 {
@@ -58,9 +57,8 @@ const CreateUser = ({ closeModal, refetch }: { closeModal: VoidFunction, refetch
             refetch();
             closeModal();
         } catch (err) {
-            console.log("this is error", err);
             toast(
-                "There has been an error in user creation. Please try again.",
+                err instanceof Error ? err.message : "There has been an error in user creation. Please try again.",
                 {
                     type: "error",
                     theme: "colored",

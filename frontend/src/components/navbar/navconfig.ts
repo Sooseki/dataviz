@@ -9,7 +9,7 @@ export const navConfig = {
     "Domains": {
         name: "Domains",
         href: "/dashboard/domains",
-        icon: faChartSimple
+        icon: faChartSimple,
     },
     "User Manager": {
         name: "User Manager",

@@ -12,7 +12,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
     try {
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            throw new Error("Email already used, take another one");
+            throw new Error("Email already used, user already created !");
         }
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -23,6 +23,11 @@ export const register = async (req: Request, res: Response): Promise<Response> =
             email,
             password: hashedPassword,
         });
+
+        const existingClient = await Client.findOne({ name: company });
+        if (existingClient) {
+            throw new Error("Company already registered !");
+        }
 
         const client = await Client.create({
             name: company,
@@ -39,7 +44,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
         const token = await getToken(payload);
 
         return res.status(200).json({ msg: "register sucessfull", token });
-    } catch (err) { return handleControllerErrors(err, res, "something went wrong during the proccess of register user"); }
+    } catch (err) { return handleControllerErrors(err, res, "Something went wrong in registration");}
 };
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
@@ -129,13 +134,11 @@ export const updateUser = async (req: Request, res: Response) => {
 export const create = async (req: Request, res: Response): Promise<Response> => {
     const { email, password, name, clientId, role } = req.body;
     try {
-        if (!clientId) {
-            throw new Error("ClientId is missing");
-        }
+        if (!clientId) throw new Error("Cannot create user for this client");
+
         const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            throw new Error("Email already used, user already created");
-        }
+        if (existingUser) throw new Error("Email already used, user already created");
+        
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 

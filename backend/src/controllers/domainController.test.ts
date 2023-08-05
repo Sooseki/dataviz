@@ -13,7 +13,7 @@ const mDomains = [
     },
     {
         id: "domainId3",
-        url: "domainUrl3",
+        url: "https://domainUrl3.com",
     },
 ];
 
@@ -29,7 +29,7 @@ describe("createDomain", () => {
     };
 
     it("should create a new domain", async () => {
-        const url = "testUrl";
+        const url = "https://example.com";
         const req = { body: { url, clientId: "clientIdTest" }} as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
@@ -59,7 +59,7 @@ describe("createDomain", () => {
     });
     
     it("should return an error if clientId param is missing", async () => {
-        const url = "testUrl";
+        const url = "https://example.com";
         const req = { body: { url }} as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
@@ -71,7 +71,7 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "wrong clientId param" });
+        expect(mJson).toHaveBeenCalledWith({ error: "Domain could not be created for this client." });
     });
 
     it("should return an error if url param is missing", async () => {
@@ -86,11 +86,11 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "wrong url param" })
+        expect(mJson).toHaveBeenCalledWith({ error: "Domain could not be created. Wrong url param" })
     });
 
     it("should return an error if client does not exist in DB", async () => {
-        const url = "testUrl";
+        const url = "https://example.com";
         const req = { body: { url, clientId: "clientIdTest" }} as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
@@ -107,11 +107,11 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "no client found" })
+        expect(mJson).toHaveBeenCalledWith({ error: "Domain could not be created. Client not found." })
     });
 
     it("should return an error if client domain already exists", async () => {
-        const url = "domainUrl1";
+        const url = "https://domainUrl3.com";
         const req = { body: { url, clientId: "clientIdTest" }} as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
@@ -128,7 +128,7 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "domain already exists" })
+        expect(mJson).toHaveBeenCalledWith({ error: "Domain already exists" })
     });
 });
 
@@ -184,6 +184,6 @@ describe("getDomains", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "no client found" });
+        expect(mJson).toHaveBeenCalledWith({ error: "Client not found." });
     });
 });
