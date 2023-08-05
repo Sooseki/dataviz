@@ -7,7 +7,7 @@ jest.mock("../utils/handleToken", () => ({
 
 import { mUserCreate, mUserFindOne, mClientFindByIdAndUpdate, mClientFindById, mClientCreate, mClientFindOne, mUserFindById, mUserUpdateOne } from "../tests/test-utils";
 import { Request, Response } from "express";
-import { create, get, register, login, updatePassword } from "./userController";
+import { create, get, register, login, updatePassword, updateUser } from "./userController";
 
 describe("create", () => {
     beforeEach(() => {
@@ -237,7 +237,7 @@ describe("register", () => {
     });
 
 
-    it("should trigger an error", async () => {
+    it("should trigger an error because email is already used", async () => {
         const name = "newUserName";
         const email = "newUserMail";
         const password = "newUserPassword";
@@ -379,7 +379,7 @@ describe("updatePassword", () => {
     beforeEach(() => {
         jest.resetAllMocks();
     });
-    it("should update a user", async () => {
+    it("should update a password", async () => {
         const currentPassword = "oldUserPassword";
         const newPassword = "newUserPassword";
         const id = "idUserTest";
@@ -389,15 +389,16 @@ describe("updatePassword", () => {
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
 
-        mUserFindById.mockResolvedValueOnce({ _id: "idUserTest", password: "$2a$12$OTguFvVCy2lty6l5mKsMr.FhL0TqhAxJFinKSKT5D6b9uB5Tja4TK" });
+        mUserFindById.mockResolvedValueOnce({ id, password: "$2a$12$OTguFvVCy2lty6l5mKsMr.FhL0TqhAxJFinKSKT5D6b9uB5Tja4TK" });
         mUserUpdateOne.mockResolvedValueOnce(" ");
+        mGetToken.mockResolvedValueOnce("token");
         await updatePassword(req, res);
 
         expect(mUserFindById).toHaveBeenCalledTimes(1);
         expect(mUserFindById).toHaveBeenCalledWith(id);
 
         expect(mUserUpdateOne).toHaveBeenCalledTimes(1);
-        expect(mUserUpdateOne).toHaveBeenCalledWith({ _id : id });
+        expect(mUserUpdateOne).toHaveBeenCalledWith({ _id : id }, {password: expect.any(String)});
 
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
@@ -405,9 +406,139 @@ describe("updatePassword", () => {
         expect(mJson).toHaveBeenCalledTimes(1);
         expect(mJson).toHaveBeenCalledWith({ msg: "register new password", token: "token" });
     });
+    it("should return an error because user do not exist with this id ", async () => {
+        const currentPassword = "oldUserPassword";
+        const newPassword = "newUserPassword";
+        const id = "idUserTest";
+        
+        const req = { body: { currentPassword, newPassword, id } } as unknown as Request;
+        const mJson = jest.fn();
+        const mStatus = jest.fn(() => ({ json: mJson }));
+        const res = { status: mStatus } as unknown as Response;
+
+        mUserFindById.mockResolvedValueOnce(undefined);
+       
+        await updatePassword(req, res);
+
+        expect(mUserFindById).toHaveBeenCalledTimes(1);
+        expect(mUserFindById).toHaveBeenCalledWith(id);
+
+        expect(mStatus).toHaveBeenCalledTimes(1);
+        expect(mStatus).toHaveBeenCalledWith(500);
+
+        expect(mJson).toHaveBeenCalledTimes(1);
+        expect(mJson).toHaveBeenCalledWith({ error: "user not found" });
+    });
+    it("should return an error because of password dont match", async () => {
+        const currentPassword = "oldUserPassword";
+        const newPassword = "newUserPassword";
+        const id = "idUserTest";
+        
+        const req = { body: { currentPassword, newPassword, id } } as unknown as Request;
+        const mJson = jest.fn();
+        const mStatus = jest.fn(() => ({ json: mJson }));
+        const res = { status: mStatus } as unknown as Response;
+
+        mUserFindById.mockResolvedValueOnce({ id, password: "notTheSamePassword" });
+
+        await updatePassword(req, res);
+
+        expect(mUserFindById).toHaveBeenCalledTimes(1);
+        expect(mUserFindById).toHaveBeenCalledWith(id);
+
+        
+
+        expect(mStatus).toHaveBeenCalledTimes(1);
+        expect(mStatus).toHaveBeenCalledWith(500);
+
+        expect(mJson).toHaveBeenCalledTimes(1);
+        expect(mJson).toHaveBeenCalledWith({ error: "current password is not valid" });
+    });
 });
 
+describe("updateUser", () => {
+    beforeEach(() => {
+        jest.resetAllMocks();
+    });
+    it("should update user info (except password)", async () => {
+        const name = "newUserName";
+        const email = "newUserMail";
+        const id = "idUserTest";
 
-// login
-// updatePassword
-// updateUser
+        const req = { body: { name, email, id } } as unknown as Request;
+        const mJson = jest.fn();
+        const mStatus = jest.fn(() => ({ json: mJson }));
+        const res = { status: mStatus } as unknown as Response;
+
+        mUserFindById.mockResolvedValueOnce({ id, password: "$2a$12$OTguFvVCy2lty6l5mKsMr.FhL0TqhAxJFinKSKT5D6b9uB5Tja4TK" });
+        mUserFindOne.mockResolvedValueOnce(undefined);
+
+        mUserUpdateOne.mockResolvedValueOnce(" ");
+        mGetToken.mockResolvedValueOnce("token");
+
+        await updateUser(req, res);
+
+        expect(mUserFindById).toHaveBeenCalledTimes(1);
+        expect(mUserFindById).toHaveBeenCalledWith(id);
+
+        expect(mUserFindOne).toHaveBeenCalledTimes(1);
+        expect(mUserFindOne).toHaveBeenCalledWith({ email });
+
+        expect(mStatus).toHaveBeenCalledTimes(1);
+        expect(mStatus).toHaveBeenCalledWith(200);
+
+        expect(mJson).toHaveBeenCalledTimes(1);
+        expect(mJson).toHaveBeenCalledWith({ msg: "register new user info sucessfull", token: "token" });
+    });
+    it("should return an error because it dosnt find the user with this id", async () => {
+        const name = "newUserName";
+        const email = "newUserMail";
+        const id = "idUserTest";
+
+        const req = { body: { name, email, id } } as unknown as Request;
+        const mJson = jest.fn();
+        const mStatus = jest.fn(() => ({ json: mJson }));
+        const res = { status: mStatus } as unknown as Response;
+
+        mUserFindById.mockResolvedValueOnce(undefined);
+
+        await updateUser(req, res);
+
+        expect(mUserFindById).toHaveBeenCalledTimes(1);
+        expect(mUserFindById).toHaveBeenCalledWith(id);
+
+        expect(mStatus).toHaveBeenCalledTimes(1);
+        expect(mStatus).toHaveBeenCalledWith(500);
+
+        expect(mJson).toHaveBeenCalledTimes(1);
+        expect(mJson).toHaveBeenCalledWith({ error: "user not found" });
+    });
+    it("should return an error because the new mail wanted is already used", async () => {
+        const name = "newUserName";
+        const email = "newUserMail";
+        const id = "idUserTest";
+
+        const req = { body: { name, email, id } } as unknown as Request;
+        const mJson = jest.fn();
+        const mStatus = jest.fn(() => ({ json: mJson }));
+        const res = { status: mStatus } as unknown as Response;
+
+        mUserFindById.mockResolvedValueOnce({ id, password: "$2a$12$OTguFvVCy2lty6l5mKsMr.FhL0TqhAxJFinKSKT5D6b9uB5Tja4TK" });
+        mUserFindOne.mockResolvedValueOnce(true);
+
+        await updateUser(req, res);
+
+        expect(mUserFindById).toHaveBeenCalledTimes(1);
+        expect(mUserFindById).toHaveBeenCalledWith(id);
+
+        expect(mUserFindOne).toHaveBeenCalledTimes(1);
+        expect(mUserFindOne).toHaveBeenCalledWith({ email });
+
+        expect(mStatus).toHaveBeenCalledTimes(1);
+        expect(mStatus).toHaveBeenCalledWith(500);
+
+        expect(mJson).toHaveBeenCalledTimes(1);
+        expect(mJson).toHaveBeenCalledWith({ error: "Email already used, take another one" });
+    });
+});
+

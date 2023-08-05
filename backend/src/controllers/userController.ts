@@ -76,29 +76,21 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 export const updatePassword = async (req: Request, res: Response) => {
     const { currentPassword, newPassword, id } = req.body;
     try {
-
-        console.log("will - findUserById");
         const user = await User.findById(id);
-        console.log("done - findUserById");
         if (!user) throw new Error("user not found");
 
         const salt = await bcrypt.genSalt(10);
-        console.log("will - compare passwords");
         const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
-        console.log("done - compare passwords");
 
-        console.log("will - check if current password is valid");
         if (!isCurrentPasswordValid) throw new Error("current password is not valid");
-        console.log("will - hashpassword");
         const newHashedPassword = await bcrypt.hash(newPassword, salt);
-        console.log("will - update password");
+
         await User.updateOne({ _id: user.id }, {
             password: newHashedPassword
         });
-        console.log("done - update password");
+
         const payload = { user };
         const token = await getToken(payload);
-        console.log("done - get token");
         return res.status(200).json({ msg: "register new password", token });
     } catch (err) { return handleControllerErrors(err, res, "An error occurred while updating the password"); }
 };
@@ -108,23 +100,27 @@ export const updateUser = async (req: Request, res: Response) => {
     try {
         const user = await User.findById(id);
         if (!user) {
-            throw new Error("User not found");
+            throw new Error("user not found");
         } else {
+            const propertiesToUpdate : {email ?: string, name?: string}= {};
             if (newEmail) {
                 const existingUser = await User.findOne({ email: newEmail });
                 if (existingUser) {
                     throw new Error("Email already used, take another one");
-                } else {
-                    user.email = newEmail;
-                }
+                } 
+                propertiesToUpdate.email = newEmail;
             }
 
             if (newName) {
-                user.name = newName;
+                propertiesToUpdate.name = newName;
             }
+
+            await User.updateOne({ _id: user.id }, {
+                ...propertiesToUpdate
+            });
+
             const payload = { user };
             const token = await getToken(payload);
-            await user.save();
             return res.status(200).json({ msg: "register new user info sucessfull", token });
         }
     } catch (err) { return handleControllerErrors(err, res, "An error occurred while updating the user"); }
