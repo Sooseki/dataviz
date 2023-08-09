@@ -12,9 +12,9 @@ function compileSass() {
 }
 
 // Define the watch task
-function watch() {
-    gulp.watch("./src/styles/**/*.scss", compileSass);
-}
+// function watch() {
+//     gulp.watch("./src/styles/**/*.scss", compileSass);
+// }
 
 // Define the default task
-gulp.task("default", gulp.series(compileSass, watch));
+gulp.task("default", gulp.series(compileSass));
