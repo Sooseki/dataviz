@@ -8,12 +8,11 @@ import { PropsWithChildren, createContext, useContext, useEffect, useState } fro
 import { decodeToken } from "react-jwt";
 import { toast } from "react-toastify";
 
-const AuthContext = createContext<AuthContextType>({});
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export const useAuth = () => useContext(AuthContext);
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [user, setUser] = useState<User | undefined>();
-  const [token, setToken] = useState<string | undefined>();
   const { getItem, removeItem, setItem } = useLocalStorage();
   const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
   const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +33,6 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
       if (!authresult || !authresult.data?.token) throw new Error(authresult?.error);
 
-      setToken(authresult.data?.token);
       getUserFromToken(authresult.data?.token);
       setItem("token", authresult.data?.token);
       router.push("/dashboard/domains");
@@ -82,7 +80,6 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
       if (!authresult || !authresult.data?.token) throw new Error(authresult?.error);
 
-      setToken(authresult.data?.token);
       getUserFromToken(authresult.data?.token);
       setItem("token", authresult.data?.token);
       router.push("/dashboard");
@@ -102,7 +99,6 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
   const logOut = () => {
     removeItem("token");
-    setToken(undefined);
     setUser(undefined);
     router.push("/login");
   };
