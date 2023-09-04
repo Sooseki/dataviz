@@ -4,7 +4,6 @@ import { fr } from 'date-fns/locale';
 
 const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
     const lastMetricsTable = metricsData.data.metrics[metricsData.data.metrics.length - 1];
-    console.log(metricsData);
     const jsUseRate = lastMetricsTable?.jsUseRate;
     const date = lastMetricsTable?.date;
     const timeToLoad = lastMetricsTable?.timeToLoad;

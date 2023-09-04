@@ -8,7 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import LineChart from "@/components/charts/LineChart";
 import PercentUsedList from "@/components/charts/LastScan";
-import DateRangePicker from  "@/components/charts/DatePicker";
+import DateRangePicker from "@/components/charts/DatePicker";
 
 const Domain = () => {
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
@@ -20,23 +20,33 @@ const Domain = () => {
             `${host}/metrics?domainId=${domain.id}&clientId=${user?.client.id}`
         );
     });
+
     const [activeTab, setActiveTab] = useState("lastScan");
-  
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
+
     const [selectedStartDate, setSelectedStartDate] = useState(null);
     const [selectedEndDate, setSelectedEndDate] = useState(null);
   
-    // Cette fonction gérera la mise à jour de la plage de dates
     const handleDateRangeChange = (startDate, endDate) => {
         setSelectedStartDate(startDate);
         setSelectedEndDate(endDate);
     };
+    
+
+    let filteredMetrics = useQueryMetrics?.data?.metrics;
+
+    if (selectedStartDate && selectedEndDate) {
+        filteredMetrics = filteredMetrics.filter(metric => 
+            new Date(metric.date) >= selectedStartDate && new Date(metric.date) <= selectedEndDate
+        );
+    }
+
     return (
         <>
             <div className="page-title">
-                <h1> {domainName} </h1>
+                <h1>{domainName}</h1>
             </div>
             <Breadcrumb
                 items={[
@@ -79,17 +89,15 @@ const Domain = () => {
             </div>
             <div className={`singledomain_alldatas ${activeTab === "allDatas" ? "active" : ""}`}>
                 <DateRangePicker onChange={handleDateRangeChange} />
-
-                {useQueryMetrics && <LineChart metricsDatasets={useQueryMetrics} metricToStudy={"timeToLoad"} graphTitle={"Time to load (In miliseconds by session)"}/>}
-                {useQueryMetrics && <LineChart metricsDatasets={useQueryMetrics} metricToStudy={"totalBlockingTime"} graphTitle={"Time to load (In miliseconds by session)"}/>}
+                {filteredMetrics && <LineChart metricsDatasets={filteredMetrics} metricToStudy={"timeToLoad"} graphTitle={"Time to load (In miliseconds by session)"}/>}
+                {filteredMetrics && <LineChart metricsDatasets={filteredMetrics} metricToStudy={"firstContentfulPaint"} graphTitle={"First content fulPaint (In second by session)"}/>}
+                {filteredMetrics && <LineChart metricsDatasets={filteredMetrics} metricToStudy={"cumulativeLayoutShift"} graphTitle={"Cumulative layout shift"}/>}
+                {filteredMetrics && <LineChart metricsDatasets={filteredMetrics} metricToStudy={"totalBlockingTime"} graphTitle={"Time to load (In miliseconds by session)"}/>}
+                {filteredMetrics && <LineChart metricsDatasets={filteredMetrics} metricToStudy={"timeToInteractive"} graphTitle={"Time to interactive (In second by session)"}/>}
+                
             </div>
         </>
     );
 };
+
 export default Domain;
-
-
-
-
-
-
