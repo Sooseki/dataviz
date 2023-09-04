@@ -38,7 +38,7 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
                 <p className="singledomain_singleData"> <span>{totalBlockingTime}</span> totalBlockingTime  </p>
                 <p className="singledomain_singleData"> <span>{timeToInteractive}</span> timeToInteractive  </p>
             </div>
-            <p className="jsuserate_alljsTitle">% d'utilisation du Javascript</p>
+            <p className="jsuserate_alljsTitle">% d&apos; utilisation du Javascript</p>
             <ul className="jsuserate_alljs">
                 {jsUseRate ? (
                     jsUseRate.map((item, index) => (
