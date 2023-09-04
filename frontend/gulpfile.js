@@ -11,10 +11,7 @@ function compileSass() {
         .pipe(gulp.dest("./src/styles/"));
 }
 
-// Define the watch task
-function watch() {
+gulp.task("default", gulp.series(compileSass));
+gulp.task('watch', function () {
     gulp.watch("./src/styles/**/*.scss", compileSass);
-}
-
-// Define the default task
-gulp.task("default", gulp.series(compileSass, watch));
+});
