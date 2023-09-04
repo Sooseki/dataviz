@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
-import { format, parseISO } from 'date-fns';
-import { fr } from 'date-fns/locale'; 
+import React, { useEffect } from "react";
+import { format, parseISO } from "date-fns";
+import { fr } from "date-fns/locale"; 
+import { PercentUsedListProps } from "@/types";
 
 const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
     const lastMetricsTable = metricsData.data.metrics[metricsData.data.metrics.length - 1];
@@ -12,14 +13,14 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
     const firstContentfulPaint = lastMetricsTable?.firstContentfulPaint ;
     const timeToInteractive = lastMetricsTable?.timeToInteractive;
 
-    const formattedDate = date ? format(parseISO(date), "d MMMM HH:mm", { locale: fr }) : '';
+    const formattedDate = date ? format(parseISO(date), "d MMMM HH:mm", { locale: fr }) : "";
 
     useEffect(() => {
         const setProgressWidth = () => {
-            const progressInElements = document.querySelectorAll('.jsuserate_progressIn');
+            const progressInElements = document.querySelectorAll(".jsuserate_progressIn");
             
             progressInElements.forEach((element) => {
-                const dataWidth = element.getAttribute('data-width');
+                const dataWidth = element.getAttribute("data-width");
                 if (dataWidth) {
                     element.style.width = dataWidth;
                 }
@@ -31,19 +32,19 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
 
     return (
         <div>
-            <h3 className='singledomain_lastScanTitle'>Date du dernier scan: {formattedDate}</h3>
-            <div className='singledomain_lastScanContainer'>
-                <p className='singledomain_singleData'> <span>{timeToLoad}</span> timeToLoad </p>
-                <p className='singledomain_singleData'> <span>{firstContentfulPaint}</span> firstContentfulPaint </p>
-                <p className='singledomain_singleData'> <span>{cumulativeLayoutShift}</span> cumulativeLayoutShift  </p>
-                <p className='singledomain_singleData'> <span>{totalBlockingTime}</span> totalBlockingTime  </p>
-                <p className='singledomain_singleData'> <span>{timeToInteractive}</span> timeToInteractive  </p>
+            <h3 className="singledomain_lastScanTitle">Date du dernier scan: {formattedDate}</h3>
+            <div className="singledomain_lastScanContainer">
+                <p className="singledomain_singleData"> <span>{timeToLoad}</span> timeToLoad </p>
+                <p className="singledomain_singleData"> <span>{firstContentfulPaint}</span> firstContentfulPaint </p>
+                <p className="singledomain_singleData"> <span>{cumulativeLayoutShift}</span> cumulativeLayoutShift  </p>
+                <p className="singledomain_singleData"> <span>{totalBlockingTime}</span> totalBlockingTime  </p>
+                <p className="singledomain_singleData"> <span>{timeToInteractive}</span> timeToInteractive  </p>
             </div>
-            <p className='jsuserate_alljsTitle'>% d'utilisation du Javascript</p>
+            <p className="jsuserate_alljsTitle">% d'utilisation du Javascript</p>
             <ul className="jsuserate_alljs">
                 {jsUseRate ? (
                     jsUseRate.map((item, index) => (
-                        <li className='jsuserate_singleFile' key={index}>
+                        <li className="jsuserate_singleFile" key={index}>
                             <div className="jsuserate_progressOut">
                                 <div data-width={item.percentUsed} className="jsuserate_progressIn"></div>
                                 <p>{item.percentUsed}</p>

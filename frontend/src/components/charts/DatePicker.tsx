@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { fr } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
+import { DateRangePickerProps } from "@/types";
 
-const DateRangePicker = ({ onChange }) => {
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+const DateRangePicker: React.FC<DateRangePickerProps> = ({ onChange }) => {
+    const [startDate, setStartDate] = useState<Date | null>(null);
+    const [endDate, setEndDate] = useState<Date | null>(null);
 
-    const handleStartDateChange = (date) => {
+    const handleStartDateChange = (date: Date | null) => {
         setStartDate(date);
         onChange(date, endDate);
     };
 
-    const handleEndDateChange = (date) => {
+    const handleEndDateChange = (date: Date | null) => {
         setEndDate(date);
         onChange(startDate, date);
     };

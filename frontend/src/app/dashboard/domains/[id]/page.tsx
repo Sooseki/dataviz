@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { MetricsDataset } from "@/types";
 import { useParams, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { Tab } from "@/types";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import LineChart from "@/components/charts/LineChart";
 import PercentUsedList from "@/components/charts/LastScan";
@@ -22,14 +23,14 @@ const Domain = () => {
     });
 
     const [activeTab, setActiveTab] = useState("lastScan");
-    const handleTabClick = (tab) => {
+    const handleTabClick = (tab: Tab) => {
         setActiveTab(tab);
     };
 
-    const [selectedStartDate, setSelectedStartDate] = useState(null);
-    const [selectedEndDate, setSelectedEndDate] = useState(null);
-  
-    const handleDateRangeChange = (startDate, endDate) => {
+    const [selectedStartDate, setSelectedStartDate] = useState<Date | null>(null);
+    const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(null);
+
+    const handleDateRangeChange = (startDate: Date | null, endDate: Date | null) => {
         setSelectedStartDate(startDate);
         setSelectedEndDate(endDate);
     };
@@ -37,7 +38,7 @@ const Domain = () => {
 
     let filteredMetrics = useQueryMetrics?.data?.metrics;
 
-    if (selectedStartDate && selectedEndDate) {
+    if (selectedStartDate && selectedEndDate && filteredMetrics) {
         filteredMetrics = filteredMetrics.filter(metric => 
             new Date(metric.date) >= selectedStartDate && new Date(metric.date) <= selectedEndDate
         );

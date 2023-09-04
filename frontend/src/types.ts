@@ -60,3 +60,18 @@ export type GetUsersResponse = {
     users: User[];
     msg: string;
 };
+
+export type Tab = "lastScan" | "allDatas";
+
+export interface DateRangePickerProps {
+    onChange: (startDate: Date | null, endDate: Date | null) => void;
+}
+
+interface MetricsDataWrapper {
+    data: {
+        metrics: MetricsDataset[];
+    };
+}
+export interface PercentUsedListProps {
+    metricsData: MetricsDataWrapper;
+}
