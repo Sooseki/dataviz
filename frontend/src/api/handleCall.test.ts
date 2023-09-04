@@ -18,7 +18,7 @@ describe("handleGet", () => {
         const url = "urlTest";
         const axiosRequestResponse = { data: {}};
         mGet.mockResolvedValueOnce(axiosRequestResponse);
-        const res = await handleGet(url)
+        const res = await handleGet(url);
 
         expect(mGet).toHaveBeenCalledTimes(1);
         expect(mGet).toHaveBeenCalledWith(url, config);
@@ -29,7 +29,7 @@ describe("handleGet", () => {
         const url = "urlTest";
         const axiosRequestResponse = "";
         mGet.mockResolvedValueOnce(axiosRequestResponse);
-        const res = await handleGet(url)
+        const res = await handleGet(url);
 
         expect(mGet).toHaveBeenCalledTimes(1);
         expect(mGet).toHaveBeenCalledWith(url, config);
@@ -47,7 +47,7 @@ describe("handlePost", () => {
         const data = { email: "testEmail", name: "testName" };
         const axiosRequestResponse = { data: {}};
         mPost.mockResolvedValueOnce(axiosRequestResponse);
-        const res = await handlePost(url, data)
+        const res = await handlePost(url, data);
 
         expect(mPost).toHaveBeenCalledTimes(1);
         expect(mPost).toHaveBeenCalledWith(url, data, config);
@@ -59,7 +59,7 @@ describe("handlePost", () => {
         const data = { email: "testEmail", name: "testName" };
         const axiosRequestResponse = "";
         mPost.mockResolvedValueOnce(axiosRequestResponse);
-        const res = await handlePost(url, data)
+        const res = await handlePost(url, data);
 
         expect(mPost).toHaveBeenCalledTimes(1);
         expect(mPost).toHaveBeenCalledWith(url, data, config);
@@ -77,7 +77,7 @@ describe("handlePut", () => {
         const data = { email: "testEmail", name: "testName" };
         const axiosRequestResponse = { data: {}};
         mPut.mockResolvedValueOnce(axiosRequestResponse);
-        const res = await handlePut(url, data)
+        const res = await handlePut(url, data);
 
         expect(mPut).toHaveBeenCalledTimes(1);
         expect(mPut).toHaveBeenCalledWith(url, data, config);
@@ -89,7 +89,7 @@ describe("handlePut", () => {
         const data = { email: "testEmail", name: "testName" };
         const axiosRequestResponse = "";
         mPut.mockResolvedValueOnce(axiosRequestResponse);
-        const res = await handlePut(url, data)
+        const res = await handlePut(url, data);
 
         expect(mPut).toHaveBeenCalledTimes(1);
         expect(mPut).toHaveBeenCalledWith(url, data, config);
@@ -101,4 +101,4 @@ const config = {
     headers: {
         "Content-Type": "application/json"
     }
-}
+};
