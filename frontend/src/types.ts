@@ -15,10 +15,10 @@ export interface MetricsDataset {
     date: string;
     timeToLoad: number;
     jsUseRate: JsUseRateResult[] | undefined;
-    timeToInteractive: string | undefined;
-    firstContentfulPaint: string | undefined;
-    cumulativeLayoutShift: string | undefined;
-    totalBlockingTime: string | undefined;
+    timeToInteractive: number | undefined;
+    firstContentfulPaint: number | undefined;
+    cumulativeLayoutShift: number | undefined;
+    totalBlockingTime: number | undefined;
 }
 export interface JsUseRateResult {
     url: string;
@@ -61,11 +61,8 @@ export type GetUsersResponse = {
     msg: string;
 };
 
-export type Tab = "lastScan" | "allDatas";
 
-export interface DateRangePickerProps {
-    onChange: (startDate: Date | null, endDate: Date | null) => void;
-}
+
 
 interface MetricsDataWrapper {
     data: {

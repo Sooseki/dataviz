@@ -5,29 +5,27 @@ import { PercentUsedListProps } from "@/types";
 
 const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
     const lastMetricsTable = metricsData.data.metrics[metricsData.data.metrics.length - 1];
-    const jsUseRate = lastMetricsTable?.jsUseRate;
-    const date = lastMetricsTable?.date;
-    const timeToLoad = lastMetricsTable?.timeToLoad;
-    const cumulativeLayoutShift = lastMetricsTable?.cumulativeLayoutShift;
-    const totalBlockingTime = lastMetricsTable?.totalBlockingTime;
-    const firstContentfulPaint = lastMetricsTable?.firstContentfulPaint ;
-    const timeToInteractive = lastMetricsTable?.timeToInteractive;
+    const {
+        jsUseRate,
+        date,
+        timeToLoad,
+        cumulativeLayoutShift,
+        totalBlockingTime,
+        firstContentfulPaint,
+        timeToInteractive,
+    } = lastMetricsTable;
 
     const formattedDate = date ? format(parseISO(date), "d MMMM HH:mm", { locale: fr }) : "";
 
     useEffect(() => {
-        const setProgressWidth = () => {
-            const progressInElements = document.querySelectorAll(".jsuserate_progressIn");
+        const progressInElements = document.querySelectorAll(".jsuserate_progressIn");
             
-            progressInElements.forEach((element) => {
-                const dataWidth = element.getAttribute("data-width");
-                if (dataWidth) {
-                    element.style.width = dataWidth;
-                }
-            });
-        };
-
-        setProgressWidth();
+        progressInElements.forEach((element) => {
+            const dataWidth = element.getAttribute("data-width");
+            if (dataWidth) {
+                element.style.width = dataWidth;
+            }
+        });
     }, []);
 
     return (

@@ -5,11 +5,13 @@ import { useQuery } from "react-query";
 import { MetricsDataset } from "@/types";
 import { useParams, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { Tab } from "@/types";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import LineChart from "@/components/charts/LineChart";
 import PercentUsedList from "@/components/charts/LastScan";
 import DateRangePicker from "@/components/charts/DatePicker";
+import { useMemo } from "react";
+
+type Tab = "lastScan" | "allDatas";
 
 const Domain = () => {
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
@@ -35,15 +37,21 @@ const Domain = () => {
         setSelectedEndDate(endDate);
     };
     
-
-    let filteredMetrics = useQueryMetrics?.data?.metrics;
-
-    if (selectedStartDate && selectedEndDate && filteredMetrics) {
-        filteredMetrics = filteredMetrics.filter(metric => 
+    const filterMetrics = () => {
+        if (!selectedStartDate || !selectedEndDate || !useQueryMetrics?.data?.metrics) {
+            return useQueryMetrics?.data?.metrics;
+        }
+        
+        return useQueryMetrics?.data?.metrics.filter(metric => 
             new Date(metric.date) >= selectedStartDate && new Date(metric.date) <= selectedEndDate
         );
-    }
-
+    };
+    
+    const filteredMetrics = useMemo(
+        filterMetrics,
+        [useQueryMetrics, selectedStartDate, selectedEndDate]
+    );
+    
     return (
         <>
             <div className="page-title">

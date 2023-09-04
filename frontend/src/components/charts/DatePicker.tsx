@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { fr } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
-import { DateRangePickerProps } from "@/types";
+
+interface DateRangePickerProps {
+    onChange: (startDate: Date | null, endDate: Date | null) => void;
+}
 
 const DateRangePicker: React.FC<DateRangePickerProps> = ({ onChange }) => {
     const [startDate, setStartDate] = useState<Date | null>(null);
@@ -29,7 +32,6 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ onChange }) => {
                         onChange={handleStartDateChange}
                         selectsStart
                         startDate={startDate}
-                        endDate={endDate}
                         dateFormat="dd/MM/yyyy"
                         locale={fr}
                     />
@@ -40,7 +42,6 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ onChange }) => {
                         selected={endDate}
                         onChange={handleEndDateChange}
                         selectsEnd
-                        startDate={startDate}
                         endDate={endDate}
                         minDate={startDate}
                         dateFormat="dd/MM/yyyy"
