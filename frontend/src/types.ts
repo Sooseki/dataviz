@@ -15,10 +15,10 @@ export interface MetricsDataset {
     date: string;
     timeToLoad: number;
     jsUseRate: JsUseRateResult[] | undefined;
-    timeToInteractive: number | undefined;
-    firstContentfulPaint: number | undefined;
-    cumulativeLayoutShift: number | undefined;
-    totalBlockingTime: number | undefined;
+    timeToInteractive: string | undefined;
+    firstContentfulPaint: string | undefined;
+    cumulativeLayoutShift: string | undefined;
+    totalBlockingTime: string | undefined;
 }
 export interface JsUseRateResult {
     url: string;

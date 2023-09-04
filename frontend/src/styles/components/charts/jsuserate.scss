@@ -1,0 +1,108 @@
+.jsuserate{
+    &_alljs{
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 32px;
+        margin-top: 25px;
+    }
+    &_alljsTitle{
+        margin-top: 50px;
+    }
+    &_singleFile{
+        display: flex;
+        width: 45%;
+        flex-direction: column;
+       
+        a{
+            text-decoration: none;
+            @include font($text-font, 12px, 400, $nightblue-darker-color, 22px);
+        }
+    }
+    &_progressOut{
+        border: 1px solid $nightblue-darker-color;
+        height: 30px;
+        position: relative;
+        p{
+            @include font($text-font, $title-font-size-xs, 400, $nightblue-darker-color, 22px);
+            display: flex;
+            text-decoration: inherit;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            text-shadow: 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff;
+
+            z-index: 9;
+            position: relative;
+        }
+    }
+    &_progressIn{
+        background-color: $nightblue-color;
+        position: absolute;
+        left: 0;
+        top: 0;
+        // width: 100%;
+        height: 100%;
+        transition: 'width 1s ease-in-out'
+    }
+}
+
+
+.singledomain{
+    &_switch{
+        display: flex;
+        gap: 32px;
+        justify-content: center;
+    }
+    &_last{
+        @include smallbuttoninactive;
+        width: 250px;
+        &-active{
+            @include smallbutton;
+        }
+    }
+    &_analyse{
+        @include smallbuttoninactive;
+        width: 250px;
+        &-active{
+            @include smallbutton;
+        }
+    }
+    &_lastscan{
+        display: none;
+        &.active{
+            display: block;
+        }
+    }
+    &_alldatas{
+        display: none;
+        &.active{
+            display: block;
+        }
+    }
+    &_lastScanTitle{
+        @include font($title-font, $title-font-size-md, 400, $nightblue-darker-color, 22px);
+        margin-top: 52px;
+        margin-bottom: 36px;
+    }
+    &_lastScanContainer{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 32px;
+        margin-top: 50px;
+    }
+    &_singleData{
+        display: flex;
+        flex-direction: column;
+        width: 30%;
+        justify-content: center;
+        align-items: center;
+        @include font($text-font, 12px, 400, $nightblue-darker-color, 22px);
+
+        span{
+            @include font($text-font, 26px, 600, $nightblue-darker-color, 22px);
+            margin-bottom: 5px;
+        }
+    }
+}

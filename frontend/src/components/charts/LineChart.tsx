@@ -29,8 +29,7 @@ const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
 
     const chartData: ChartData<"line"> = {
         labels: convertedMetrics?.map((dataset) => {
-            const dateObject = new Date(dataset.date);
-            return format(dateObject, "dd/MM HH:mm:ss");
+            return dataset.date;
         }),
         datasets: [
             {
@@ -115,3 +114,9 @@ const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
 };
 
 export default LineChart;
+
+
+
+
+
+
