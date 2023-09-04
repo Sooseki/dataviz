@@ -11,7 +11,7 @@ interface PercentUsedListProps {
 
 const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
     useEffect(() => {
-        const progressInElements = document.querySelectorAll(".jsuserate_progressIn");
+        const progressInElements = document.querySelectorAll(".jsuserate_progressIn") as NodeListOf<HTMLElement>;
             
         progressInElements.forEach((element) => {
             const dataWidth = element.getAttribute("data-width");
