@@ -1,9 +1,28 @@
 import React, { useEffect } from "react";
 import { format, parseISO } from "date-fns";
 import { fr } from "date-fns/locale"; 
-import { PercentUsedListProps } from "@/types";
+import { MetricsDataset } from "@/types";
+import { AxiosResponse } from "@/api/handleCall";
+
+interface PercentUsedListProps {
+    metricsData: AxiosResponse< {metrics: MetricsDataset[];}>;
+}
+
 
 const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
+    useEffect(() => {
+        const progressInElements = document.querySelectorAll(".jsuserate_progressIn");
+            
+        progressInElements.forEach((element) => {
+            const dataWidth = element.getAttribute("data-width");
+            if (dataWidth) {
+                element.style.width = dataWidth;
+            }
+        });
+    }, []);
+    if (!metricsData.data){
+        return null;
+    }
     const lastMetricsTable = metricsData.data.metrics[metricsData.data.metrics.length - 1];
     const {
         jsUseRate,
@@ -17,16 +36,7 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
 
     const formattedDate = date ? format(parseISO(date), "d MMMM HH:mm", { locale: fr }) : "";
 
-    useEffect(() => {
-        const progressInElements = document.querySelectorAll(".jsuserate_progressIn");
-            
-        progressInElements.forEach((element) => {
-            const dataWidth = element.getAttribute("data-width");
-            if (dataWidth) {
-                element.style.width = dataWidth;
-            }
-        });
-    }, []);
+    
 
     return (
         <div>

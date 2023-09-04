@@ -61,14 +61,3 @@ export type GetUsersResponse = {
     msg: string;
 };
 
-
-
-
-interface MetricsDataWrapper {
-    data: {
-        metrics: MetricsDataset[];
-    };
-}
-export interface PercentUsedListProps {
-    metricsData: MetricsDataWrapper;
-}

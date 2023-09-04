@@ -13,6 +13,9 @@ import { useMemo } from "react";
 
 type Tab = "lastScan" | "allDatas";
 
+
+
+
 const Domain = () => {
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
     const domainName = useSearchParams().get("name");
