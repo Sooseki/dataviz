@@ -19,7 +19,7 @@ export const handleGet = async <T>(url: string): Promise<AxiosResponse<T> | unde
     return res;
 };
 
-export const handlePost = async <T>(url: string, data: {}): Promise<AxiosResponse<T> | undefined> => {
+export const handlePost = async <T>(url: string, data: object): Promise<AxiosResponse<T> | undefined> => {
     const res = await axios.post(url, data, config).catch((err) => err.response);
     
     if(!res) return undefined;
@@ -27,7 +27,7 @@ export const handlePost = async <T>(url: string, data: {}): Promise<AxiosRespons
     return res;
 };
 
-export const handlePut = async <T>(url: string, data: {}): Promise<AxiosResponse<T> | undefined> => {
+export const handlePut = async <T>(url: string, data: object): Promise<AxiosResponse<T> | undefined> => {
     const res = await axios.put(url, data, config).catch((err) => err.response);
     
     if(!res) return undefined;
