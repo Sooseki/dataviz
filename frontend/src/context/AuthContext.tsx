@@ -7,7 +7,7 @@ import { PropsWithChildren, createContext, useContext, useEffect, useState } fro
 import { decodeToken } from "react-jwt";
 import { toast } from "react-toastify";
 
-const AuthContext = createContext<AuthContextType>({});
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export const useAuth = () => useContext(AuthContext);
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     const router = useRouter();
