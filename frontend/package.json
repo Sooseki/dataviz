@@ -40,6 +40,7 @@
     "@types/gulp": "^4.0.11",
     "@types/gulp-rename": "^2.0.2",
     "@types/jest": "^29.5.2",
+    "@types/react-datepicker": "^4.15.0",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "chartjs-adapter-date-fns": "^3.0.0",
     "eslint": "^8.44.0",
