@@ -29,7 +29,7 @@ export const ThemeContextProvider = ({ children }: PropsWithChildren) => {
     useEffect(() => {
         const usedTheme = getItem("theme");
         if (usedTheme) setNewTheme(usedTheme);
-    }, []);
+    });
 
     const value: ThemeContextType = { 
         theme,
