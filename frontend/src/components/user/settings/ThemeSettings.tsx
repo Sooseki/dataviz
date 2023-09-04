@@ -9,7 +9,7 @@ const ThemeSettings = () => {
     useEffect(() => {
         if (!selectedTheme || !setNewTheme) return;
         setNewTheme(selectedTheme);
-    }, [selectedTheme]);
+    }, [selectedTheme, setNewTheme]);
 
     return (
         <div className="tabs-content">
