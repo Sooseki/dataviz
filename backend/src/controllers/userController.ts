@@ -5,174 +5,195 @@ import { Request, Response } from "express";
 import { getToken } from "../utils/handleToken";
 import { handleControllerErrors } from "../utils/handleControllerErrors";
 
-
 export const register = async (req: Request, res: Response): Promise<Response> => {
-    const { name, email, password, company } = req.body;
-    const role = "administrator";
-    try {
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            throw new Error("Email already used, user already created !");
-        }
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+  const { name, email, password, company } = req.body;
+  const role = "administrator";
+  try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      throw new Error("Email already used, take another one");
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-        const user = await User.create({
-            name,
-            role,
-            email,
-            password: hashedPassword,
-        });
+    const user = await User.create({
+      name,
+      role,
+      email,
+      password: hashedPassword,
+    });
 
-        const existingClient = await Client.findOne({ name: company });
-        if (existingClient) {
-            throw new Error("Company already registered !");
-        }
+    const existingClient = await Client.findOne({ name: company });
+    if (existingClient) {
+      throw new Error("Company already registered !");
+    }
 
-        const client = await Client.create({
-            name: company,
-            users: [user.id]
-        });
+    const client = await Client.create({
+      name: company,
+      users: [user.id],
+    });
 
-        const payload = {
-            user: {
-                email, role: user.role, name: user.name, id: user.id,
-                client: { name: client.name, id: client._id.toString() }
-            },
-        };
+    const payload = {
+      user: {
+        email,
+        role: user.role,
+        name: user.name,
+        id: user.id,
+        client: { name: client.name, id: client._id.toString() },
+      },
+    };
 
-        const token = await getToken(payload);
+    const token = await getToken(payload);
 
-        return res.status(200).json({ msg: "register sucessfull", token });
-    } catch (err) { return handleControllerErrors(err, res, "Something went wrong in registration");}
+    return res.status(200).json({ msg: "register sucessfull", token });
+  } catch (err) {
+    return handleControllerErrors(err, res, "Something went wrong in registration");
+  }
 };
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
-    const { email, password } = req.body;
-    try {
+  const { email, password } = req.body;
 
-        const user = await User.findOne({ email });
-        if (!user) {
-            throw new Error("User does not exist");
-        }
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error("User does not exist");
+    }
 
-        const client = await Client.findOne({ users: user._id });
-        if (!client) {
-            throw new Error("Client does not exist");
-        }
+    const client = await Client.findOne({ users: user._id });
+    if (!client) {
+      throw new Error("Client does not exist");
+    }
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            throw new Error("Incorrect password");
-        }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      throw new Error("Incorrect password");
+    }
 
-        const payload = {
-            user: {
-                email, role: user.role, name: user.name, id: user.id,
-                client: { name: client.name, id: client._id.toString() }
-            },
-        };
+    const payload = {
+      user: {
+        email,
+        role: user.role,
+        name: user.name,
+        id: user.id,
+        client: { name: client.name, id: client._id.toString() },
+      },
+    };
 
-        const token = await getToken(payload);
-        return res.status(200).json({ msg: "Logged in", token });
-    } catch (err) { return handleControllerErrors(err, res, "something went wrong"); }
+    const token = await getToken(payload);
+    return res.status(200).json({ msg: "Logged in", token });
+  } catch (err) {
+    return handleControllerErrors(err, res, "something went wrong");
+  }
 };
 
 export const updatePassword = async (req: Request, res: Response) => {
-    const { currentPassword, newPassword, id } = req.body;
-    try {
-        const user = await User.findById(id);
-        if (!user) throw new Error("user not found");
+  const { currentPassword, newPassword, id } = req.body;
+  try {
+    const user = await User.findById(id);
+    if (!user) throw new Error("user not found");
 
-        const salt = await bcrypt.genSalt(10);
-        const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    const salt = await bcrypt.genSalt(10);
+    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
 
-        if (!isCurrentPasswordValid) throw new Error("current password is not valid");
-        const newHashedPassword = await bcrypt.hash(newPassword, salt);
+    if (!isCurrentPasswordValid) throw new Error("current password is not valid");
+    const newHashedPassword = await bcrypt.hash(newPassword, salt);
 
-        await User.updateOne({ _id: user.id }, {
-            password: newHashedPassword
-        });
+    await User.updateOne(
+      { _id: user.id },
+      {
+        password: newHashedPassword,
+      }
+    );
 
-        const payload = { user };
-        const token = await getToken(payload);
-        return res.status(200).json({ msg: "register new password", token });
-    } catch (err) { return handleControllerErrors(err, res, "An error occurred while updating the password"); }
+    return res.status(200).json({ msg: "register new password" });
+  } catch (err) {
+    return handleControllerErrors(err, res, "An error occurred while updating the password");
+  }
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-    const { name: newName, email: newEmail, id } = req.body;
-    try {
-        const user = await User.findById(id);
-        if (!user) {
-            throw new Error("user not found");
-        } else {
-            const propertiesToUpdate : {email ?: string, name?: string}= {};
-            if (newEmail) {
-                const existingUser = await User.findOne({ email: newEmail });
-                if (existingUser) {
-                    throw new Error("Email already used, take another one");
-                } 
-                propertiesToUpdate.email = newEmail;
-            }
+  const { name: newName, email: newEmail, id } = req.body;
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      throw new Error("user not found");
+    }
+    const propertiesToUpdate: { email?: string; name?: string } = {};
+    if (newEmail) {
+      const existingUser = await User.findOne({ email: newEmail });
+      if (existingUser) {
+        throw new Error("Email already used, take another one");
+      }
+      propertiesToUpdate.email = newEmail;
+    }
 
-            if (newName) {
-                propertiesToUpdate.name = newName;
-            }
+    if (newName) {
+      propertiesToUpdate.name = newName;
+    }
 
-            await User.updateOne({ _id: user.id }, {
-                ...propertiesToUpdate
-            });
+    await User.updateOne(
+      { _id: user.id },
+      {
+        ...propertiesToUpdate,
+      }
+    );
 
-            const payload = { user };
-            const token = await getToken(payload);
-            return res.status(200).json({ msg: "register new user info sucessfull", token });
-        }
-    } catch (err) { return handleControllerErrors(err, res, "An error occurred while updating the user"); }
+    return res.status(200).json({
+      msg: "register new user info sucessfull",
+      userUpdated: { name: newName, email: newEmail },
+    });
+  } catch (err) {
+    return handleControllerErrors(err, res, "An error occurred while updating the user");
+  }
 };
 
 export const create = async (req: Request, res: Response): Promise<Response> => {
-    const { email, password, name, clientId, role } = req.body;
-    try {
-        if (!clientId) throw new Error("Cannot create user for this client");
+  const { email, password, name, clientId, role } = req.body;
+  try {
+    if (!clientId) throw new Error("Cannot create user for this client");
 
-        const existingUser = await User.findOne({ email });
-        if (existingUser) throw new Error("Email already used, user already created");
-        
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+    const existingUser = await User.findOne({ email });
+    if (existingUser) throw new Error("Email already used, user already created");
 
-        const user = await User.create({
-            name,
-            role,
-            email,
-            password: hashedPassword,
-        });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-        const client = await Client.findByIdAndUpdate(
-            clientId,
-            { $push: { users: user._id } },
-            { new: true }
-        );
+    const user = await User.create({
+      name,
+      role,
+      email,
+      password: hashedPassword,
+    });
 
-        if (!client) {
-            throw new Error("Client not found");
-        }
+    const client = await Client.findByIdAndUpdate(
+      clientId,
+      { $push: { users: user._id } },
+      { new: true }
+    );
 
-        return res.status(200).json({ msg: "User creation sucessfull", user });
-    } catch (err) { return handleControllerErrors(err, res, "Something went wrong in user creation"); }
+    if (!client) {
+      throw new Error("Client not found");
+    }
+
+    return res.status(200).json({ msg: "User creation sucessfull", user });
+  } catch (err) {
+    return handleControllerErrors(err, res, "Something went wrong in user creation");
+  }
 };
 
 export const get = async (req: Request, res: Response): Promise<Response> => {
-    const { clientId } = req.query as { clientId: string | undefined };
+  const { clientId } = req.query as { clientId: string | undefined };
 
-    try {
-        const client = await Client.findById(clientId).populate("users");
+  try {
+    const client = await Client.findById(clientId).populate("users");
 
-        if (!client) {
-            throw new Error("Client not found");
-        }
+    if (!client) {
+      throw new Error("Client not found");
+    }
 
-        return res.status(200).json({ msg: "User recuperation is a sucess", users: client.users });
-    } catch (err) { return handleControllerErrors(err, res, "Something went wrong while fetching users"); }
+    return res.status(200).json({ msg: "User recuperation is a sucess", users: client.users });
+  } catch (err) {
+    return handleControllerErrors(err, res, "Something went wrong while fetching users");
+  }
 };

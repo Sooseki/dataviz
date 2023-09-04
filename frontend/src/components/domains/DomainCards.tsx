@@ -9,11 +9,11 @@ import NewDomainForm from "./NewDomainForm";
 
 const DomainCards = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { user } = useAuth();
+    const { user, getConfig } = useAuth();
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
 
     const { data: useQueryDomains, refetch } = useQuery("get_domains", async () => 
-        await handleGet<{ domains: Domain[] }>(`${host}/domains?clientId=${user?.client.id}`)
+        await handleGet<{ domains: Domain[] }>(`${host}/domains?clientId=${user?.client.id}`, getConfig())
     );
 
     if (!user) {

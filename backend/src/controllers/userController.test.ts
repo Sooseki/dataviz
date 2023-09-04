@@ -9,6 +9,7 @@ import { mUserCreate, mUserFindOne, mClientFindByIdAndUpdate, mClientFindById, m
 import { Request, Response } from "express";
 import { create, get, register, login, updatePassword, updateUser } from "./userController";
 
+
 describe("create", () => {
     beforeEach(() => {
         jest.resetAllMocks();
@@ -394,7 +395,6 @@ describe("updatePassword", () => {
 
         mUserFindById.mockResolvedValueOnce({ id, password: "$2a$12$OTguFvVCy2lty6l5mKsMr.FhL0TqhAxJFinKSKT5D6b9uB5Tja4TK" });
         mUserUpdateOne.mockResolvedValueOnce(" ");
-        mGetToken.mockResolvedValueOnce("token");
         await updatePassword(req, res);
 
         expect(mUserFindById).toHaveBeenCalledTimes(1);
@@ -407,7 +407,7 @@ describe("updatePassword", () => {
         expect(mStatus).toHaveBeenCalledWith(200);
 
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ msg: "register new password", token: "token" });
+        expect(mJson).toHaveBeenCalledWith({ msg: "register new password"});
     });
     it("should return an error because user do not exist with this id ", async () => {
         const currentPassword = "oldUserPassword";
@@ -477,7 +477,7 @@ describe("updateUser", () => {
         mUserFindOne.mockResolvedValueOnce(undefined);
 
         mUserUpdateOne.mockResolvedValueOnce(" ");
-        mGetToken.mockResolvedValueOnce("token");
+   
 
         await updateUser(req, res);
 
@@ -491,7 +491,7 @@ describe("updateUser", () => {
         expect(mStatus).toHaveBeenCalledWith(200);
 
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ msg: "register new user info sucessfull", token: "token" });
+        expect(mJson).toHaveBeenCalledWith({ msg: "register new user info sucessfull",  userUpdated: { name, email }});
     });
     it("should return an error because it dosnt find the user with this id", async () => {
         const name = "newUserName";

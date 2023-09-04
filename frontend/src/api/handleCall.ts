@@ -9,7 +9,6 @@ export type AxiosResponse<T> = {
 const defaultConfig = {
     headers: {
         "Content-Type": "application/json"
-        // "Authorization": `Bearer ${tokenTest}`
     }
 };
 

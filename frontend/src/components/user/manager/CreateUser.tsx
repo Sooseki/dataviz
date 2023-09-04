@@ -10,7 +10,7 @@ import SubmitButton from "@/components/button/SubmitButton";
 
 
 const CreateUser = ({ closeModal, refetch }: { closeModal: VoidFunction, refetch: VoidFunction }) => {
-    const { user } = useAuth();
+    const { user, getConfig } = useAuth();
     const [username, setUsername] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [userMail, setUserMail] = useState("");
@@ -42,7 +42,7 @@ const CreateUser = ({ closeModal, refetch }: { closeModal: VoidFunction, refetch
         e.preventDefault();
 
         try {
-            const createUserResult = await handlePost<{ user: User }>(`${host}/users/create`, { email: userMail, password: userPassword, name: username, clientId, role });
+            const createUserResult = await handlePost<{ user: User }>(`${host}/users/create`, { email: userMail, password: userPassword, name: username, clientId, role }, getConfig());
 
             if (!createUserResult || !createUserResult.data?.user) throw new Error(createUserResult?.error);
 

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "@/context/AuthContext";
 
 const NewDomainForm = ({ closeModal, refetch }: { closeModal: VoidFunction, refetch: VoidFunction }) => {
-    const { user } = useAuth();
+    const { user, getConfig } = useAuth();
     const [newDomain, setNewDomain] = useState("");
     const [inputError, setInputError] = useState("");
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
@@ -24,7 +24,7 @@ const NewDomainForm = ({ closeModal, refetch }: { closeModal: VoidFunction, refe
             return;
         }
         try {
-            const data = await handlePost<{ domain: Domain }>(`${host}/domains/create`, { url: newDomain, clientId: user?.client.id });
+            const data = await handlePost<{ domain: Domain }>(`${host}/domains/create`, { url: newDomain, clientId: user?.client.id }, getConfig());
 
             if (data?.error) throw new Error(data.error);
 
