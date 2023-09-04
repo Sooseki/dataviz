@@ -60,3 +60,4 @@ export type GetUsersResponse = {
     users: User[];
     msg: string;
 };
+

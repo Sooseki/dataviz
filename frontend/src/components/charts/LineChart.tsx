@@ -1,21 +1,20 @@
 import { Chart as ChartJS, ChartData, ChartOptions, TimeScale, LinearScale, PointElement, LineElement, CategoryScale, Title, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { format } from "date-fns-tz";
 import { MetricsDataset } from "@/types";
-import { AxiosResponse } from "@/api/handleCall";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
 ChartJS.register(TimeScale, LinearScale, PointElement, LineElement, ChartDataLabels, CategoryScale, Title, Tooltip, Legend);
+
 type MetricProperty = keyof MetricsDataset;
 
 interface props {
-    metricsDatasets: AxiosResponse<{ metrics: MetricsDataset[]; }>, 
+    metricsDatasets: MetricsDataset[],
     metricToStudy: MetricProperty,
     graphTitle: string
 }
 
 const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
-    const convertedMetrics = metricsDatasets?.data?.metrics.map((dataset) => {
+    const convertedMetrics = metricsDatasets.map((dataset) => {
         const date = new Date(dataset.date);
         return {
             ...dataset,
@@ -29,8 +28,7 @@ const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
 
     const chartData: ChartData<"line"> = {
         labels: convertedMetrics?.map((dataset) => {
-            const dateObject = new Date(dataset.date);
-            return format(dateObject, "dd/MM HH:mm:ss");
+            return dataset.date;
         }),
         datasets: [
             {
@@ -65,7 +63,6 @@ const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
             }
         },
         plugins: {
-            
             tooltip: {
                 enabled: true,
                 mode: "index",
@@ -107,6 +104,7 @@ const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
             }
         }
     };
+
     return (
         <div className="graph-container">
             <Line data={chartData} plugins={[ChartDataLabels]} options={options}/>

@@ -15,7 +15,6 @@ const DomainCards = () => {
     const { data: useQueryDomains, refetch } = useQuery("get_domains", async () => 
         await handleGet<{ domains: Domain[] }>(`${host}/domains?clientId=${user?.client.id}`)
     );
-
     if (!user) {
         return null;
     }
