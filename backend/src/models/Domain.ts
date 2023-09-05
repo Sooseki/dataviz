@@ -1,9 +1,9 @@
-import { Schema, SchemaTypes, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const domainSchema = new Schema({
     url: { type: String, required: true },
     datasets: [{
-        type: SchemaTypes.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Dataset",
     }]
 });

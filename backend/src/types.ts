@@ -1,4 +1,4 @@
-import { ObjectId } from "mongoose";
+import { ObjectId, Types } from "mongoose";
 
 export interface IDataset {
     timeToLoad: number | undefined,
@@ -33,9 +33,9 @@ export type IClientPopulated = Omit<IClient, "domains"> & {
 }
 
 export interface IDomain {
-    id: string,
+    id?: string,
     url: string,
-    datasets: IDataset[]
+    datasets?: Types.ObjectId[]
 }
 
 
