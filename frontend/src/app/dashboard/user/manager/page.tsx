@@ -1,7 +1,7 @@
 "use client";
-import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
-import GetUsers from "@/components/user/manager/GetUsers";
-import { useAuth } from "@/context/AuthContext";
+import Breadcrumb from "../../../../components/breadcrumb/Breadcrumb";
+import GetUsers from "../../../../components/user/manager/GetUsers";
+import { useAuth } from "../../../../context/AuthContext";
 
 const UserManager = () => {
     const { user } = useAuth();
@@ -16,16 +16,18 @@ const UserManager = () => {
                 <div className="page-title">
                     <h1>User Manager</h1>
                 </div>
-                <Breadcrumb items={[
-                    {
-                        label: "Dashboard",
-                        path: "/dashboard"
-                    },
-                    {
-                        label: "User Manager",
-                        path: "/user/manager"
-                    }
-                ]} />
+                <Breadcrumb
+                    items={[
+                        {
+                            label: "Dashboard",
+                            path: "/dashboard",
+                        },
+                        {
+                            label: "User Manager",
+                            path: "/user/manager",
+                        },
+                    ]}
+                />
                 <GetUsers />
             </div>
         </>

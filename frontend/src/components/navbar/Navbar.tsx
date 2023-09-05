@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { navConfig } from "./navconfig";
 import Burger from "./Burger";
 import { usePathname } from "next/navigation";
@@ -29,25 +29,36 @@ const Navbar: React.FC = () => {
                         />
                     </div>
                     <div className="navigation_header_items">
-                        {Object.values(navConfig).map(({ href, name, icon }) => (
-                            <Link
-                                key={name}
-                                className={
-                                    pathname === href
-                                        ? "navigation_item navigation_item_active"
-                                        : "navigation_item"
-                                }
-                                href={href}
-                            >
-                                {icon && <FontAwesomeIcon icon={icon} />} &nbsp;
-                                {name}
-                            </Link>
-                        ))}
+                        {Object.values(navConfig).map(
+                            ({ href, name, icon }) => (
+                                <Link
+                                    key={name}
+                                    className={
+                                        pathname === href
+                                            ? "navigation_item navigation_item_active"
+                                            : "navigation_item"
+                                    }
+                                    href={href}
+                                >
+                                    {icon && <FontAwesomeIcon icon={icon} />}{" "}
+                                    &nbsp;
+                                    {name}
+                                </Link>
+                            )
+                        )}
                     </div>
                 </div>
                 <div className="navigation_userContainer">
-                    <Link className="navigation_user" href="/dashboard/user/settings">
-                        <Image src="/user.svg" alt="user-image" width="30" height="30"/>
+                    <Link
+                        className="navigation_user"
+                        href="/dashboard/user/settings"
+                    >
+                        <Image
+                            src="/user.svg"
+                            alt="user-image"
+                            width="30"
+                            height="30"
+                        />
                         <p>{user?.name}</p>
                     </Link>
                     <Button

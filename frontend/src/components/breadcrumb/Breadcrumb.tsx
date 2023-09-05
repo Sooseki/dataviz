@@ -1,12 +1,12 @@
 import Link from "next/link";
 
 export type CrumbItem = {
-  label: string;
-  path: string;
+    label: string;
+    path: string;
 };
 
 export type BreadcrumbsProps = {
-  items: CrumbItem[];
+    items: CrumbItem[];
 };
 
 const Breadcrumb = ({ items }: BreadcrumbsProps) => {
@@ -17,10 +17,7 @@ const Breadcrumb = ({ items }: BreadcrumbsProps) => {
                 if (!isLastItem) {
                     return (
                         <>
-                            <Link
-                                href={crumb.path}
-                                key={i}
-                            >
+                            <Link href={crumb.path} key={i}>
                                 {crumb.label}
                             </Link>
                             <span> / </span>

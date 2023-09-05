@@ -16,7 +16,7 @@ describe("handleGet", () => {
 
     it("should make a get request", async () => {
         const url = "urlTest";
-        const axiosRequestResponse = { data: {}};
+        const axiosRequestResponse = { data: {} };
         mGet.mockResolvedValueOnce(axiosRequestResponse);
         const res = await handleGet(url);
 
@@ -45,7 +45,7 @@ describe("handlePost", () => {
     it("should make a post request", async () => {
         const url = "urlTest";
         const data = { email: "testEmail", name: "testName" };
-        const axiosRequestResponse = { data: {}};
+        const axiosRequestResponse = { data: {} };
         mPost.mockResolvedValueOnce(axiosRequestResponse);
         const res = await handlePost(url, data);
 
@@ -75,7 +75,7 @@ describe("handlePut", () => {
     it("should make a put request", async () => {
         const url = "urlTest";
         const data = { email: "testEmail", name: "testName" };
-        const axiosRequestResponse = { data: {}};
+        const axiosRequestResponse = { data: {} };
         mPut.mockResolvedValueOnce(axiosRequestResponse);
         const res = await handlePut(url, data);
 
@@ -99,6 +99,6 @@ describe("handlePut", () => {
 
 const config = {
     headers: {
-        "Content-Type": "application/json"
-    }
+        "Content-Type": "application/json",
+    },
 };

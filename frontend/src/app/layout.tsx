@@ -1,15 +1,13 @@
-import { AuthContextProvider } from "@/context/AuthContext";
+import { AuthContextProvider } from "../context/AuthContext";
 import { ToastContainer } from "react-toastify";
 import "../styles/main.css";
 import "react-toastify/dist/ReactToastify.css";
 
 export const metadata = {
-    title: "PerfGuardian"
+    title: "PerfGuardian",
 };
 
-const RootLayout = ({children}: {
-    children: React.ReactNode
-}) => {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <html lang="en">
             <body>

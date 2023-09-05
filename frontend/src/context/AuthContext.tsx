@@ -1,9 +1,20 @@
 "use client";
-import { handlePost, handlePut } from "@/api/handleCall";
-import { useLocalStorage } from "@/lib/useLocalStorage";
-import { AuthContextType, User, LoginResponse, UpdateUserResponse } from "@/types";
+import { handlePost, handlePut } from "../api/handleCall";
+import { useLocalStorage } from "../lib/useLocalStorage";
+import {
+    AuthContextType,
+    User,
+    LoginResponse,
+    UpdateUserResponse,
+} from "../types";
 import { useRouter } from "next/navigation";
-import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
+import {
+    PropsWithChildren,
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
 import { decodeToken } from "react-jwt";
 import { toast } from "react-toastify";
 
@@ -26,22 +37,31 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
     const logIn = async (email: string, password: string) => {
         try {
-            const authresult = await handlePost<LoginResponse>(`${host}/users/login`, {
-                email,
-                password,
-            });
+            const authresult = await handlePost<LoginResponse>(
+                `${host}/users/login`,
+                {
+                    email,
+                    password,
+                }
+            );
 
-            if (!authresult || !authresult.data?.token) throw new Error(authresult?.error);
+            if (!authresult || !authresult.data?.token)
+                throw new Error(authresult?.error);
             setToken(authresult.data?.token);
             getUserFromToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
             router.push("/dashboard/domains");
         } catch (err) {
-            toast(err instanceof Error ? err.message : "There has been an error. Please try again", {
-                type: "error",
-                theme: "colored",
-                position: "bottom-left",
-            });
+            toast(
+                err instanceof Error
+                    ? err.message
+                    : "There has been an error. Please try again",
+                {
+                    type: "error",
+                    theme: "colored",
+                    position: "bottom-left",
+                }
+            );
         }
     };
     /* TODO : auto login remove or keep it ?
@@ -69,26 +89,40 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         }
     }; */
 
-    const signUp = async (email: string, password: string, name: string, company: string) => {
+    const signUp = async (
+        email: string,
+        password: string,
+        name: string,
+        company: string
+    ) => {
         try {
-            const authresult = await handlePost<LoginResponse>(`${host}/users/register`, {
-                email,
-                password,
-                name,
-                company,
-            });
+            const authresult = await handlePost<LoginResponse>(
+                `${host}/users/register`,
+                {
+                    email,
+                    password,
+                    name,
+                    company,
+                }
+            );
 
-            if (!authresult || !authresult.data?.token) throw new Error(authresult?.error);
+            if (!authresult || !authresult.data?.token)
+                throw new Error(authresult?.error);
             setToken(authresult.data?.token);
             getUserFromToken(authresult.data?.token);
             setItem("token", authresult.data?.token);
             router.push("/dashboard");
         } catch (err) {
-            toast(err instanceof Error ? err.message : "There has been an error in registering. Please try again.", {
-                type: "error",
-                theme: "colored",
-                position: "bottom-left",
-            });
+            toast(
+                err instanceof Error
+                    ? err.message
+                    : "There has been an error in registering. Please try again.",
+                {
+                    type: "error",
+                    theme: "colored",
+                    position: "bottom-left",
+                }
+            );
         }
     };
 
@@ -99,7 +133,10 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         router.push("/login");
     };
 
-    const changePassword = async (newPassword: string, currentPassword: string) => {
+    const changePassword = async (
+        newPassword: string,
+        currentPassword: string
+    ) => {
         const pswChangeResult = await handlePut<{ msg: string }>(
             `${host}/users/password`,
             {
@@ -111,11 +148,14 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         );
 
         if (!pswChangeResult || pswChangeResult.error) {
-            toast("There has been an error in reseting password. Please try again.", {
-                type: "error",
-                theme: "colored",
-                position: "bottom-left",
-            });
+            toast(
+                "There has been an error in reseting password. Please try again.",
+                {
+                    type: "error",
+                    theme: "colored",
+                    position: "bottom-left",
+                }
+            );
             return;
         }
         toast("Password changed successfully !", {
@@ -144,7 +184,11 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
                 },
                 getConfig()
             );
-            if (!otherInfoChangeResult || otherInfoChangeResult.error || !otherInfoChangeResult.data) {
+            if (
+                !otherInfoChangeResult ||
+                otherInfoChangeResult.error ||
+                !otherInfoChangeResult.data
+            ) {
                 throw new Error(otherInfoChangeResult?.error);
             }
             if (user) {
@@ -160,11 +204,16 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
                 position: "bottom-left",
             });
         } catch (err) {
-            toast(err instanceof Error ? err.message : "There has been an error in changing your information. Please try again.", {
-                type: "error",
-                theme: "colored",
-                position: "bottom-left",
-            });
+            toast(
+                err instanceof Error
+                    ? err.message
+                    : "There has been an error in changing your information. Please try again.",
+                {
+                    type: "error",
+                    theme: "colored",
+                    position: "bottom-left",
+                }
+            );
         }
     };
 
@@ -190,5 +239,9 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         getConfig,
     };
 
-    return <AuthContext.Provider value={value}>{!isLoading && children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={value}>
+            {!isLoading && children}
+        </AuthContext.Provider>
+    );
 };
