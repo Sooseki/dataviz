@@ -22,7 +22,7 @@ describe("handleGet", () => {
 
         expect(mGet).toHaveBeenCalledTimes(1);
         expect(mGet).toHaveBeenCalledWith(url, config);
-        expect(res).toEqual(axiosRequestResponse);
+        expect(res).toEqual(axiosRequestResponse.data);
     });
 
     it("should return undefined if request failed", async () => {
@@ -51,7 +51,7 @@ describe("handlePost", () => {
 
         expect(mPost).toHaveBeenCalledTimes(1);
         expect(mPost).toHaveBeenCalledWith(url, data, config);
-        expect(res).toEqual(axiosRequestResponse);
+        expect(res).toEqual(axiosRequestResponse.data);
     });
 
     it("should return undefined if request failed", async () => {
@@ -81,7 +81,7 @@ describe("handlePut", () => {
 
         expect(mPut).toHaveBeenCalledTimes(1);
         expect(mPut).toHaveBeenCalledWith(url, data, config);
-        expect(res).toEqual(axiosRequestResponse);
+        expect(res).toEqual(axiosRequestResponse.data);
     });
 
     it("should return undefined if request failed", async () => {
