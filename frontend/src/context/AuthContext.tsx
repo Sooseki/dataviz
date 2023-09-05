@@ -6,7 +6,7 @@ import {
     User,
     LoginResponse,
     UpdateUserResponse,
-} from "../types";
+} from "@perfguardian/common/types";
 import { useRouter } from "next/navigation";
 import {
     PropsWithChildren,
