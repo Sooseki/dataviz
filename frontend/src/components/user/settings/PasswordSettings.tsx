@@ -1,11 +1,11 @@
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 import { FormEvent, useState } from "react";
 import InputText from "../../InputText";
 import SubmitButton from "../../button/SubmitButton";
 
 const PasswordSettings = () => {
     const { user, changePassword } = useAuth();
-    const [ inputError, setInputError ] = useState("");
+    const [inputError, setInputError] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
     const [currentPassword, setCurrentPassword] = useState("");
@@ -24,7 +24,9 @@ const PasswordSettings = () => {
             return;
         }
         if (newPassword !== newPasswordConfirmation) {
-            setInputError("New password and new password confirmation don't match.");
+            setInputError(
+                "New password and new password confirmation don't match."
+            );
             return;
         }
         changePassword(newPassword, currentPassword);
@@ -33,26 +35,28 @@ const PasswordSettings = () => {
     return (
         <>
             <form onSubmit={handleSubmit} className="password-settings form">
-                {inputError &&
+                {inputError && (
                     <div className="form-input-error">{inputError}</div>
-                }
+                )}
                 <InputText
-                    name="currentPassword" 
+                    name="currentPassword"
                     onChange={(event) => setCurrentPassword(event.target.value)}
                     label="Current password"
                     type="password"
                     value={currentPassword}
                 />
-                <InputText 
+                <InputText
                     name="newPassword"
                     onChange={(event) => setNewPassword(event.target.value)}
                     label="New password"
                     type="password"
                     value={newPassword}
                 />
-                <InputText 
+                <InputText
                     name="newPasswordConfirmation"
-                    onChange={(event) => setNewPasswordConfirmation(event.target.value)}
+                    onChange={(event) =>
+                        setNewPasswordConfirmation(event.target.value)
+                    }
                     label="New password confirmation"
                     type="password"
                     value={newPasswordConfirmation}

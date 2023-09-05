@@ -10,8 +10,16 @@
         "esModuleInterop": true,
         "module": "commonjs",
         "moduleResolution": "node",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "noEmit": true,
+        "incremental": true,
+        "paths": {
+            "@/*": ["./src/*"]
+        },
+        "allowJs": false,
+        "skipLibCheck": true,
+        "isolatedModules": true
     },
-    "include": ["src/**/*.ts"],
+    "include": ["**/*.ts", ".eslintrc.js"],
     "exclude": ["node_modules", "src/**/*.test.ts"]
 }
