@@ -37,3 +37,23 @@ export interface IDomain {
     url: string,
     datasets?: Types.ObjectId[]
 }
+
+
+export type MetricsDataset = {
+    _id: { $oid: string };
+    date: { $date: string };
+    timeToLoad: number;
+    firstContentfulPaint: number | undefined;
+    cumulativeLayoutShift: number | undefined;
+    totalBlockingTime: number | undefined;
+    timeToInteractive: number | undefined;
+    jsUseRate: JsUseRate[];
+    __v: number;
+}
+
+export type JsUseRate = {
+    url: string;
+    usedBytes: number;
+    totalBytes: number;
+    percentUsed: string;
+}
