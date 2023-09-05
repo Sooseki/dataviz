@@ -20,7 +20,7 @@ export const handleGet = async <T>(
         .catch((err) => err.response);
     if (!res) return undefined;
 
-    return res;
+     return res.data;
 };
 
 export const handlePost = async <T>(
@@ -33,7 +33,7 @@ export const handlePost = async <T>(
         .catch((err) => err.response);
     if (!res) return undefined;
 
-    return res;
+    return res.data;
 };
 
 export const handlePut = async <T>(
@@ -46,5 +46,5 @@ export const handlePut = async <T>(
         .catch((err) => err.response);
     if (!res) return undefined;
 
-    return res;
+    return res.data;
 };
