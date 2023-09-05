@@ -1,4 +1,5 @@
 /// AUTO LOGIN WITHOUT PUT EMAIL AND PASSWORD EVEN WITHOUT FORM 
+/*
 import { Request, Response, NextFunction } from "express";
 import User from "../models/User";
 import { getToken } from "../utils/handleToken";
@@ -44,4 +45,4 @@ export const AutoLogin = (req: Request, res: Response, next: NextFunction) => {
     } else {
         next();
     }
-};
+};*/
