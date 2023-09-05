@@ -2,7 +2,7 @@
 const lighthouse = require("lighthouse");
 const ReportGenerator = require("lighthouse/report/generator/report-generator");
 import puppeteer from "puppeteer";
-import { LighthouseMetrics } from "../../types";
+import { LighthouseMetrics } from "@perfguardian/common/types";
 import { Options } from "chrome-launcher";
 const chromeLauncher = require("chrome-launcher");
 import request from "request-promise-native";

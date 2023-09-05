@@ -1,4 +1,4 @@
-import { Domain } from "@/types";
+import { Domain } from "@perfguardian/common/types";
 import Link from "next/link";
 
 const DomainCard = ({ domain }: { domain: Domain }) => {

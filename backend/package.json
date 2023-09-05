@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@perfguardian/common": "file:../common",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/node-cron": "^3.0.8",
     "bcryptjs": "^2.4.3",

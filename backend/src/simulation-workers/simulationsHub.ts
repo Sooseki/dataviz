@@ -1,11 +1,11 @@
-import { IDataset } from "../types";
 import { timeToLoad } from "./workers/timeToLoad";
 import { jsUseRate } from "./workers/jsUseRate";
 import { lighthouseFromPuppeteer } from "./workers/lighthouse";
 import Domain from "../models/Domain";
 import puppeteer, { Browser } from "puppeteer";
 import Dataset from "../models/Dataset";
-import { IDomain } from "../types";
+import { IDomain, IDataset } from "@perfguardian/common/types";
+
 const simulationhub = async (url: string, browser: Browser): Promise<IDataset> => {
     const timeToLoadData = await timeToLoad(url, browser);
     const jsUseRateData = await jsUseRate(url, browser);

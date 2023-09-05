@@ -1,6 +1,6 @@
 "use client";
 import { useLocalStorage } from "@/lib/useLocalStorage";
-import { ThemeContextType } from "@/types";
+import { ThemeContextType } from "@perfguardian/common/types";
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext<ThemeContextType>({});

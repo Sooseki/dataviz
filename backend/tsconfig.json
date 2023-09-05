@@ -10,7 +10,13 @@
         "esModuleInterop": true,
         "module": "commonjs",
         "moduleResolution": "node",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "baseUrl": ".",
+        "paths": {
+            "@perfguardian/common": [
+                "../common"
+            ]
+        },
     },
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules", "src/**/*.test.ts"]

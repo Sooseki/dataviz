@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { format, parseISO } from "date-fns";
 import { fr } from "date-fns/locale"; 
-import { MetricsDataset } from "@/types";
+import { MetricsDataset } from "@perfguardian/common/types";
 import { AxiosResponse } from "@/api/handleCall";
 
 interface PercentUsedListProps {
