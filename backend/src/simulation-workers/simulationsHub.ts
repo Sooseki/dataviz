@@ -4,7 +4,7 @@ import { lighthouseFromPuppeteer } from "./workers/lighthouse";
 import Domain from "../models/Domain";
 import puppeteer, { Browser } from "puppeteer";
 import Dataset from "../models/Dataset";
-import { IDomain } from "@perfguardian/common/types";
+import { IDomain, IDataset } from "@perfguardian/common/types";
 
 const simulationhub = async (url: string, browser: Browser): Promise<IDataset | null> => {
     try {

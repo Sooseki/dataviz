@@ -1,16 +1,38 @@
-import { Chart as ChartJS, ChartData, ChartOptions, TimeScale, LinearScale, PointElement, LineElement, CategoryScale, Title, Tooltip, Legend } from "chart.js";
+import {
+    Chart as ChartJS,
+    ChartData,
+    ChartOptions,
+    TimeScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    CategoryScale,
+    Title,
+    Tooltip,
+    Legend,
+} from "chart.js";
 import { Line } from "react-chartjs-2";
-import { MetricsDataset } from "@/types";
+import { MetricsDataset } from "../../types";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
-ChartJS.register(TimeScale, LinearScale, PointElement, LineElement, ChartDataLabels, CategoryScale, Title, Tooltip, Legend);
+ChartJS.register(
+    TimeScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    ChartDataLabels,
+    CategoryScale,
+    Title,
+    Tooltip,
+    Legend
+);
 
 type MetricProperty = keyof MetricsDataset;
 
 interface props {
-    metricsDatasets: MetricsDataset[],
-    metricToStudy: MetricProperty,
-    graphTitle: string
+    metricsDatasets: MetricsDataset[];
+    metricToStudy: MetricProperty;
+    graphTitle: string;
 }
 
 const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
@@ -18,7 +40,7 @@ const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
         const date = new Date(dataset.date);
         return {
             ...dataset,
-            date: date.toLocaleString("fr-FR")
+            date: date.toLocaleString("fr-FR"),
         };
     });
 
@@ -33,12 +55,14 @@ const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
         datasets: [
             {
                 label: metricToStudy,
-                data: convertedMetrics.map((dataset) => dataset[metricToStudy] as number),
+                data: convertedMetrics.map(
+                    (dataset) => dataset[metricToStudy] as number
+                ),
                 fill: false,
                 backgroundColor: "transparent",
                 borderColor: "#06a1e1",
                 tension: 0.1,
-                borderWidth: 4
+                borderWidth: 4,
             },
         ],
     };
@@ -52,15 +76,15 @@ const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
             x: {
                 display: true,
                 grid: {
-                    display: true
-                }
+                    display: true,
+                },
             },
             y: {
                 display: true,
                 grid: {
-                    display: true
-                }
-            }
+                    display: true,
+                },
+            },
         },
         plugins: {
             tooltip: {
@@ -89,25 +113,29 @@ const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
                 color: "black",
                 align: "end",
                 padding: {
-                    right: 2
+                    right: 2,
                 },
                 labels: {
                     title: {
                         font: {
-                            weight: "bold"
-                        }
+                            weight: "bold",
+                        },
                     },
                     value: {
-                        color: "black"
-                    }
+                        color: "black",
+                    },
                 },
-            }
-        }
+            },
+        },
     };
 
     return (
         <div className="graph-container">
-            <Line data={chartData} plugins={[ChartDataLabels]} options={options}/>
+            <Line
+                data={chartData}
+                plugins={[ChartDataLabels]}
+                options={options}
+            />
         </div>
     );
 };

@@ -1,15 +1,20 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
 import { handlePost } from "@/api/handleCall";
 import { User } from "@perfguardian/common/types";
 import { Select } from "antd";
-import InputText from "@/components/InputText";
+import InputText from "../../../components/InputText";
 import Image from "next/image";
-import SubmitButton from "@/components/button/SubmitButton";
+import SubmitButton from "../../../components/button/SubmitButton";
 
-
-const CreateUser = ({ closeModal, refetch }: { closeModal: VoidFunction, refetch: VoidFunction }) => {
+const CreateUser = ({
+    closeModal,
+    refetch,
+}: {
+    closeModal: VoidFunction;
+    refetch: VoidFunction;
+}) => {
     const { user, getConfig } = useAuth();
     const [username, setUsername] = useState("");
     const [userPassword, setUserPassword] = useState("");
@@ -37,43 +42,84 @@ const CreateUser = ({ closeModal, refetch }: { closeModal: VoidFunction, refetch
     }
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
     const clientId = user.client.id;
-    
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
-            const createUserResult = await handlePost<{ user: User }>(`${host}/users/create`, { email: userMail, password: userPassword, name: username, clientId, role }, getConfig());
-
-            if (!createUserResult || !createUserResult.data?.user) throw new Error(createUserResult?.error);
-
-            toast(
-                "User has been created !",
+            const createUserResult = await handlePost<{ user: User }>(
+                `${host}/users/create`,
                 {
-                    type: "success",
-                    theme: "colored",
-                    position: "bottom-left"
-                }
+                    email: userMail,
+                    password: userPassword,
+                    name: username,
+                    clientId,
+                    role,
+                },
+                getConfig()
             );
+
+            if (!createUserResult || !createUserResult.data?.user)
+                throw new Error(createUserResult?.error);
+
+            toast("User has been created !", {
+                type: "success",
+                theme: "colored",
+                position: "bottom-left",
+            });
             refetch();
             closeModal();
         } catch (err) {
             toast(
-                err instanceof Error ? err.message : "There has been an error in user creation. Please try again.",
+                err instanceof Error
+                    ? err.message
+                    : "There has been an error in user creation. Please try again.",
                 {
                     type: "error",
                     theme: "colored",
-                    position: "bottom-left"
+                    position: "bottom-left",
                 }
             );
         }
     };
-    return(
+    return (
         <div className="create-user-container">
-            <form onSubmit={handleSubmit} className='create-user-form' method='POST'>
-                <Image className="logo" src="/perfguardian-text-and-logo.svg" alt="perfguardian-text-and-logo" width="30" height="30" />
-                <InputText placeholder="Donkey Kong" type='text' name='username' label="username" value={username} onChange={handleNameChange} />
-                <InputText placeholder="******" type='password' name='password' label="password" value={userPassword} onChange={handlePasswordChange} />
-                <InputText placeholder="Donkey@Kong.fr" type='email' name='email' label="email" value={userMail} onChange={handleUsermailChange} />
+            <form
+                onSubmit={handleSubmit}
+                className="create-user-form"
+                method="POST"
+            >
+                <Image
+                    className="logo"
+                    src="/perfguardian-text-and-logo.svg"
+                    alt="perfguardian-text-and-logo"
+                    width="30"
+                    height="30"
+                />
+                <InputText
+                    placeholder="Donkey Kong"
+                    type="text"
+                    name="username"
+                    label="username"
+                    value={username}
+                    onChange={handleNameChange}
+                />
+                <InputText
+                    placeholder="******"
+                    type="password"
+                    name="password"
+                    label="password"
+                    value={userPassword}
+                    onChange={handlePasswordChange}
+                />
+                <InputText
+                    placeholder="Donkey@Kong.fr"
+                    type="email"
+                    name="email"
+                    label="email"
+                    value={userMail}
+                    onChange={handleUsermailChange}
+                />
                 <label className="create-user-dropdown-label">Role:</label>
                 <Select
                     className="create-user-dropdown"

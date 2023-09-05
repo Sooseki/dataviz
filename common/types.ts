@@ -16,13 +16,13 @@ export interface LighthouseMetrics {
     timeToInteractive: number
 }
 
-export interface IClient {
+export interface Client {
     id?: string,
     name?: string | undefined,
     domains: ObjectId[]
 }
 
-export type IClientPopulated = Omit<IClient, "domains"> & {
+export type IClientPopulated = Omit<Client, "domains"> & {
     domains: IDomain[]
 }
 
@@ -30,12 +30,6 @@ export interface IDomain {
     id?: string,
     url: string,
     datasets?: Types.ObjectId[]
-}
-
-// TODO : move interface User to types when mongoDB User return values available
-export interface Client {
-    id: string;
-    name: string;
 }
 export interface User {
     id: string;

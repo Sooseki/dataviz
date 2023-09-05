@@ -6,11 +6,7 @@ export interface TabProps {
 }
 
 const Tab = ({ component }: TabProps) => {
-    return (
-        <div>
-            {component}
-        </div>
-    );
+    return <div>{component}</div>;
 };
 
 export default Tab;

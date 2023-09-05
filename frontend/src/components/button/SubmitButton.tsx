@@ -4,7 +4,9 @@ interface ButtonProps {
 
 const SubmitButton = ({ text }: ButtonProps) => {
     return (
-        <button type="submit" className="main-button">{text}</button>
+        <button type="submit" className="main-button">
+            {text}
+        </button>
     );
 };
 

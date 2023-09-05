@@ -1,4 +1,4 @@
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 import { FormEvent, useState } from "react";
 import InputText from "../../InputText";
 import SubmitButton from "../../button/SubmitButton";

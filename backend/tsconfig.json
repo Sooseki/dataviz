@@ -15,9 +15,17 @@
         "paths": {
             "@perfguardian/common": [
                 "../common"
+            ],
+            "@/*": [
+                "./src/*"
             ]
         },
+        "noEmit": true,
+        "incremental": true,
+        "allowJs": false,
+        "skipLibCheck": true,
+        "isolatedModules": true
     },
-    "include": ["src/**/*.ts"],
+    "include": ["**/*.ts", ".eslintrc.js"],
     "exclude": ["node_modules", "src/**/*.test.ts"]
 }

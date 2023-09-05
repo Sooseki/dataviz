@@ -25,9 +25,7 @@ jest.mock("../models/Client", () => ({
     findByIdAndUpdate: mClientFindByIdAndUpdate,
     findById: mClientFindById,
     create: mClientCreate,
-
 }));
-
 
 const mUserCreate = jest.fn();
 const mUserFindOne = jest.fn();

@@ -1,14 +1,12 @@
 "use client";
 
-import { ThemeContextProvider } from "@/context/ThemeContext";
-import QueryLayout from "@/layouts/QueryLayout";
-import MenuLayout from "@/layouts/MenuLayout";
+import { ThemeContextProvider } from "../../context/ThemeContext";
+import QueryLayout from "../../layouts/QueryLayout";
+import MenuLayout from "../../layouts/MenuLayout";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
-const DashboardLayout = ({ children }: {
-    children: React.ReactNode
-}) => {
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     const user = useAuth();
     if (!user) {
         return null;
@@ -17,9 +15,7 @@ const DashboardLayout = ({ children }: {
     return (
         <ThemeContextProvider>
             <QueryLayout>
-                <MenuLayout>
-                    {children}
-                </MenuLayout>
+                <MenuLayout>{children}</MenuLayout>
             </QueryLayout>
         </ThemeContextProvider>
     );
