@@ -20,7 +20,7 @@ export const handleGet = async <T>(
         .catch((err) => err.response);
     if (!res) return undefined;
 
-     return res.data;
+    return res.data;
 };
 
 export const handlePost = async <T>(

@@ -47,7 +47,7 @@ describe("createMetric", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mJson).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
-        expect(mJson).toHaveBeenCalledWith({ msg: "metrics creation sucessfull", metrics: simulationhubResponse });
+        expect(mJson).toHaveBeenCalledWith({data:{ msg: "metrics creation sucessfull", metrics: simulationhubResponse }});
     });
 
     it("should return 500 error status if domain doesn't exist", async () => {
@@ -159,7 +159,7 @@ describe("getMetrics", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ metrics: "datasetsTest" });
+        expect(mJson).toHaveBeenCalledWith({data:{ metrics: "datasetsTest" }});
     });
 
     it("should return an error if wrong domainId param", async () => {
