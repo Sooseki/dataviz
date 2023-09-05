@@ -18,6 +18,9 @@ const simulationhub = async (url: string, browser: Browser): Promise<IDataset | 
             ...lighthouseFromPuppeteerData
         };
     } catch (e) {
+
+        // TODO virer les console.error en prod
+
         if (e instanceof Error) {
             console.error(`Erreur lors de la simulation pour ${url}: ${e.message}`);
         } else {
@@ -27,7 +30,6 @@ const simulationhub = async (url: string, browser: Browser): Promise<IDataset | 
     }
 };
 
-// TODO : change any[] by a type to describe domains
 export const runSimulationForDomains = async (domains: IDomain[]) => {
     const browser = await puppeteer.launch({ headless: "new" });
 
@@ -63,5 +65,4 @@ export const runSimulationForAllDomains = async () => {
             );
         })
     );
-    console.log("Opération terminée : Toutes les simulations ont été effectuées.");
 };
