@@ -45,7 +45,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
 
         const token = await getToken(payload);
 
-        return res.status(200).json({ msg: "register sucessfull", token });
+        return res.status(200).json({data:{ msg: "register sucessfull", token }});
     } catch (err) {
         return handleControllerErrors(err, res, "Something went wrong in registration");
     }
@@ -81,7 +81,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         };
 
         const token = await getToken(payload);
-        return res.status(200).json({ msg: "Logged in", token });
+        return res.status(200).json({data:{ msg: "Logged in", token }});
     } catch (err) {
         return handleControllerErrors(err, res, "something went wrong");
     }
@@ -106,7 +106,7 @@ export const updatePassword = async (req: Request, res: Response) => {
             }
         );
 
-        return res.status(200).json({ msg: "register new password" });
+        return res.status(200).json({data:{ msg: "register new password" }});
     } catch (err) {
         return handleControllerErrors(err, res, "An error occurred while updating the password");
     }
@@ -139,10 +139,10 @@ export const updateUser = async (req: Request, res: Response) => {
             }
         );
 
-        return res.status(200).json({
+        return res.status(200).json({data:{
             msg: "register new user info sucessfull",
             userUpdated: { name: newName, email: newEmail },
-        });
+        }});
     } catch (err) {
         return handleControllerErrors(err, res, "An error occurred while updating the user");
     }
@@ -172,7 +172,7 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
             throw new Error("Client not found");
         }
 
-        return res.status(200).json({ msg: "User creation sucessfull", user });
+        return res.status(200).json({data:{ msg: "User creation sucessfull", user }});
     } catch (err) {
         return handleControllerErrors(err, res, "Something went wrong in user creation");
     }
@@ -188,7 +188,7 @@ export const get = async (req: Request, res: Response): Promise<Response> => {
             throw new Error("Client not found");
         }
 
-        return res.status(200).json({ msg: "User recuperation is a sucess", users: client.users });
+        return res.status(200).json({data:{ msg: "User recuperation is a sucess", users: client.users }});
     } catch (err) {
         return handleControllerErrors(err, res, "Something went wrong while fetching users");
     }

@@ -28,7 +28,7 @@ export const createDomain = async (req: Request, res: Response): Promise<Respons
             }
         );
 
-        return res.status(200).json({ domain: newDomain });
+        return res.status(200).json({data:{ domain: newDomain }});
     } catch (err) {
         return handleControllerErrors(err, res, "domain could not be created");
     }
@@ -47,7 +47,7 @@ export const getDomains = async (req: Request, res: Response): Promise<Response>
             _id: { $in: client.domains },
         });
 
-        return res.status(200).json({ domains });
+        return res.status(200).json({data:{ domains }});
     } catch (err) {
         return handleControllerErrors(err, res, "could not get domains");
     }

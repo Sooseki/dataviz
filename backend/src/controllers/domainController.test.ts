@@ -58,7 +58,7 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ domain: newDomain });
+        expect(mJson).toHaveBeenCalledWith({data:{ domain: newDomain }});
     });
 
     it("should return an error if clientId param is missing", async () => {
@@ -167,7 +167,7 @@ describe("getDomains", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ domains: mDomains });
+        expect(mJson).toHaveBeenCalledWith({data:{ domains: mDomains }});
     });
 
     it("should return a 500 error status if no client found", async () => {

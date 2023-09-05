@@ -47,7 +47,7 @@ describe("create", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ msg: "User creation sucessfull", user: newUser });
+        expect(mJson).toHaveBeenCalledWith({data:{ msg: "User creation sucessfull", user: newUser }});
     });
 
     it("Return error 500 if clientId is null", async () => {
@@ -177,7 +177,7 @@ describe("get", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ msg: "User recuperation is a sucess", users: mUsers });
+        expect(mJson).toHaveBeenCalledWith({data:{ msg: "User recuperation is a sucess", users: mUsers }});
     });
     it("should return error 500 if no client is found", async () => {
         const clientId = "";
@@ -237,7 +237,7 @@ describe("register", () => {
         expect(mStatus).toHaveBeenCalledWith(200);
 
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ msg: "register sucessfull", token: "token" });
+        expect(mJson).toHaveBeenCalledWith({data:{ msg: "register sucessfull", token: "token" }});
     });
 
 
@@ -301,7 +301,7 @@ describe("login", () => {
         expect(mStatus).toHaveBeenCalledWith(200);
 
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ msg: "Logged in", token: "token" });
+        expect(mJson).toHaveBeenCalledWith({data:{ msg: "Logged in", token: "token" }});
 
     });
     it("should trigger an error because user with this mail do not exist ", async () => {
@@ -407,7 +407,7 @@ describe("updatePassword", () => {
         expect(mStatus).toHaveBeenCalledWith(200);
 
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ msg: "register new password"});
+        expect(mJson).toHaveBeenCalledWith({data:{ msg: "register new password"}});
     });
     it("should return an error because user do not exist with this id ", async () => {
         const currentPassword = "oldUserPassword";
@@ -491,7 +491,7 @@ describe("updateUser", () => {
         expect(mStatus).toHaveBeenCalledWith(200);
 
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ msg: "register new user info sucessfull",  userUpdated: { name, email }});
+        expect(mJson).toHaveBeenCalledWith({data:{ msg: "register new user info sucessfull",  userUpdated: { name, email }}});
     });
     it("should return an error because it dosnt find the user with this id", async () => {
         const name = "newUserName";
