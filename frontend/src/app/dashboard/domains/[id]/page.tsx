@@ -2,7 +2,7 @@
 import { useState, useMemo } from "react";
 import { handleGet } from "../../../../api/handleCall";
 import { useQuery } from "react-query";
-import { MetricsDataset } from "../../../../types";
+import { MetricsDataset } from "@perfguardian/common/types";
 import { useParams, useSearchParams } from "next/navigation";
 import { useAuth } from "../../../../context/AuthContext";
 import Breadcrumb from "../../../../components/breadcrumb/Breadcrumb";
