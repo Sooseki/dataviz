@@ -7,12 +7,10 @@ import { Options } from "chrome-launcher";
 const chromeLauncher = require("chrome-launcher");
 import request from "request-promise-native";
 
-export const lighthouseFromPuppeteer = async (
-    url: string
-): Promise<LighthouseMetrics> => {
+export const lighthouseFromPuppeteer = async (url: string): Promise<LighthouseMetrics> => {
     const options: Options = {
         logLevel: "info",
-        chromeFlags: ["--disable-mobile-emulation"]
+        chromeFlags: ["--disable-mobile-emulation"],
     };
 
     // Launch chrome using chrome-launcher
@@ -37,16 +35,16 @@ export const lighthouseFromPuppeteer = async (
         firstContentfulPaint: convertValueToMsNumber(audits["first-contentful-paint"].displayValue),
         cumulativeLayoutShift: convertValueToMsNumber(audits["cumulative-layout-shift"].displayValue),
         totalBlockingTime: convertValueToMsNumber(audits["total-blocking-time"].displayValue),
-        timeToInteractive: convertValueToMsNumber(audits["interactive"].displayValue)
+        timeToInteractive: convertValueToMsNumber(audits["interactive"].displayValue),
     };
 };
 
 const convertValueToMsNumber = (value: string): number => {
-    const formatedValue = value.replace(/,/g,""); // retrieve thousand separator ,
+    const formatedValue = value.replace(/,/g, ""); // retrieve thousand separator ,
     const [count, unit] = formatedValue.split(/\s/);
 
     if (!unit || unit === "s") return parseFloat(count);
     if (unit === "ms") return parseFloat(count) * 1000;
 
-    return 0
-}
+    return 0;
+};

@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const gulp = require("gulp");
 const rename = require("gulp-rename");
 const sass = require("gulp-sass")(require("sass"));
+/* eslint-enable @typescript-eslint/no-var-requires */
 
 // Define the Sass compilation task
 function compileSass() {
@@ -12,6 +14,6 @@ function compileSass() {
 }
 
 gulp.task("default", gulp.series(compileSass));
-gulp.task('watch', function () {
+gulp.task("watch", function () {
     gulp.watch("./src/styles/**/*.scss", compileSass);
 });

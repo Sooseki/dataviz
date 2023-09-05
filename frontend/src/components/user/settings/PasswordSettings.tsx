@@ -27,8 +27,7 @@ const PasswordSettings = () => {
             setInputError("New password and new password confirmation don't match.");
             return;
         }
-        
-        changePassword(user.email, newPassword, currentPassword);
+        changePassword(newPassword, currentPassword);
     };
 
     return (

@@ -9,14 +9,14 @@ import CreateUser from "./CreateUser";
 import Modal from "@/components/modal/Modal";
 
 const GetUsers = () => {
-    const { user } = useAuth();
+    const { user, getConfig } = useAuth();
     const [currentPage, setCurrentPage] = useState<number>(1);
     const usersPerPage = 10;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
 
     const { data: useQueryUsers, refetch } = useQuery("get_users", async () => {
-        const useQueryUsers = await handleGet<GetUsersResponse>(`${host}/users?clientId=${user?.client.id}`);
+        const useQueryUsers = await handleGet<GetUsersResponse>(`${host}/users?clientId=${user?.client.id}`, getConfig());
         if (!useQueryUsers || !useQueryUsers.data?.users) {
             toast("There has been an error in fetching users. Please try again.", {
                 type: "error",
@@ -62,7 +62,7 @@ const GetUsers = () => {
                         dataSource={currentUsers}
                         columns={columns}
                         pagination={false}
-                        rowKey={(user) => user._id}
+                        rowKey={(user) => user.id}
                     />
                     <Pagination
                         current={currentPage}
