@@ -4,10 +4,11 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "gulp && npm install @perfguardian/common && next build",
+        "build": "gulp && npm run common:build && next build",
         "start": "next start",
         "lint": "next lint && tsc --noEmit",
-        "test": "jest --coverage"
+        "test": "jest --coverage",
+        "common:build": "cd ../common && npm i && cd ../frontend"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.4.0",
