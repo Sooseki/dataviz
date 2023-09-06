@@ -5,9 +5,11 @@
     "main": "index.ts",
     "scripts": {
         "test": "jest --coverage",
-        "start": "ts-node src/index.ts",
+        "dev": "ts-node src/index.ts",
+        "start": "node dist/index.js",
         "lint": "eslint && tsc --noEmit",
-        "build": "tsc --project ."
+        "build": "npm run common:build && tsc --project .",
+        "common:build": "cd ../common && npm i && cd ../backend"
     },
     "keywords": [],
     "author": "",

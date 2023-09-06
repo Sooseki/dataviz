@@ -13,14 +13,9 @@
         "resolveJsonModule": true,
         "baseUrl": ".",
         "paths": {
-            "@perfguardian/common": [
-                "../common"
-            ],
-            "@/*": [
-                "./src/*"
-            ]
+            "@perfguardian/common": ["../common"],
+            "@/*": ["./src/*"]
         },
-        "noEmit": true,
         "incremental": true,
         "allowJs": false,
         "skipLibCheck": true,
