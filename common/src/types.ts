@@ -1,35 +1,35 @@
 import { ObjectId, Types } from "mongoose";
 
 export interface IDataset {
-    timeToLoad: number | undefined,
-    jsUseRate: JsUseRate[] | undefined,
-    firstContentfulPaint: number,
-    cumulativeLayoutShift: number,
-    totalBlockingTime: number,
-    timeToInteractive: number
+    timeToLoad: number | undefined;
+    jsUseRate: JsUseRate[] | undefined;
+    firstContentfulPaint: number;
+    cumulativeLayoutShift: number;
+    totalBlockingTime: number;
+    timeToInteractive: number;
 }
 
 export interface LighthouseMetrics {
-    firstContentfulPaint: number,
-    cumulativeLayoutShift: number,
-    totalBlockingTime: number,
-    timeToInteractive: number
+    firstContentfulPaint: number;
+    cumulativeLayoutShift: number;
+    totalBlockingTime: number;
+    timeToInteractive: number;
 }
 
 export interface Client {
-    id?: string,
-    name?: string | undefined,
-    domains: ObjectId[]
+    id?: string;
+    name?: string | undefined;
+    domains: ObjectId[];
 }
 
 export type IClientPopulated = Omit<Client, "domains"> & {
-    domains: IDomain[]
-}
+    domains: IDomain[];
+};
 
 export interface IDomain {
-    id?: string,
-    url: string,
-    datasets?: Types.ObjectId[]
+    id?: string;
+    url: string;
+    datasets?: Types.ObjectId[];
 }
 export interface User {
     id: string;
@@ -55,7 +55,7 @@ export type JsUseRate = {
     usedBytes: number;
     totalBytes: number;
     percentUsed: string;
-}
+};
 
 export interface Domain {
     _id: string;
@@ -64,12 +64,20 @@ export interface Domain {
 
 export interface AuthContextType {
     user?: User | undefined;
-    signUp?: (email: string, password: string, username: string, company: string) => Promise<void>;
+    signUp?: (
+        email: string,
+        password: string,
+        username: string,
+        company: string
+    ) => Promise<void>;
     autoLogIn?: (token: string) => Promise<void>;
     changeOtherInfo?: (email: string, name: string) => Promise<void>;
     logIn?: (email: string, password: string) => Promise<void>;
     logOut: () => void;
-    changePassword?: (newPassword: string, currentPassword: string) => Promise<void>;
+    changePassword?: (
+        newPassword: string,
+        currentPassword: string
+    ) => Promise<void>;
     getConfig: () => Record<string, unknown>;
 }
 
