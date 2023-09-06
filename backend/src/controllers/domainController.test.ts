@@ -1,3 +1,8 @@
+const mRunSimulationForDomains = jest.fn();
+jest.mock("../simulation-workers/simulationsHub", () => ({
+    runSimulationForDomains: mRunSimulationForDomains,
+}));
+
 import {
     mClientFindOne,
     mClientUpdateOne,

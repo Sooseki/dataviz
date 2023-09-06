@@ -43,7 +43,6 @@ export const runSimulation = async (domains: IDomain[]) => {
             metrics.push({ domain, data });
         }
     }
-    console.log("these are new metrics", metrics);
     await browser.close();
     return metrics;
 };
