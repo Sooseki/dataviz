@@ -12,10 +12,10 @@
         border-radius: $border-radius-md;
         background-color: $milky-white-darker-color;
         margin-bottom: 16px;
-
-    }label{
-        @include font($text-font, 18px, 700, $milky-white-color, 22px);
+        border: 1px solid $charcoal-color;
+    }
+    label {
+        @include font($text-font, 18px, 700, $charcoal-color, 22px);
         margin-bottom: 8px;
-
     }
 }
