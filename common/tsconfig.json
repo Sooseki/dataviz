@@ -4,7 +4,7 @@
         "strict": true,
         "forceConsistentCasingInFileNames": true,
         "noEmit": true,
-        "esModuleInterop": true,
+        //"esModuleInterop": true,
         "module": "CommonJS",
         "noImplicitReturns": true,
         "noUnusedLocals": true,
