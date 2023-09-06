@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
 import { handlePost } from "../../../api/handleCall";
-import { User } from "../../../types";
+import { User } from "@perfguardian/common/src/types";
 import { Select } from "antd";
 import InputText from "../../../components/InputText";
 import Image from "next/image";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Domain } from "../../types";
+import { Domain } from "@perfguardian/common/src/types";
 import { useQuery } from "react-query";
 import { handleGet } from "../../api/handleCall";
 import { useAuth } from "../../context/AuthContext";
