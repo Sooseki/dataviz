@@ -1,4 +1,9 @@
-import { mClientFindOne, mClientUpdateOne, mDomainCreate, mDomainFind } from "../tests/test-utils";
+import {
+    mClientFindOne,
+    mClientUpdateOne,
+    mDomainCreate,
+    mDomainFind,
+} from "../tests/test-utils";
 import { Request, Response } from "express";
 import { createDomain, getDomains } from "./domainController";
 
@@ -30,7 +35,9 @@ describe("createDomain", () => {
 
     it("should create a new domain", async () => {
         const url = "https://example.com";
-        const req = { body: { url, clientId: "clientIdTest" } } as unknown as Request;
+        const req = {
+            body: { url, clientId: "clientIdTest" },
+        } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
@@ -58,7 +65,7 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({data:{ domain: newDomain }});
+        expect(mJson).toHaveBeenCalledWith({ data: { domain: newDomain } });
     });
 
     it("should return an error if clientId param is missing", async () => {
@@ -74,11 +81,15 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "Domain could not be created for this client." });
+        expect(mJson).toHaveBeenCalledWith({
+            error: "Domain could not be created for this client.",
+        });
     });
 
     it("should return an error if url param is missing", async () => {
-        const req = { body: { clientId: "clientIdTest" } } as unknown as Request;
+        const req = {
+            body: { clientId: "clientIdTest" },
+        } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
@@ -89,12 +100,16 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "Domain could not be created. Wrong url param" });
+        expect(mJson).toHaveBeenCalledWith({
+            error: "Domain could not be created. Wrong url param",
+        });
     });
 
     it("should return an error if client does not exist in DB", async () => {
         const url = "https://example.com";
-        const req = { body: { url, clientId: "clientIdTest" } } as unknown as Request;
+        const req = {
+            body: { url, clientId: "clientIdTest" },
+        } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
@@ -110,12 +125,16 @@ describe("createDomain", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "Domain could not be created. Client not found." });
+        expect(mJson).toHaveBeenCalledWith({
+            error: "Domain could not be created. Client not found.",
+        });
     });
 
     it("should return an error if client domain already exists", async () => {
         const url = "https://domainUrl3.com";
-        const req = { body: { url, clientId: "clientIdTest" } } as unknown as Request;
+        const req = {
+            body: { url, clientId: "clientIdTest" },
+        } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
@@ -167,7 +186,7 @@ describe("getDomains", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({data:{ domains: mDomains }});
+        expect(mJson).toHaveBeenCalledWith({ data: { domains: mDomains } });
     });
 
     it("should return a 500 error status if no client found", async () => {
