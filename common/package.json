@@ -8,6 +8,7 @@
     "author": "Manon, Alex, David and Juan for Hetic",
     "license": "ISC",
     "dependencies": {
+        "@types/mongoose": "^5.11.97",
         "mongoose": "^7.5.0"
     }
 }
