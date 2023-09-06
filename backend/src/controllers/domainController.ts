@@ -3,8 +3,9 @@ import Client from "../models/Client";
 import Domain from "../models/Domain";
 import { clientDomainExists } from "../utils/client";
 import { handleControllerErrors } from "../utils/handleControllerErrors";
-import { IClientPopulated } from "@perfguardian/common/src/types";
 import { isValidUrl } from "../utils/domain";
+import { runSimulationForDomains } from "../simulation-workers/simulationsHub";
+import { IDomain, IClientPopulated } from "@perfguardian/common/src/types";
 
 export const createDomain = async (
     req: Request,
@@ -31,14 +32,15 @@ export const createDomain = async (
         if (clientDomainExists(client, url))
             throw new Error("Domain already exists");
 
-        const newDomain = await Domain.create({ url });
-
+        const newDomain: IDomain = await Domain.create({ url });
         await Client.updateOne(
             { _id: clientId },
             {
                 domains: [...client.domains, newDomain.id],
             }
         );
+        const newDomainForSimulation = [newDomain];
+        runSimulationForDomains(newDomainForSimulation);
 
         return res.status(200).json({ data: { domain: newDomain } });
     } catch (err) {

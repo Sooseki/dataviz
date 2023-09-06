@@ -33,7 +33,7 @@ const simulationhub = async (
     }
 };
 
-export const runSimulationForDomains = async (domains: IDomain[]) => {
+export const runSimulation = async (domains: IDomain[]) => {
     const browser = await puppeteer.launch({ headless: "new" });
 
     const metrics = [];
@@ -43,16 +43,19 @@ export const runSimulationForDomains = async (domains: IDomain[]) => {
             metrics.push({ domain, data });
         }
     }
-
     await browser.close();
     return metrics;
 };
 
 export const runSimulationForAllDomains = async () => {
     const domains = await Domain.find();
+    runSimulationForDomains(domains);
+};
+
+export const runSimulationForDomains = async (domains: IDomain[]) => {
     if (!domains) return;
 
-    const metrics = await runSimulationForDomains(domains);
+    const metrics = await runSimulation(domains);
     Promise.all(
         metrics.map(async (metric) => {
             const dataset = await Dataset.create({
