@@ -3,7 +3,7 @@ import Client from "../models/Client";
 import Domain from "../models/Domain";
 import { clientDomainExists } from "../utils/client";
 import { handleControllerErrors } from "../utils/handleControllerErrors";
-import { IClientPopulated } from "@perfguardian/common/types";
+import { IClientPopulated } from "@perfguardian/common/src/types";
 import { isValidUrl } from "../utils/domain";
 
 export const createDomain = async (req: Request, res: Response): Promise<Response> => {

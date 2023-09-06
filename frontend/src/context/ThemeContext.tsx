@@ -1,6 +1,6 @@
 "use client";
 import { useLocalStorage } from "../lib/useLocalStorage";
-import { ThemeContextType } from "@perfguardian/common/types";
+import { ThemeContextType } from "@perfguardian/common/src/types";
 import {
     PropsWithChildren,
     createContext,

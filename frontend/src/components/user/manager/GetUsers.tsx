@@ -1,5 +1,5 @@
-import { useAuth } from "@/context/AuthContext";
-import { GetUsersResponse } from "@perfguardian/common/types";
+import { useAuth } from "../../../context/AuthContext";
+import { GetUsersResponse } from "@perfguardian/common/src/types";
 import { useState } from "react";
 import { Table, Pagination } from "antd";
 import { useQuery } from "react-query";

@@ -12,7 +12,7 @@ import {
     Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { MetricsDataset } from "../../types";
+import { MetricsDataset } from "@perfguardian/common/src/types";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
 ChartJS.register(

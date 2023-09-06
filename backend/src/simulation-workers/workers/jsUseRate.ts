@@ -1,5 +1,5 @@
 import { Browser, CoverageEntry } from "puppeteer";
-import { JsUseRate } from "@perfguardian/common/types";
+import { JsUseRate } from "@perfguardian/common/src/types";
 
 const calculateUsedBytes = (coverage: CoverageEntry[]): JsUseRate[] =>
     coverage.map(({ url, ranges, text }) => {
@@ -17,16 +17,17 @@ const calculateUsedBytes = (coverage: CoverageEntry[]): JsUseRate[] =>
         };
     });
 
-export const jsUseRate = async (url: string, browser: Browser): Promise<JsUseRate[]> => {
+export const jsUseRate = async (
+    url: string,
+    browser: Browser
+): Promise<JsUseRate[]> => {
     const page = await browser.newPage();
 
     await Promise.all([page.coverage.startJSCoverage()]);
 
     await page.goto(url);
 
-    const [jsCoverage] = await Promise.all([
-        page.coverage.stopJSCoverage(),
-    ]);
+    const [jsCoverage] = await Promise.all([page.coverage.stopJSCoverage()]);
 
     return calculateUsedBytes(jsCoverage);
 };
