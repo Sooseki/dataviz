@@ -21,11 +21,18 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
             }
         });
     }, []);
-    if (!metricsData.data) {
-        return null;
+
+    if (!metricsData.data || !metricsData.data.metrics.length) {
+        return <p>Pas encore de datas revenez plus tard</p>;
     }
+
     const lastMetricsTable =
         metricsData.data.metrics[metricsData.data.metrics.length - 1];
+
+    if (!lastMetricsTable) {
+        return <p>Pas encore de datas revenez plus tard</p>;
+    }
+
     const {
         jsUseRate,
         date,
