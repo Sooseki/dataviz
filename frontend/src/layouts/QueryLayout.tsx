@@ -4,8 +4,8 @@ import { QueryClientProvider, QueryClient } from "react-query";
 
 const QueryLayout = ({ children }: { children: ReactNode }) => {
     return (
-        <QueryClientProvider client={ new QueryClient() }>
-            { children }
+        <QueryClientProvider client={new QueryClient()}>
+            {children}
         </QueryClientProvider>
     );
 };

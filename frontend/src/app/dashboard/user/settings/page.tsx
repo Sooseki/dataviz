@@ -1,9 +1,9 @@
 "use client";
 
-import Tabs from "@/components/tabs/Tabs";
-import PasswordSettings from "@/components/user/settings/PasswordSettings";
-import ThemeSettings from "@/components/user/settings/ThemeSettings";
-import InfoSettings from "@/components/user/settings/InfoSettings";
+import Tabs from "../../../../components/tabs/Tabs";
+import PasswordSettings from "../../../../components/user/settings/PasswordSettings";
+import ThemeSettings from "../../../../components/user/settings/ThemeSettings";
+import InfoSettings from "../../../../components/user/settings/InfoSettings";
 
 const UserSettings = () => {
     const tabs = [
@@ -18,7 +18,7 @@ const UserSettings = () => {
         {
             label: "Change user Info",
             component: <InfoSettings />,
-        }
+        },
     ];
     return (
         <>

@@ -1,0 +1,14 @@
+{
+    "name": "@perfguardian/common",
+    "version": "1.0.0",
+    "description": "Shared code and types for frontend and backend repositories",
+    "main": "index.js",
+    "scripts": {},
+    "keywords": [],
+    "author": "Manon, Alex, David and Juan for Hetic",
+    "license": "ISC",
+    "dependencies": {
+        "@types/mongoose": "^5.11.97",
+        "mongoose": "^7.5.0"
+    }
+}

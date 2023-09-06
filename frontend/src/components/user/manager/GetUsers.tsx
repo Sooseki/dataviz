@@ -1,12 +1,12 @@
-import { useAuth } from "@/context/AuthContext";
-import { GetUsersResponse } from "@/types";
+import { useAuth } from "../../../context/AuthContext";
+import { GetUsersResponse } from "@perfguardian/common/src/types";
 import { useState } from "react";
 import { Table, Pagination } from "antd";
 import { useQuery } from "react-query";
-import { handleGet } from "@/api/handleCall";
+import { handleGet } from "../../../api/handleCall";
 import { toast } from "react-toastify";
 import CreateUser from "./CreateUser";
-import Modal from "@/components/modal/Modal";
+import Modal from "../../../components/modal/Modal";
 
 const GetUsers = () => {
     const { user, getConfig } = useAuth();
@@ -16,13 +16,19 @@ const GetUsers = () => {
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
 
     const { data: useQueryUsers, refetch } = useQuery("get_users", async () => {
-        const useQueryUsers = await handleGet<GetUsersResponse>(`${host}/users?clientId=${user?.client.id}`, getConfig());
+        const useQueryUsers = await handleGet<GetUsersResponse>(
+            `${host}/users?clientId=${user?.client.id}`,
+            getConfig()
+        );
         if (!useQueryUsers || !useQueryUsers.data?.users) {
-            toast("There has been an error in fetching users. Please try again.", {
-                type: "error",
-                theme: "colored",
-                position: "bottom-left",
-            });
+            toast(
+                "There has been an error in fetching users. Please try again.",
+                {
+                    type: "error",
+                    theme: "colored",
+                    position: "bottom-left",
+                }
+            );
             return undefined;
         }
         toast(`Every user from ${user?.client.name} has been fetched !`, {
@@ -52,7 +58,10 @@ const GetUsers = () => {
     ];
     const startIndex = (currentPage - 1) * usersPerPage;
     const endIndex = startIndex + usersPerPage;
-    const currentUsers = useQueryUsers?.data?.users?.slice(startIndex, endIndex);
+    const currentUsers = useQueryUsers?.data?.users?.slice(
+        startIndex,
+        endIndex
+    );
 
     return (
         <div>
@@ -75,12 +84,26 @@ const GetUsers = () => {
             ) : (
                 <p>Loading users...</p>
             )}
-            {user?.role === "administrator" && 
+            {user?.role === "administrator" && (
                 <>
-                    <button className="add-user-button " onClick={() => setIsModalOpen(!isModalOpen)}>Add User</button>
-                    <Modal component={<CreateUser closeModal={() => setIsModalOpen(false)} refetch={refetch} />} isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} />
+                    <button
+                        className="add-user-button "
+                        onClick={() => setIsModalOpen(!isModalOpen)}
+                    >
+                        Add User
+                    </button>
+                    <Modal
+                        component={
+                            <CreateUser
+                                closeModal={() => setIsModalOpen(false)}
+                                refetch={refetch}
+                            />
+                        }
+                        isOpen={isModalOpen}
+                        closeModal={() => setIsModalOpen(false)}
+                    />
                 </>
-            }
+            )}
         </div>
     );
 };

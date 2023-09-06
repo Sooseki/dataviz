@@ -21,9 +21,29 @@ function Burger() {
                 xmlns="http://www.w3.org/2000/svg"
                 onClick={handleClick}
             >
-                <rect className="burger-btn--1" width="25" height="3" rx="3" ry="3" />
-                <rect className="burger-btn--2" width="25" height="3" y="7" rx="3" ry="3" />
-                <rect className="burger-btn--3" width="25" height="3" y="14" rx="3" ry="3" />
+                <rect
+                    className="burger-btn--1"
+                    width="25"
+                    height="3"
+                    rx="3"
+                    ry="3"
+                />
+                <rect
+                    className="burger-btn--2"
+                    width="25"
+                    height="3"
+                    y="7"
+                    rx="3"
+                    ry="3"
+                />
+                <rect
+                    className="burger-btn--3"
+                    width="25"
+                    height="3"
+                    y="14"
+                    rx="3"
+                    ry="3"
+                />
             </svg>
         </div>
     );

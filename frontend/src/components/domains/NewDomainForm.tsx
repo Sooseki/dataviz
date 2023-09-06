@@ -1,9 +1,9 @@
 import { FormEvent, useState } from "react";
 import InputText from "../InputText";
-import { handlePost } from "@/api/handleCall";
+import { handlePost } from "../../api/handleCall";
 import { Domain } from "domain";
 import { toast } from "react-toastify";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 const NewDomainForm = ({
     closeModal,

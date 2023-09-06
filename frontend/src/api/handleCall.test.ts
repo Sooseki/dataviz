@@ -16,13 +16,13 @@ describe("handleGet", () => {
 
     it("should make a get request", async () => {
         const url = "urlTest";
-        const axiosRequestResponse = { data: {}};
+        const axiosRequestResponse = { data: {} };
         mGet.mockResolvedValueOnce(axiosRequestResponse);
         const res = await handleGet(url);
 
         expect(mGet).toHaveBeenCalledTimes(1);
         expect(mGet).toHaveBeenCalledWith(url, config);
-        expect(res).toEqual(axiosRequestResponse);
+        expect(res).toEqual(axiosRequestResponse.data);
     });
 
     it("should return undefined if request failed", async () => {
@@ -45,13 +45,13 @@ describe("handlePost", () => {
     it("should make a post request", async () => {
         const url = "urlTest";
         const data = { email: "testEmail", name: "testName" };
-        const axiosRequestResponse = { data: {}};
+        const axiosRequestResponse = { data: {} };
         mPost.mockResolvedValueOnce(axiosRequestResponse);
         const res = await handlePost(url, data);
 
         expect(mPost).toHaveBeenCalledTimes(1);
         expect(mPost).toHaveBeenCalledWith(url, data, config);
-        expect(res).toEqual(axiosRequestResponse);
+        expect(res).toEqual(axiosRequestResponse.data);
     });
 
     it("should return undefined if request failed", async () => {
@@ -75,13 +75,13 @@ describe("handlePut", () => {
     it("should make a put request", async () => {
         const url = "urlTest";
         const data = { email: "testEmail", name: "testName" };
-        const axiosRequestResponse = { data: {}};
+        const axiosRequestResponse = { data: {} };
         mPut.mockResolvedValueOnce(axiosRequestResponse);
         const res = await handlePut(url, data);
 
         expect(mPut).toHaveBeenCalledTimes(1);
         expect(mPut).toHaveBeenCalledWith(url, data, config);
-        expect(res).toEqual(axiosRequestResponse);
+        expect(res).toEqual(axiosRequestResponse.data);
     });
 
     it("should return undefined if request failed", async () => {
@@ -99,6 +99,6 @@ describe("handlePut", () => {
 
 const config = {
     headers: {
-        "Content-Type": "application/json"
-    }
+        "Content-Type": "application/json",
+    },
 };

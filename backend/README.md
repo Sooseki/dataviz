@@ -19,4 +19,4 @@ ALLOWED_ORIGIN=http://localhost:3000
 
 Then write
 
-npm run start
+npm run dev

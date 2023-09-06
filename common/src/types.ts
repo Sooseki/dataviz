@@ -1,7 +1,35 @@
-// TODO : move interface User to types when mongoDB User return values available
+import { ObjectId, Types } from "mongoose";
+
+export interface IDataset {
+    timeToLoad: number | undefined;
+    jsUseRate: JsUseRate[] | undefined;
+    firstContentfulPaint: number;
+    cumulativeLayoutShift: number;
+    totalBlockingTime: number;
+    timeToInteractive: number;
+}
+
+export interface LighthouseMetrics {
+    firstContentfulPaint: number;
+    cumulativeLayoutShift: number;
+    totalBlockingTime: number;
+    timeToInteractive: number;
+}
+
 export interface Client {
-    id: string;
-    name: string;
+    id?: string;
+    name?: string | undefined;
+    domains: ObjectId[];
+}
+
+export type IClientPopulated = Omit<Client, "domains"> & {
+    domains: IDomain[];
+};
+
+export interface IDomain {
+    id?: string;
+    url: string;
+    datasets?: Types.ObjectId[];
 }
 export interface User {
     id: string;
@@ -10,28 +38,25 @@ export interface User {
     client: Client;
     role: string;
 }
+
 export interface MetricsDataset {
     _id: string;
     date: string;
     timeToLoad: number;
-    jsUseRate: JsUseRateResult[] | undefined;
-    timeToInteractive: number | undefined;
     firstContentfulPaint: number | undefined;
     cumulativeLayoutShift: number | undefined;
     totalBlockingTime: number | undefined;
+    timeToInteractive: number | undefined;
+    jsUseRate: JsUseRate[] | undefined;
 }
-export interface JsUseRateResult {
+
+export type JsUseRate = {
     url: string;
     usedBytes: number;
     totalBytes: number;
     percentUsed: string;
-}
-export interface LighthouseMetrics {
-    first_contentful_paint: string;
-    cumulative_layout_shift: string;
-    total_blocking_time: string;
-    time_to_interactive: string;
-}
+};
+
 export interface Domain {
     _id: string;
     url: string;

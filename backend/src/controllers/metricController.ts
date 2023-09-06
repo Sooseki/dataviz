@@ -25,7 +25,7 @@ export const createMetric = async (req: Request, res: Response): Promise<Respons
             datasets: [...domain.datasets, dataset.id],
         });
 
-        return res.status(200).json({ msg: "metrics creation sucessfull", metrics });
+        return res.status(200).json({data:{ msg: "metrics creation sucessfull", metrics }});
     } catch (err) { return handleControllerErrors(err, res, "something went wrong in metrics creation");}
 };
 
@@ -43,6 +43,6 @@ export const getMetrics = async (req: Request, res: Response): Promise<Response>
         if (!client?.domains.find((domain) => domain.toString() === domainId))
             throw new Error("cannot access this resource");
 
-        return res.status(200).json({ metrics: domain.datasets });
+        return res.status(200).json({data:{ metrics: domain.datasets }});
     } catch (err) { return handleControllerErrors(err, res, "metrics could not be retrieved");}
 };
