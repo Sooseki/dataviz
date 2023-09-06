@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "gulp && next build",
+        "build": "gulp && npm install @perfguardian/common && next build",
         "start": "next start",
         "lint": "next lint && tsc --noEmit",
         "test": "jest --coverage"
