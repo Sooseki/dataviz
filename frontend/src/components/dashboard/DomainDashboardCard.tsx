@@ -43,7 +43,7 @@ const DomainDashboardCard: React.FC<DomainDashboardCardProps> = ({
     };
 
     return (
-        <div className="domain-card">
+        <div className="dashboard_card">
             <h3>{domain.url}</h3>
             {latestMetrics && (
                 <>

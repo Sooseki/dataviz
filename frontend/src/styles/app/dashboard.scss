@@ -2,6 +2,56 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    flex-direction: column;
+    gap: 30x;
+    &_card {
+        background-color: $grey-color;
+        margin: 30px 0;
+        width: 45%;
+        padding: 40px;
+        flex-wrap: wrap;
+        display: flex;
+        gap: 30px;
+        h3 {
+            @include font(
+                $title-font,
+                $title-font-size-s,
+                700,
+                $nightblue-darker-color,
+                22px
+            );
+            width: 100%;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        p {
+            display: flex;
+            flex-direction: column;
+            width: 45%;
+            @include font(
+                $text-font,
+                $title-font-size-xs,
+                400,
+                $nightblue-darker-color,
+                22px
+            );
+            strong {
+                @include font(
+                    $text-font,
+                    $title-font-size-xs,
+                    700,
+                    $nightblue-darker-color,
+                    22px
+                );
+                margin-bottom: 10px;
+            }
+        }
+    }
+    .domains-overview {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
 }
 
 .domain-card {

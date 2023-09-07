@@ -18,12 +18,21 @@
         width: 100%;
         height: 100%;
         &::first-letter {
-          text-transform: uppercase;
+            text-transform: uppercase;
         }
     }
     &:hover {
-      background-color: $grey-color;
-      cursor: pointer;
+        background-color: $grey-color;
+        cursor: pointer;
+    }
+    h3 {
+        @include font(
+            $title-font,
+            $title-font-size-md,
+            400,
+            $nightblue-darker-color,
+            22px
+        );
     }
 }
 
