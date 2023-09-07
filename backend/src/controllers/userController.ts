@@ -5,7 +5,10 @@ import { Request, Response } from "express";
 import { getToken } from "../utils/handleToken";
 import { handleControllerErrors } from "../utils/handleControllerErrors";
 
-export const register = async (req: Request, res: Response): Promise<Response> => {
+export const register = async (
+    req: Request,
+    res: Response
+): Promise<Response> => {
     const { name, email, password, company } = req.body;
     const role = "administrator";
     try {
@@ -45,9 +48,15 @@ export const register = async (req: Request, res: Response): Promise<Response> =
 
         const token = await getToken(payload);
 
-        return res.status(200).json({data:{ msg: "register sucessfull", token }});
+        return res
+            .status(200)
+            .json({ data: { msg: "register sucessfull", token } });
     } catch (err) {
-        return handleControllerErrors(err, res, "Something went wrong in registration");
+        return handleControllerErrors(
+            err,
+            res,
+            "Something went wrong in registration"
+        );
     }
 };
 
@@ -81,7 +90,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         };
 
         const token = await getToken(payload);
-        return res.status(200).json({data:{ msg: "Logged in", token }});
+        return res.status(200).json({ data: { msg: "Logged in", token } });
     } catch (err) {
         return handleControllerErrors(err, res, "something went wrong");
     }
@@ -94,9 +103,13 @@ export const updatePassword = async (req: Request, res: Response) => {
         if (!user) throw new Error("user not found");
 
         const salt = await bcrypt.genSalt(10);
-        const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+        const isCurrentPasswordValid = await bcrypt.compare(
+            currentPassword,
+            user.password
+        );
 
-        if (!isCurrentPasswordValid) throw new Error("current password is not valid");
+        if (!isCurrentPasswordValid)
+            throw new Error("current password is not valid");
         const newHashedPassword = await bcrypt.hash(newPassword, salt);
 
         await User.updateOne(
@@ -106,9 +119,13 @@ export const updatePassword = async (req: Request, res: Response) => {
             }
         );
 
-        return res.status(200).json({data:{ msg: "register new password" }});
+        return res.status(200).json({ data: { msg: "register new password" } });
     } catch (err) {
-        return handleControllerErrors(err, res, "An error occurred while updating the password");
+        return handleControllerErrors(
+            err,
+            res,
+            "An error occurred while updating the password"
+        );
     }
 };
 
@@ -139,22 +156,32 @@ export const updateUser = async (req: Request, res: Response) => {
             }
         );
 
-        return res.status(200).json({data:{
-            msg: "register new user info sucessfull",
-            userUpdated: { name: newName, email: newEmail },
-        }});
+        return res.status(200).json({
+            data: {
+                msg: "register new user info sucessfull",
+                userUpdated: { name: newName, email: newEmail },
+            },
+        });
     } catch (err) {
-        return handleControllerErrors(err, res, "An error occurred while updating the user");
+        return handleControllerErrors(
+            err,
+            res,
+            "An error occurred while updating the user"
+        );
     }
 };
 
-export const create = async (req: Request, res: Response): Promise<Response> => {
+export const create = async (
+    req: Request,
+    res: Response
+): Promise<Response> => {
     const { email, password, name, clientId, role } = req.body;
     try {
         if (!clientId) throw new Error("Cannot create user for this client");
 
         const existingUser = await User.findOne({ email });
-        if (existingUser) throw new Error("Email already used, user already created");
+        if (existingUser)
+            throw new Error("Email already used, user already created");
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -166,15 +193,25 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
             password: hashedPassword,
         });
 
-        const client = await Client.findByIdAndUpdate(clientId, { $push: { users: user._id } }, { new: true });
+        const client = await Client.findByIdAndUpdate(
+            clientId,
+            { $push: { users: user._id } },
+            { new: true }
+        );
 
         if (!client) {
             throw new Error("Client not found");
         }
 
-        return res.status(200).json({data:{ msg: "User creation sucessfull", user }});
+        return res
+            .status(200)
+            .json({ data: { msg: "User creation sucessfull", user } });
     } catch (err) {
-        return handleControllerErrors(err, res, "Something went wrong in user creation");
+        return handleControllerErrors(
+            err,
+            res,
+            "Something went wrong in user creation"
+        );
     }
 };
 
@@ -188,8 +225,17 @@ export const get = async (req: Request, res: Response): Promise<Response> => {
             throw new Error("Client not found");
         }
 
-        return res.status(200).json({data:{ msg: "User recuperation is a sucess", users: client.users }});
+        return res.status(200).json({
+            data: {
+                msg: "User recuperation is a sucess",
+                users: client.users,
+            },
+        });
     } catch (err) {
-        return handleControllerErrors(err, res, "Something went wrong while fetching users");
+        return handleControllerErrors(
+            err,
+            res,
+            "Something went wrong while fetching users"
+        );
     }
 };
