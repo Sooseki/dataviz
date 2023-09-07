@@ -1,6 +1,9 @@
 // DomainDashboardCard.tsx
 import React from "react";
 import { Domain, MetricsDataset } from "@perfguardian/common/src/types";
+import { useAuth } from "../../context/AuthContext";
+import { useQuery } from "react-query";
+import { handleGet } from "../../api/handleCall";
 
 type DomainDashboardCardProps = {
     domain: Domain;
@@ -9,14 +12,31 @@ type DomainDashboardCardProps = {
 
 const DomainDashboardCard: React.FC<DomainDashboardCardProps> = ({
     domain,
-    metrics,
 }) => {
+    const { user, getConfig } = useAuth();
 
-    const latestMetrics = metrics?.length ? metrics[metrics.length - 1] : null;
+    const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
+
+    const { data: domainsMetrics } = useQuery(domain._id, async () => {
+        return await handleGet<{ metrics: MetricsDataset[] }>(
+            `${host}/metrics?domainId=${domain._id}&clientId=${user?.client.id}`,
+            getConfig()
+        );
+    });
+
+    if (!domainsMetrics || !domainsMetrics?.data?.metrics) {
+        return null;
+    }
+    const metrics = domainsMetrics.data.metrics;
+    const latestMetrics = metrics.length ? metrics[metrics.length - 1] : null;
     const previousMetrics =
-        metrics?.length > 1 ? metrics[metrics.length - 2] : null;
+        metrics.length > 1 ? metrics[metrics.length - 2] : null;
 
-    const compareMetric = (current: number, previous: number) => {
+    const compareMetric = (
+        current: number | undefined,
+        previous: number | undefined
+    ) => {
+        if (current === undefined || previous === undefined) return "➡️";
         if (current > previous) return "🔺";
         if (current < previous) return "🔻";
         return "➡️";

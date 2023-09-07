@@ -23,7 +23,6 @@ const Domain = () => {
             getConfig()
         );
     });
-
     const [activeTab, setActiveTab] = useState("lastScan");
     const handleTabClick = (tab: Tab) => {
         setActiveTab(tab);
@@ -92,8 +91,7 @@ const Domain = () => {
                             ? "singledomain_last-active"
                             : ""
                     }`}
-                    onClick={() => handleTabClick("lastScan")}
-                >
+                    onClick={() => handleTabClick("lastScan")}>
                     Last Scan Data
                 </div>
                 <div
@@ -102,16 +100,14 @@ const Domain = () => {
                             ? "singledomain_analyse-active"
                             : ""
                     }`}
-                    onClick={() => handleTabClick("allDatas")}
-                >
+                    onClick={() => handleTabClick("allDatas")}>
                     All Datas
                 </div>
             </div>
             <div
                 className={`singledomain_lastscan ${
                     activeTab === "lastScan" ? "active" : ""
-                }`}
-            >
+                }`}>
                 <div>
                     {useQueryMetrics && (
                         <PercentUsedList metricsData={useQueryMetrics} />
@@ -121,8 +117,7 @@ const Domain = () => {
             <div
                 className={`singledomain_alldatas ${
                     activeTab === "allDatas" ? "active" : ""
-                }`}
-            >
+                }`}>
                 <DateRangePicker onChange={handleDateRangeChange} />
                 {filteredMetrics && (
                     <LineChart
