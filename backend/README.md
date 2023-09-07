@@ -20,3 +20,11 @@ ALLOWED_ORIGIN=http://localhost:3000
 Then write
 
 npm run dev
+
+## To start project in production
+
+```bash
+npm i
+npm run build
+npm run start`
+```
