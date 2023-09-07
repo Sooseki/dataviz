@@ -1,109 +1,59 @@
 "use client";
 
-const Home = () => {
+import React from "react";
+import { useQuery } from "react-query";
+import { useAuth } from "../../context/AuthContext";
+import DomainDashboardCard from "../../components/dashboard/DomainDashboardCard";
+import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
+import { handleGet } from "../../api/handleCall";
+import { Domain, MetricsDataset } from "@perfguardian/common/src/types";
+const Dashboard = () => {
+    const { user, getConfig } = useAuth();
+
+    const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
+
+    const DomainsData = () => {
+        const { data: domainsData } = useQuery(
+            "get_domains",
+            async () =>
+                await handleGet<{ domains: Domain[] }>(
+                    `${host}/domains?clientId=${user?.client.id}`,
+                    getConfig()
+                )
+        );
+        DomainsMetrics(domainsData);
+    };
+    const DomainsMetrics = (domainsData) => {
+        const { data: domainsMetrics } = useQuery("get_metrics", async () => {
+            return await handleGet<{ metrics: MetricsDataset[] }>(
+                `${host}/metrics?domainId=${domain["_id"]}&clientId=${user?.client.id}`,
+                getConfig()
+            );
+        });
+    };
+    console.log(domainsData);
     return (
-        <div>
-            <div className="dashboard">
-                <header className="page-title">
-                    <h1>Dashboard</h1>
-                </header>
-
-                <main className="dashboard-main">
-                    <section className="dashboard-section">
-                        <h2>Performance Metrics</h2>
-                        <div className="performance-metrics">
-                            <div className="metric-card">
-                                <h3>Page Load Time</h3>
-                                <p className="metric-value">2.3s</p>
-                                <p className="metric-description">
-                                    Average time taken to load the page.
-                                </p>
-                            </div>
-                            <div className="metric-card">
-                                <h3>Server Response Time</h3>
-                                <p className="metric-value">0.8s</p>
-                                <p className="metric-description">
-                                    Average time taken by the server to respond
-                                    to requests.
-                                </p>
-                            </div>
-                            <div className="metric-card">
-                                <h3>Conversion Rate</h3>
-                                <p className="metric-value">3.8%</p>
-                                <p className="metric-description">
-                                    Percentage of website visitors who completed
-                                    a desired action.
-                                </p>
-                            </div>
-
-                            <div className="metric-card">
-                                <h3>Bounce Rate</h3>
-                                <p className="metric-value">46%</p>
-                                <p className="metric-description">
-                                    Percentage of visitors who leave the website
-                                    after viewing only one page.
-                                </p>
-                            </div>
-                            <div className="metric-card">
-                                <h3>Average Page Load Time</h3>
-                                <p className="metric-value">2.1s</p>
-                                <p className="metric-description">
-                                    Average time it takes for a webpage to load
-                                    completely.
-                                </p>
-                            </div>
-
-                            <div className="metric-card">
-                                <h3>Server Response Time</h3>
-                                <p className="metric-value">120ms</p>
-                                <p className="metric-description">
-                                    Time taken by the server to respond to a
-                                    request from the browser.
-                                </p>
-                            </div>
-
-                            <div className="metric-card">
-                                <h3>Conversion Rate</h3>
-                                <p className="metric-value">3.8%</p>
-                                <p className="metric-description">
-                                    Percentage of website visitors who completed
-                                    a desired action.
-                                </p>
-                            </div>
-
-                            <div className="metric-card">
-                                <h3>Bounce Rate</h3>
-                                <p className="metric-value">46%</p>
-                                <p className="metric-description">
-                                    Percentage of visitors who leave the website
-                                    after viewing only one page.
-                                </p>
-                            </div>
-
-                            <div className="metric-card">
-                                <h3>Revenue</h3>
-                                <p className="metric-value">$1,245</p>
-                                <p className="metric-description">
-                                    Total revenue generated from website sales.
-                                </p>
-                            </div>
-
-                            <div className="metric-card">
-                                <h3>Engagement Score</h3>
-                                <p className="metric-value">8.5</p>
-                                <p className="metric-description">
-                                    Measure of user engagement on the website.
-                                </p>
-                            </div>
-                        </div>
-                    </section>
-                </main>
-                <footer className="dashboard-footer">
-                    <p>&copy; 2023 Your Dashboard</p>
-                </footer>
+        <div className="dashboard">
+            <h1>Welcome, {user.name}</h1>
+            <Breadcrumb
+                items={[
+                    {
+                        label: "Dashboard",
+                        path: "/dashboard",
+                    },
+                    {
+                        label: "Domains",
+                        path: "/domains",
+                    },
+                ]}
+            />
+            <div className="domains-overview">
+                {domainsData?.data?.domains?.map((domain) => (
+                    <DomainDashboardCard key={domain._id} domain={domain} />
+                ))}
             </div>
         </div>
     );
 };
 
-export default Home;
+export default Dashboard;
