@@ -48,7 +48,11 @@ export const runSimulation = async (domains: IDomain[]) => {
 };
 
 export const runSimulationForAllDomains = async () => {
+    console.log(
+        "Cron lancé une fois dans la fonction runSimulationForAllDomains"
+    );
     const domains = await Domain.find();
+    console.log("Domaines trouvés : " + domains);
     runSimulationForDomains(domains);
 };
 
@@ -56,12 +60,16 @@ export const runSimulationForDomains = async (domains: IDomain[]) => {
     if (!domains) return;
 
     const metrics = await runSimulation(domains);
+    console.log("Metrics calculées : " + metrics);
+
     Promise.all(
         metrics.map(async (metric) => {
             const dataset = await Dataset.create({
                 date: new Date(),
                 ...metric.data,
             });
+
+            console.log("Dataset créé : " + dataset);
 
             await Domain.updateOne(
                 { _id: metric.domain.id },
