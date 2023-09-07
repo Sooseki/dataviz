@@ -1,5 +1,20 @@
 ## Getting Started
 
+Create a .env.local file
+
+`NEXT_PUBLIC_API_URL=localhost
+NEXT_PUBLIC_API_PORT=3002
+NEXT_PUBLIC_API_PROTOCOL=http`
+
+## Run the project in local mode
+
+```bash
+gulp && npm i
+# or
+gulp --watch
+npm i
+```
+
 First, run the development server:
 
 ```bash
