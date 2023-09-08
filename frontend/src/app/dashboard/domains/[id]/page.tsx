@@ -23,7 +23,6 @@ const Domain = () => {
             getConfig()
         );
     });
-
     const [activeTab, setActiveTab] = useState("lastScan");
     const handleTabClick = (tab: Tab) => {
         setActiveTab(tab);
