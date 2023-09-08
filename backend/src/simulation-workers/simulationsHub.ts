@@ -34,7 +34,10 @@ const simulationhub = async (
 };
 
 export const runSimulation = async (domains: IDomain[]) => {
-    const browser = await puppeteer.launch({ headless: "new" });
+    const browser = await puppeteer.launch({
+        headless: "new",
+        executablePath: " /usr/bin/chromium-browser",
+    });
 
     const metrics = [];
     for (const domain of domains) {
