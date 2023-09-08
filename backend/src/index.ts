@@ -14,11 +14,13 @@ connectDB();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors({
-    origin: getEnvVariable("ALLOWED_ORIGIN"),
-    optionsSuccessStatus: 200,
-    methods: ["GET","POST","DELETE","UPDATE","PUT","PATCH"]
-}));
+app.use(
+    cors({
+        origin: getEnvVariable("ALLOWED_ORIGIN"),
+        optionsSuccessStatus: 200,
+        methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+    })
+);
 
 app.use("/users", userRoutes());
 app.use("/metrics", metricRoutes());
