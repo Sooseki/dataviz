@@ -36,7 +36,7 @@ const DomainDashboardCard: React.FC<DomainDashboardCardProps> = ({
         current: number | undefined,
         previous: number | undefined
     ) => {
-        if (current === undefined || previous === undefined) return "➡️";
+        if (!current || !previous) return "➡️";
         if (current > previous) return "🔺";
         if (current < previous) return "🔻";
         return "➡️";
