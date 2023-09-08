@@ -18,7 +18,7 @@ const Domains = () => {
                         },
                         {
                             label: "Domains",
-                            path: "/domains",
+                            path: "/dashboard/domains",
                         },
                     ]}
                 />

@@ -24,7 +24,7 @@ const UserManager = () => {
                         },
                         {
                             label: "User Manager",
-                            path: "/user/manager",
+                            path: "/dashboard/user/manager",
                         },
                     ]}
                 />

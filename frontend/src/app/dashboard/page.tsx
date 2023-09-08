@@ -33,7 +33,7 @@ const Dashboard = () => {
                     },
                     {
                         label: "Domains",
-                        path: "/domains",
+                        path: "/dashboard/domains",
                     },
                 ]}
             />
