@@ -76,7 +76,7 @@ const Domain = () => {
                     },
                     {
                         label: "Domains",
-                        path: "/domains",
+                        path: "/dashboard/domains",
                     },
                     {
                         label: domainName ?? "",
