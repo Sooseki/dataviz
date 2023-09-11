@@ -12,10 +12,24 @@ export const register = async (
 ): Promise<Response> => {
     const { name, email, password, company } = req.body;
     const role = "administrator";
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     try {
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             throw new Error("Email already used, take another one");
+        }
+        if (password.length <= 6) {
+            throw new Error("Password must be at least 6 characters long");
+        }
+        if (!emailRegex.test(email)) {
+            throw new Error("Invalid email format");
+        }
+        const existingClient = await Client.findOne({ name: company });
+        if (company.length <= 0) {
+            throw new Error("Company name must be at least 1 characters long");
+        }
+        if (existingClient) {
+            throw new Error("Company already registered !");
         }
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -26,11 +40,6 @@ export const register = async (
             email,
             password: hashedPassword,
         });
-
-        const existingClient = await Client.findOne({ name: company });
-        if (existingClient) {
-            throw new Error("Company already registered !");
-        }
 
         const client = await Client.create({
             name: company,
@@ -100,6 +109,9 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 export const updatePassword = async (req: Request, res: Response) => {
     const { userId } = getUserTokenIds(req);
     const { currentPassword, newPassword } = req.body;
+    if (newPassword.length <= 6) {
+        throw new Error("Password must be at least 6 characters long");
+    }
     try {
         const user = await User.findById(userId);
         if (!user) throw new Error("user not found");
