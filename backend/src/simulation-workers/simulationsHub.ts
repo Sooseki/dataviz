@@ -2,9 +2,10 @@ import { timeToLoad } from "./workers/timeToLoad";
 import { jsUseRate } from "./workers/jsUseRate";
 import { lighthouseFromPuppeteer } from "./workers/lighthouse";
 import Domain from "../models/Domain";
-import puppeteer, { Browser } from "puppeteer";
+import puppeteer, { Browser, PuppeteerLaunchOptions } from "puppeteer";
 import Dataset from "../models/Dataset";
 import { IDomain, IDataset } from "@perfguardian/common/src/types";
+import { getEnvVariable } from "../utils/getEnvVariable";
 
 const simulationhub = async (
     url: string,
@@ -34,10 +35,18 @@ const simulationhub = async (
 };
 
 export const runSimulation = async (domains: IDomain[]) => {
-    const browser = await puppeteer.launch({
+    const puppeteerConfig: PuppeteerLaunchOptions = {
         headless: "new",
-        executablePath: "",
-    });
+    };
+
+    try {
+        const executablePath = getEnvVariable("EXECUTABLE_PATH");
+        if (executablePath) puppeteerConfig.executablePath = executablePath;
+    } catch {
+        console.error("executablePath env not defined");
+    }
+
+    const browser = await puppeteer.launch(puppeteerConfig);
 
     const metrics = [];
     for (const domain of domains) {
