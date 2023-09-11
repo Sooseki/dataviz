@@ -11,13 +11,20 @@ export const createMetric = async (
     res: Response
 ): Promise<Response> => {
     try {
-        // TODO : change this by id instead of url to match client at the same time
-        const { url } = req.body as { url: string | undefined };
-        if (!url || typeof url !== "string") throw new Error("wrong url param");
+        const { clientId } = getUserTokenIds(req);
+        const { id: domainId } = req.body as { id: string | undefined };
 
-        // TODO : find by url and client id when we can access it in token
-        const domain = await Domain.findOne({ url });
-        if (!domain) throw new Error(`Domain ${url} not found`);
+        if (!domainId || typeof domainId !== "string")
+            throw new Error("wrong id param");
+
+        const client = await Client.findById(clientId);
+        if (!client) throw new Error(`Client not found`);
+
+        const domain = await Domain.findById(domainId);
+        if (!domain) throw new Error(`Domain not found`);
+
+        if (!client.domains.includes(domain.id))
+            throw new Error(`Cannot access this resource`);
 
         const metrics = await runSimulation([domain]);
         const dataset = await Dataset.create({
