@@ -4,6 +4,7 @@ import Dataset from "../models/Dataset";
 import Domain from "../models/Domain";
 import Client from "../models/Client";
 import { handleControllerErrors } from "../utils/handleControllerErrors";
+import { getUserTokenIds } from "../utils/user";
 
 export const createMetric = async (
     req: Request,
@@ -48,15 +49,13 @@ export const getMetrics = async (
     res: Response
 ): Promise<Response> => {
     try {
-        // TODO : use token instead to get clientId to make sure user has only access to his own resources
-        const { domainId, clientId } = req.query as {
-            domainId: string | undefined;
-            clientId: string | undefined;
-        };
+        const { clientId } = getUserTokenIds(req);
+        const { domainId } = req.query as { domainId: string | undefined };
+
         if (!domainId || typeof domainId !== "string")
             throw new Error("Wrong domain id.");
-        if (!clientId || typeof clientId !== "string")
-            throw new Error("Cannot get metrics for this client.");
+
+        if (!clientId) throw new Error("Cannot get metrics for this client.");
 
         const domain = await Domain.findOne({ _id: domainId }).populate(
             "datasets"

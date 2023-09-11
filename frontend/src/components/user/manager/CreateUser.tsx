@@ -37,11 +37,9 @@ const CreateUser = ({
         setRole(value);
     };
 
-    if (!user || user.role !== "administrator") {
-        return null;
-    }
+    if (!user || user.role !== "administrator") return null;
+
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
-    const clientId = user.client.id;
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -53,7 +51,6 @@ const CreateUser = ({
                     email: userMail,
                     password: userPassword,
                     name: username,
-                    clientId,
                     role,
                 },
                 getConfig()

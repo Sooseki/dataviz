@@ -12,7 +12,7 @@ const NewDomainForm = ({
     closeModal: VoidFunction;
     refetch: VoidFunction;
 }) => {
-    const { user, getConfig } = useAuth();
+    const { getConfig } = useAuth();
     const [newDomain, setNewDomain] = useState("");
     const [inputError, setInputError] = useState("");
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
@@ -33,7 +33,7 @@ const NewDomainForm = ({
         try {
             const data = await handlePost<{ domain: Domain }>(
                 `${host}/domains/create`,
-                { url: newDomain, clientId: user?.client.id },
+                { url: newDomain },
                 getConfig()
             );
 

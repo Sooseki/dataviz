@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import { getToken } from "../utils/handleToken";
 import { handleControllerErrors } from "../utils/handleControllerErrors";
+import { getUserTokenIds } from "../utils/user";
 
 export const register = async (
     req: Request,
@@ -97,9 +98,10 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 };
 
 export const updatePassword = async (req: Request, res: Response) => {
-    const { currentPassword, newPassword, id } = req.body;
+    const { userId } = getUserTokenIds(req);
+    const { currentPassword, newPassword } = req.body;
     try {
-        const user = await User.findById(id);
+        const user = await User.findById(userId);
         if (!user) throw new Error("user not found");
 
         const salt = await bcrypt.genSalt(10);
@@ -130,9 +132,11 @@ export const updatePassword = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-    const { name: newName, email: newEmail, id } = req.body;
+    const { userId } = getUserTokenIds(req);
+    const { name: newName, email: newEmail } = req.body;
+
     try {
-        const user = await User.findById(id);
+        const user = await User.findById(userId);
         if (!user) {
             throw new Error("user not found");
         }
@@ -175,7 +179,9 @@ export const create = async (
     req: Request,
     res: Response
 ): Promise<Response> => {
-    const { email, password, name, clientId, role } = req.body;
+    const { clientId } = getUserTokenIds(req);
+    const { email, password, name, role } = req.body;
+
     try {
         if (!clientId) throw new Error("Cannot create user for this client");
 
@@ -216,9 +222,8 @@ export const create = async (
 };
 
 export const get = async (req: Request, res: Response): Promise<Response> => {
-    const { clientId } = req.query as { clientId: string | undefined };
-
     try {
+        const { clientId } = getUserTokenIds(req);
         const client = await Client.findById(clientId).populate("users");
 
         if (!client) {
