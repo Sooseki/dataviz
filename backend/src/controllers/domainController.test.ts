@@ -8,6 +8,7 @@ import {
     mClientUpdateOne,
     mDomainCreate,
     mDomainFind,
+    mGetUserTokenIds,
 } from "../tests/test-utils";
 import { Request, Response } from "express";
 import { createDomain, getDomains } from "./domainController";
@@ -40,9 +41,9 @@ describe("createDomain", () => {
 
     it("should create a new domain", async () => {
         const url = "https://example.com";
-        const req = {
-            body: { url, clientId: "clientIdTest" },
-        } as unknown as Request;
+        const clientId = "clientIdTest";
+        const req = { body: { url } } as unknown as Request;
+
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
@@ -51,6 +52,7 @@ describe("createDomain", () => {
             url: "newDomainUrl",
         };
         const mPopulate = jest.fn();
+        mGetUserTokenIds.mockReturnValueOnce({ clientId });
         mClientFindOne.mockImplementationOnce(() => ({ populate: mPopulate }));
         mPopulate.mockResolvedValueOnce(mClient);
         mDomainCreate.mockResolvedValueOnce(newDomain);
@@ -79,6 +81,7 @@ describe("createDomain", () => {
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
+        mGetUserTokenIds.mockReturnValueOnce({});
         await createDomain(req, res);
 
         expect(mDomainCreate).toHaveBeenCalledTimes(0);
@@ -92,12 +95,11 @@ describe("createDomain", () => {
     });
 
     it("should return an error if url param is missing", async () => {
-        const req = {
-            body: { clientId: "clientIdTest" },
-        } as unknown as Request;
+        const req = { body: {} } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
+        mGetUserTokenIds.mockReturnValueOnce({ clientId: "clientIdTest" });
         await createDomain(req, res);
 
         expect(mDomainCreate).toHaveBeenCalledTimes(0);
@@ -112,13 +114,12 @@ describe("createDomain", () => {
 
     it("should return an error if client does not exist in DB", async () => {
         const url = "https://example.com";
-        const req = {
-            body: { url, clientId: "clientIdTest" },
-        } as unknown as Request;
+        const req = { body: { url } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
         const mPopulate = jest.fn();
+        mGetUserTokenIds.mockReturnValueOnce({ clientId: "clientIdTest" });
         mClientFindOne.mockImplementationOnce(() => ({ populate: mPopulate }));
         mPopulate.mockResolvedValueOnce(undefined);
         await createDomain(req, res);
@@ -137,13 +138,12 @@ describe("createDomain", () => {
 
     it("should return an error if client domain already exists", async () => {
         const url = "https://domainUrl3.com";
-        const req = {
-            body: { url, clientId: "clientIdTest" },
-        } as unknown as Request;
+        const req = { body: { url } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
         const mPopulate = jest.fn();
+        mGetUserTokenIds.mockReturnValueOnce({ clientId: "clientIdTest" });
         mClientFindOne.mockImplementationOnce(() => ({ populate: mPopulate }));
         mPopulate.mockResolvedValueOnce(mClient);
         await createDomain(req, res);
@@ -172,11 +172,12 @@ describe("getDomains", () => {
 
     it("should retrieve client's domains", async () => {
         const clientId = "clientIdTest";
-        const req = { query: { clientId } } as unknown as Request;
+        const req = {} as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
 
+        mGetUserTokenIds.mockReturnValueOnce({ clientId });
         mClientFindOne.mockResolvedValueOnce(mClient);
         mDomainFind.mockResolvedValueOnce(mDomains);
 
@@ -196,11 +197,12 @@ describe("getDomains", () => {
 
     it("should return a 500 error status if no client found", async () => {
         const clientId = "clientIdTest";
-        const req = { query: { clientId } } as unknown as Request;
+        const req = {} as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
 
+        mGetUserTokenIds.mockReturnValueOnce({ clientId });
         mClientFindOne.mockResolvedValueOnce(undefined);
 
         await getDomains(req, res);
