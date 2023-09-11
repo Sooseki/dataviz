@@ -78,7 +78,7 @@ export const deleteDomain = async (
     try {
         const { id } = req.query as { id: string | undefined };
 
-        await Domain.deleteOne({ id });
+        await Domain.findByIdAndRemove(id);
 
         return res.status(200).json({ data: { deleted: true } });
     } catch (err) {

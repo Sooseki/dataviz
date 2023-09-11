@@ -27,7 +27,7 @@ const DomainCards = () => {
         <>
             <div className="domains-cards">
                 {useQueryDomains?.data?.domains.map((domain, key) => (
-                    <DomainCard key={key} domain={domain} />
+                    <DomainCard key={key} domain={domain} refetch={refetch} />
                 ))}
             </div>
             <button
