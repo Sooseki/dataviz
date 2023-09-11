@@ -137,11 +137,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     ) => {
         const pswChangeResult = await handlePut<{ msg: string }>(
             `${host}/users/password`,
-            {
-                newPassword,
-                currentPassword,
-                id: user?.id,
-            },
+            { newPassword, currentPassword },
             getConfig()
         );
 
@@ -175,11 +171,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         try {
             const otherInfoChangeResult = await handlePut<UpdateUserResponse>(
                 `${host}/users/update`,
-                {
-                    email,
-                    name,
-                    id: user?.id,
-                },
+                { email, name },
                 getConfig()
             );
             if (

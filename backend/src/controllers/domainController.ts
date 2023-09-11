@@ -6,13 +6,15 @@ import { handleControllerErrors } from "../utils/handleControllerErrors";
 import { isValidUrl } from "../utils/domain";
 import { runSimulationForDomains } from "../simulation-workers/simulationsHub";
 import { IDomain, IClientPopulated } from "@perfguardian/common/src/types";
+import { getUserTokenIds } from "../utils/user";
 
 export const createDomain = async (
     req: Request,
     res: Response
 ): Promise<Response> => {
     try {
-        const { url, clientId } = req.body as {
+        const { clientId } = getUserTokenIds(req);
+        const { url } = req.body as {
             url: string | undefined;
             clientId: string | undefined;
         };
@@ -53,10 +55,8 @@ export const getDomains = async (
     res: Response
 ): Promise<Response> => {
     try {
-        // TODO : get clientId from token
-        const { clientId } = req.query as { clientId: string | undefined };
-        if (!clientId || typeof clientId !== "string")
-            throw new Error("Cannot get domains for this client.");
+        const { clientId } = getUserTokenIds(req);
+        if (!clientId) throw new Error("Cannot get domains for this client.");
 
         const client = await Client.findOne({ _id: clientId });
         if (!client) throw new Error("Client not found.");

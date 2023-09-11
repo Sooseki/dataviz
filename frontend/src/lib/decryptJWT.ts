@@ -1,4 +1,5 @@
 import { User } from "@perfguardian/common/src/types";
+
 export const decryptJWT = (token: string): User => {
     const parts = token.split(".");
     if (parts.length !== 3) {

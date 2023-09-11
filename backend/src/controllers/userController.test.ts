@@ -3,12 +3,26 @@ jest.mock("../utils/handleToken", () => ({
     getToken: mGetToken,
 }));
 
-
-
-import { mUserCreate, mUserFindOne, mClientFindByIdAndUpdate, mClientFindById, mClientCreate, mClientFindOne, mUserFindById, mUserUpdateOne } from "../tests/test-utils";
+import {
+    mUserCreate,
+    mUserFindOne,
+    mClientFindByIdAndUpdate,
+    mClientFindById,
+    mClientCreate,
+    mClientFindOne,
+    mUserFindById,
+    mUserUpdateOne,
+    mGetUserTokenIds,
+} from "../tests/test-utils";
 import { Request, Response } from "express";
-import { create, get, register, login, updatePassword, updateUser } from "./userController";
-
+import {
+    create,
+    get,
+    register,
+    login,
+    updatePassword,
+    updateUser,
+} from "./userController";
 
 describe("create", () => {
     beforeEach(() => {
@@ -22,7 +36,9 @@ describe("create", () => {
         const name = "newUserName";
         const clientId = "clientIdTest";
 
-        const req = { body: { email, password, name, clientId, role } } as unknown as Request;
+        const req = {
+            body: { email, password, name, role },
+        } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
@@ -31,8 +47,9 @@ describe("create", () => {
             name,
             role,
             email,
-            password
+            password,
         };
+        mGetUserTokenIds.mockReturnValueOnce({ clientId });
         mUserFindOne.mockResolvedValueOnce(undefined);
         mUserCreate.mockResolvedValueOnce(newUser);
         mClientFindByIdAndUpdate.mockResolvedValueOnce("validClient");
@@ -41,13 +58,24 @@ describe("create", () => {
         expect(mUserFindOne).toHaveBeenCalledTimes(1);
         expect(mUserFindOne).toHaveBeenCalledWith({ email });
         expect(mUserCreate).toHaveBeenCalledTimes(1);
-        expect(mUserCreate).toHaveBeenCalledWith({ name, role, email, password: expect.any(String) });
+        expect(mUserCreate).toHaveBeenCalledWith({
+            name,
+            role,
+            email,
+            password: expect.any(String),
+        });
         expect(mClientFindByIdAndUpdate).toHaveBeenCalledTimes(1);
-        expect(mClientFindByIdAndUpdate).toHaveBeenCalledWith(clientId, { $push: { users: newUser._id } }, { new: true });
+        expect(mClientFindByIdAndUpdate).toHaveBeenCalledWith(
+            clientId,
+            { $push: { users: newUser._id } },
+            { new: true }
+        );
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({data:{ msg: "User creation sucessfull", user: newUser }});
+        expect(mJson).toHaveBeenCalledWith({
+            data: { msg: "User creation sucessfull", user: newUser },
+        });
     });
 
     it("Return error 500 if clientId is null", async () => {
@@ -57,10 +85,13 @@ describe("create", () => {
         const name = "newUserName";
         const clientId = "";
 
-        const req = { body: { email, password, name, clientId, role } } as unknown as Request;
+        const req = {
+            body: { email, password, name, role },
+        } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
+        mGetUserTokenIds.mockReturnValueOnce({ clientId });
 
         await create(req, res);
 
@@ -70,20 +101,25 @@ describe("create", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "Cannot create user for this client"});
+        expect(mJson).toHaveBeenCalledWith({
+            error: "Cannot create user for this client",
+        });
     });
 
-    it("should return error if an user is found", async () => {
+    it("should return error if a user is found", async () => {
         const email = "newUserMail";
         const password = "newUserPassword";
         const role = "newUserRole";
         const name = "newUserName";
         const clientId = "clientIdTest";
 
-        const req = { body: { email, password, name, clientId, role } } as unknown as Request;
+        const req = {
+            body: { email, password, name, role },
+        } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
+        mGetUserTokenIds.mockReturnValueOnce({ clientId });
         mUserFindOne.mockResolvedValueOnce(true);
         await create(req, res);
 
@@ -94,7 +130,9 @@ describe("create", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "Email already used, user already created" });
+        expect(mJson).toHaveBeenCalledWith({
+            error: "Email already used, user already created",
+        });
     });
 
     it("should return error if a client is not found", async () => {
@@ -104,7 +142,9 @@ describe("create", () => {
         const name = "newUserName";
         const clientId = "clientIdTest";
 
-        const req = { body: { email, password, name, clientId, role } } as unknown as Request;
+        const req = {
+            body: { email, password, name, role },
+        } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
@@ -113,8 +153,9 @@ describe("create", () => {
             name,
             role,
             email,
-            password
+            password,
         };
+        mGetUserTokenIds.mockReturnValueOnce({ clientId });
         mUserFindOne.mockResolvedValueOnce(undefined);
         mUserCreate.mockResolvedValueOnce(newUser);
         mClientFindByIdAndUpdate.mockResolvedValueOnce(undefined);
@@ -123,9 +164,18 @@ describe("create", () => {
         expect(mUserFindOne).toHaveBeenCalledTimes(1);
         expect(mUserFindOne).toHaveBeenCalledWith({ email });
         expect(mUserCreate).toHaveBeenCalledTimes(1);
-        expect(mUserCreate).toHaveBeenCalledWith({ name, role, email, password: expect.any(String) });
+        expect(mUserCreate).toHaveBeenCalledWith({
+            name,
+            role,
+            email,
+            password: expect.any(String),
+        });
         expect(mClientFindByIdAndUpdate).toHaveBeenCalledTimes(1);
-        expect(mClientFindByIdAndUpdate).toHaveBeenCalledWith(clientId, { $push: { users: newUser._id } }, { new: true });
+        expect(mClientFindByIdAndUpdate).toHaveBeenCalledWith(
+            clientId,
+            { $push: { users: newUser._id } },
+            { new: true }
+        );
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
         expect(mJson).toHaveBeenCalledTimes(1);
@@ -140,7 +190,7 @@ describe("get", () => {
     it("should get all users of a provided client", async () => {
         const clientId = "clientIdTest";
 
-        const req = { query: { clientId } } as unknown as Request;
+        const req = {} as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
@@ -170,6 +220,7 @@ describe("get", () => {
         const mPopulate = jest.fn();
         mClientFindById.mockImplementationOnce(() => ({ populate: mPopulate }));
         mPopulate.mockResolvedValueOnce(mClient);
+        mGetUserTokenIds.mockReturnValueOnce({ clientId });
         await get(req, res);
 
         expect(mPopulate).toHaveBeenCalledTimes(1);
@@ -177,11 +228,13 @@ describe("get", () => {
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({data:{ msg: "User recuperation is a sucess", users: mUsers }});
+        expect(mJson).toHaveBeenCalledWith({
+            data: { msg: "User recuperation is a sucess", users: mUsers },
+        });
     });
     it("should return error 500 if no client is found", async () => {
         const clientId = "";
-        const req = { query: { clientId } } as unknown as Request;
+        const req = {} as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
@@ -189,6 +242,7 @@ describe("get", () => {
         const mPopulate = jest.fn();
         mClientFindById.mockImplementationOnce(() => ({ populate: mPopulate }));
         mPopulate.mockResolvedValueOnce(undefined);
+        mGetUserTokenIds.mockReturnValueOnce({ clientId });
         await get(req, res);
 
         expect(mPopulate).toHaveBeenCalledTimes(1);
@@ -199,7 +253,6 @@ describe("get", () => {
         expect(mJson).toHaveBeenCalledWith({ error: "Client not found" });
     });
 });
-
 
 describe("register", () => {
     beforeEach(() => {
@@ -212,14 +265,25 @@ describe("register", () => {
         const company = "companyName";
         const role = "administrator";
 
-        const req = { body: { name, email, password, company } } as unknown as Request;
+        const req = {
+            body: { name, email, password, company },
+        } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
 
         mUserFindOne.mockResolvedValueOnce(undefined);
-        mUserCreate.mockResolvedValueOnce({ id: "newUserIdTest", name, role, email, password });
-        mClientCreate.mockResolvedValueOnce({ _id: "newClientIdTest", name: company });
+        mUserCreate.mockResolvedValueOnce({
+            id: "newUserIdTest",
+            name,
+            role,
+            email,
+            password,
+        });
+        mClientCreate.mockResolvedValueOnce({
+            _id: "newClientIdTest",
+            name: company,
+        });
         mGetToken.mockResolvedValueOnce("token");
 
         await register(req, res);
@@ -228,18 +292,27 @@ describe("register", () => {
         expect(mUserFindOne).toHaveBeenCalledWith({ email });
 
         expect(mUserCreate).toHaveBeenCalledTimes(1);
-        expect(mUserCreate).toHaveBeenCalledWith({ name, role, email, password: expect.any(String), });
+        expect(mUserCreate).toHaveBeenCalledWith({
+            name,
+            role,
+            email,
+            password: expect.any(String),
+        });
 
         expect(mClientCreate).toHaveBeenCalledTimes(1);
-        expect(mClientCreate).toHaveBeenCalledWith({ name: company, users: ["newUserIdTest"] });
+        expect(mClientCreate).toHaveBeenCalledWith({
+            name: company,
+            users: ["newUserIdTest"],
+        });
 
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
 
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({data:{ msg: "register sucessfull", token: "token" }});
+        expect(mJson).toHaveBeenCalledWith({
+            data: { msg: "register sucessfull", token: "token" },
+        });
     });
-
 
     it("should trigger an error because email is already used", async () => {
         const name = "newUserName";
@@ -247,7 +320,9 @@ describe("register", () => {
         const password = "newUserPassword";
         const company = "companyName";
 
-        const req = { body: { name, email, password, company } } as unknown as Request;
+        const req = {
+            body: { name, email, password, company },
+        } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
@@ -267,10 +342,11 @@ describe("register", () => {
         expect(mStatus).toHaveBeenCalledWith(500);
 
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "Email already used, take another one" });
+        expect(mJson).toHaveBeenCalledWith({
+            error: "Email already used, take another one",
+        });
     });
 });
-
 
 describe("login", () => {
     beforeEach(() => {
@@ -285,8 +361,15 @@ describe("login", () => {
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
 
-        mUserFindOne.mockResolvedValueOnce({ _id: "idUserTest", password: "$2a$12$sq3k7qt1GRWJ9Yvukcm9buvZgsjCIkRR9EReMBel6JR7cpoNG7PuC" });
-        mClientFindOne.mockResolvedValueOnce({ name: "clientNameTest", _id: "idClientTest" });
+        mUserFindOne.mockResolvedValueOnce({
+            _id: "idUserTest",
+            password:
+                "$2a$12$sq3k7qt1GRWJ9Yvukcm9buvZgsjCIkRR9EReMBel6JR7cpoNG7PuC",
+        });
+        mClientFindOne.mockResolvedValueOnce({
+            name: "clientNameTest",
+            _id: "idClientTest",
+        });
         mGetToken.mockResolvedValueOnce("token");
 
         await login(req, res);
@@ -301,8 +384,9 @@ describe("login", () => {
         expect(mStatus).toHaveBeenCalledWith(200);
 
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({data:{ msg: "Logged in", token: "token" }});
-
+        expect(mJson).toHaveBeenCalledWith({
+            data: { msg: "Logged in", token: "token" },
+        });
     });
     it("should trigger an error because user with this mail do not exist ", async () => {
         const email = "newUserMail";
@@ -335,7 +419,11 @@ describe("login", () => {
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
 
-        mUserFindOne.mockResolvedValueOnce({ _id: "idUserTest", password: "$2a$12$sq3k7qt1GRWJ9Yvukcm9buvZgsjCIkRR9EReMBel6JR7cpoNG7PuC" });
+        mUserFindOne.mockResolvedValueOnce({
+            _id: "idUserTest",
+            password:
+                "$2a$12$sq3k7qt1GRWJ9Yvukcm9buvZgsjCIkRR9EReMBel6JR7cpoNG7PuC",
+        });
         mClientFindOne.mockResolvedValueOnce(undefined);
         await login(req, res);
 
@@ -360,8 +448,14 @@ describe("login", () => {
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
 
-        mUserFindOne.mockResolvedValueOnce({ _id: "idUserTest", password: "$2a$12$sq3kdsqdqd684dsqoi$qdiojqodinqèylqjsndlkjq" });
-        mClientFindOne.mockResolvedValueOnce({ name: "clientNameTest", _id: "idClientTest" });
+        mUserFindOne.mockResolvedValueOnce({
+            _id: "idUserTest",
+            password: "$2a$12$sq3kdsqdqd684dsqoi$qdiojqodinqèylqjsndlkjq",
+        });
+        mClientFindOne.mockResolvedValueOnce({
+            name: "clientNameTest",
+            _id: "idClientTest",
+        });
         await login(req, res);
 
         expect(mUserFindOne).toHaveBeenCalledTimes(1);
@@ -378,7 +472,6 @@ describe("login", () => {
     });
 });
 
-
 describe("updatePassword", () => {
     beforeEach(() => {
         jest.resetAllMocks();
@@ -386,45 +479,60 @@ describe("updatePassword", () => {
     it("should update a password", async () => {
         const currentPassword = "oldUserPassword";
         const newPassword = "newUserPassword";
-        const id = "idUserTest";
-        
-        const req = { body: { currentPassword, newPassword, id } } as unknown as Request;
+        const userId = "idUserTest";
+
+        const req = {
+            body: { currentPassword, newPassword },
+        } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
 
-        mUserFindById.mockResolvedValueOnce({ id, password: "$2a$12$OTguFvVCy2lty6l5mKsMr.FhL0TqhAxJFinKSKT5D6b9uB5Tja4TK" });
+        mGetUserTokenIds.mockReturnValueOnce({ userId });
+        mUserFindById.mockResolvedValueOnce({
+            id: userId,
+            password:
+                "$2a$12$OTguFvVCy2lty6l5mKsMr.FhL0TqhAxJFinKSKT5D6b9uB5Tja4TK",
+        });
         mUserUpdateOne.mockResolvedValueOnce(" ");
         await updatePassword(req, res);
 
         expect(mUserFindById).toHaveBeenCalledTimes(1);
-        expect(mUserFindById).toHaveBeenCalledWith(id);
+        expect(mUserFindById).toHaveBeenCalledWith(userId);
 
         expect(mUserUpdateOne).toHaveBeenCalledTimes(1);
-        expect(mUserUpdateOne).toHaveBeenCalledWith({ _id : id }, {password: expect.any(String)});
+        expect(mUserUpdateOne).toHaveBeenCalledWith(
+            { _id: userId },
+            { password: expect.any(String) }
+        );
 
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(200);
 
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({data:{ msg: "register new password"}});
+        expect(mJson).toHaveBeenCalledWith({
+            data: { msg: "register new password" },
+        });
     });
     it("should return an error because user do not exist with this id ", async () => {
         const currentPassword = "oldUserPassword";
         const newPassword = "newUserPassword";
-        const id = "idUserTest";
-        
-        const req = { body: { currentPassword, newPassword, id } } as unknown as Request;
+        const userId = "idUserTest";
+
+        const req = {
+            body: { currentPassword, newPassword },
+        } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
 
+        mGetUserTokenIds.mockReturnValueOnce({ userId });
         mUserFindById.mockResolvedValueOnce(undefined);
-       
+
         await updatePassword(req, res);
 
         expect(mUserFindById).toHaveBeenCalledTimes(1);
-        expect(mUserFindById).toHaveBeenCalledWith(id);
+        expect(mUserFindById).toHaveBeenCalledWith(userId);
 
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
@@ -435,27 +543,33 @@ describe("updatePassword", () => {
     it("should return an error because of password dont match", async () => {
         const currentPassword = "oldUserPassword";
         const newPassword = "newUserPassword";
-        const id = "idUserTest";
-        
-        const req = { body: { currentPassword, newPassword, id } } as unknown as Request;
+        const userId = "idUserTest";
+
+        const req = {
+            body: { currentPassword, newPassword },
+        } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
 
-        mUserFindById.mockResolvedValueOnce({ id, password: "notTheSamePassword" });
+        mGetUserTokenIds.mockReturnValueOnce({ userId });
+        mUserFindById.mockResolvedValueOnce({
+            id: userId,
+            password: "notTheSamePassword",
+        });
 
         await updatePassword(req, res);
 
         expect(mUserFindById).toHaveBeenCalledTimes(1);
-        expect(mUserFindById).toHaveBeenCalledWith(id);
-
-        
+        expect(mUserFindById).toHaveBeenCalledWith(userId);
 
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
 
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "current password is not valid" });
+        expect(mJson).toHaveBeenCalledWith({
+            error: "current password is not valid",
+        });
     });
 });
 
@@ -466,23 +580,27 @@ describe("updateUser", () => {
     it("should update user info (except password)", async () => {
         const name = "newUserName";
         const email = "newUserMail";
-        const id = "idUserTest";
+        const userId = "idUserTest";
 
-        const req = { body: { name, email, id } } as unknown as Request;
+        const req = { body: { name, email } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
 
-        mUserFindById.mockResolvedValueOnce({ id, password: "$2a$12$OTguFvVCy2lty6l5mKsMr.FhL0TqhAxJFinKSKT5D6b9uB5Tja4TK" });
+        mGetUserTokenIds.mockReturnValueOnce({ userId });
+        mUserFindById.mockResolvedValueOnce({
+            id: userId,
+            password:
+                "$2a$12$OTguFvVCy2lty6l5mKsMr.FhL0TqhAxJFinKSKT5D6b9uB5Tja4TK",
+        });
         mUserFindOne.mockResolvedValueOnce(undefined);
 
         mUserUpdateOne.mockResolvedValueOnce(" ");
-   
 
         await updateUser(req, res);
 
         expect(mUserFindById).toHaveBeenCalledTimes(1);
-        expect(mUserFindById).toHaveBeenCalledWith(id);
+        expect(mUserFindById).toHaveBeenCalledWith(userId);
 
         expect(mUserFindOne).toHaveBeenCalledTimes(1);
         expect(mUserFindOne).toHaveBeenCalledWith({ email });
@@ -491,24 +609,30 @@ describe("updateUser", () => {
         expect(mStatus).toHaveBeenCalledWith(200);
 
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({data:{ msg: "register new user info sucessfull",  userUpdated: { name, email }}});
+        expect(mJson).toHaveBeenCalledWith({
+            data: {
+                msg: "register new user info sucessfull",
+                userUpdated: { name, email },
+            },
+        });
     });
-    it("should return an error because it dosnt find the user with this id", async () => {
+    it("should return an error because it doesnt find the user with this id", async () => {
         const name = "newUserName";
         const email = "newUserMail";
-        const id = "idUserTest";
+        const userId = "idUserTest";
 
-        const req = { body: { name, email, id } } as unknown as Request;
+        const req = { body: { name, email } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
 
+        mGetUserTokenIds.mockReturnValueOnce({ userId });
         mUserFindById.mockResolvedValueOnce(undefined);
 
         await updateUser(req, res);
 
         expect(mUserFindById).toHaveBeenCalledTimes(1);
-        expect(mUserFindById).toHaveBeenCalledWith(id);
+        expect(mUserFindById).toHaveBeenCalledWith(userId);
 
         expect(mStatus).toHaveBeenCalledTimes(1);
         expect(mStatus).toHaveBeenCalledWith(500);
@@ -519,20 +643,25 @@ describe("updateUser", () => {
     it("should return an error because the new mail wanted is already used", async () => {
         const name = "newUserName";
         const email = "newUserMail";
-        const id = "idUserTest";
+        const userId = "idUserTest";
 
-        const req = { body: { name, email, id } } as unknown as Request;
+        const req = { body: { name, email } } as unknown as Request;
         const mJson = jest.fn();
         const mStatus = jest.fn(() => ({ json: mJson }));
         const res = { status: mStatus } as unknown as Response;
 
-        mUserFindById.mockResolvedValueOnce({ id, password: "$2a$12$OTguFvVCy2lty6l5mKsMr.FhL0TqhAxJFinKSKT5D6b9uB5Tja4TK" });
+        mGetUserTokenIds.mockReturnValueOnce({ userId });
+        mUserFindById.mockResolvedValueOnce({
+            id: userId,
+            password:
+                "$2a$12$OTguFvVCy2lty6l5mKsMr.FhL0TqhAxJFinKSKT5D6b9uB5Tja4TK",
+        });
         mUserFindOne.mockResolvedValueOnce(true);
 
         await updateUser(req, res);
 
         expect(mUserFindById).toHaveBeenCalledTimes(1);
-        expect(mUserFindById).toHaveBeenCalledWith(id);
+        expect(mUserFindById).toHaveBeenCalledWith(userId);
 
         expect(mUserFindOne).toHaveBeenCalledTimes(1);
         expect(mUserFindOne).toHaveBeenCalledWith({ email });
@@ -541,7 +670,8 @@ describe("updateUser", () => {
         expect(mStatus).toHaveBeenCalledWith(500);
 
         expect(mJson).toHaveBeenCalledTimes(1);
-        expect(mJson).toHaveBeenCalledWith({ error: "Email already used, take another one" });
+        expect(mJson).toHaveBeenCalledWith({
+            error: "Email already used, take another one",
+        });
     });
 });
-

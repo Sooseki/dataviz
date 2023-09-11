@@ -13,13 +13,13 @@ type DomainDashboardCardProps = {
 const DomainDashboardCard: React.FC<DomainDashboardCardProps> = ({
     domain,
 }) => {
-    const { user, getConfig } = useAuth();
+    const { getConfig } = useAuth();
 
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
 
     const { data: domainsMetrics } = useQuery(domain._id, async () => {
         return await handleGet<{ metrics: MetricsDataset[] }>(
-            `${host}/metrics?domainId=${domain._id}&clientId=${user?.client.id}`,
+            `${host}/metrics?domainId=${domain._id}`,
             getConfig()
         );
     });

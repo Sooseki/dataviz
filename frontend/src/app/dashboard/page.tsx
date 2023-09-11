@@ -17,7 +17,7 @@ const Dashboard = () => {
         "get_domains",
         async () =>
             await handleGet<{ domains: Domain[] }>(
-                `${host}/domains?clientId=${user?.client.id}`,
+                `${host}/domains`,
                 getConfig()
             )
     );

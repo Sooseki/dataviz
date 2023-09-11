@@ -16,10 +16,10 @@ const Domain = () => {
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
     const domainName = useSearchParams().get("name");
     const domain = useParams();
-    const { user, getConfig } = useAuth();
+    const { getConfig } = useAuth();
     const { data: useQueryMetrics } = useQuery("get_metrics", async () => {
         return await handleGet<{ metrics: MetricsDataset[] }>(
-            `${host}/metrics?domainId=${domain.id}&clientId=${user?.client.id}`,
+            `${host}/metrics?domainId=${domain.id}`,
             getConfig()
         );
     });
