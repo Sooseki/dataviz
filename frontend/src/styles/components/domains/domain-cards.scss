@@ -1,16 +1,7 @@
 .domains-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.domains-cards > div {
-  flex-basis: 33.33%;
-  flex-grow: 1;
-  max-width: calc(33.33% - 1rem);
-}
-.domains-cards > div:nth-child(3n + 1) {
-  flex-grow: 0;
-  max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .create-domain-form {
@@ -24,12 +15,12 @@
     padding: 0px;
     .user-data-input {
         label {
-          color: $charcoal-color;
+            color: $charcoal-color;
         }
-      }
+    }
     .user-data-input input {
-      margin: 0px;
-      box-shadow: $box-shadow-light;
+        margin: 0px;
+        box-shadow: $box-shadow-light;
     }
     &-input-error {
         padding: 1rem;
@@ -39,8 +30,8 @@
         border-radius: $border-radius-sm;
     }
     .add-domain-button {
-    margin-top: 10px;
-    width: fit-content;
-    @include smallbutton;
-}
+        margin-top: 10px;
+        width: fit-content;
+        @include smallbutton;
+    }
 }

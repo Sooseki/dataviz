@@ -48,3 +48,15 @@ export const handlePut = async <T>(
 
     return res.data;
 };
+
+export const handleDelete = async <T>(
+    url: string,
+    config?: Record<string, unknown>
+): Promise<AxiosResponse<T> | undefined> => {
+    const res = await axios
+        .delete(url, config ?? defaultConfig)
+        .catch((err) => err.response);
+    if (!res) return undefined;
+
+    return res.data;
+};
