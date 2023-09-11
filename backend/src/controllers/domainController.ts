@@ -70,3 +70,18 @@ export const getDomains = async (
         return handleControllerErrors(err, res, "could not get domains");
     }
 };
+
+export const deleteDomain = async (
+    req: Request,
+    res: Response
+): Promise<Response> => {
+    try {
+        const { id } = req.query as { id: string | undefined };
+
+        await Domain.deleteOne({ id });
+
+        return res.status(200).json({ data: { deleted: true } });
+    } catch (err) {
+        return handleControllerErrors(err, res, "domain could not be created");
+    }
+};
