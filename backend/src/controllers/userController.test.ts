@@ -260,7 +260,7 @@ describe("register", () => {
     });
     it("should register a new user", async () => {
         const name = "newUserName";
-        const email = "newUserMail";
+        const email = "userTest@gmail.com";
         const password = "newUserPassword";
         const company = "companyName";
         const role = "administrator";
@@ -316,7 +316,7 @@ describe("register", () => {
 
     it("should trigger an error because email is already used", async () => {
         const name = "newUserName";
-        const email = "newUserMail";
+        const email = "userTest@gmail.com";
         const password = "newUserPassword";
         const company = "companyName";
 
@@ -344,6 +344,105 @@ describe("register", () => {
         expect(mJson).toHaveBeenCalledTimes(1);
         expect(mJson).toHaveBeenCalledWith({
             error: "Email already used, take another one",
+        });
+    });
+
+    it("should trigger an error because email is not formated", async () => {
+        const name = "newUserName";
+        const email = "testuserMail";
+        const password = "newUserPassword";
+        const company = "companyName";
+
+        const req = {
+            body: { name, email, password, company },
+        } as unknown as Request;
+        const mJson = jest.fn();
+        const mStatus = jest.fn(() => ({ json: mJson }));
+        const res = { status: mStatus } as unknown as Response;
+
+        mUserFindOne.mockResolvedValueOnce(false);
+
+        await register(req, res);
+
+        expect(mUserFindOne).toHaveBeenCalledTimes(1);
+        expect(mUserFindOne).toHaveBeenCalledWith({ email });
+
+        expect(mUserCreate).toHaveBeenCalledTimes(0);
+
+        expect(mClientCreate).toHaveBeenCalledTimes(0);
+
+        expect(mStatus).toHaveBeenCalledTimes(1);
+        expect(mStatus).toHaveBeenCalledWith(500);
+
+        expect(mJson).toHaveBeenCalledTimes(1);
+        expect(mJson).toHaveBeenCalledWith({
+            error: "Invalid email format",
+        });
+    });
+
+    it("should trigger an error because password is not formated", async () => {
+        const name = "newUserName";
+        const email = "testuserMail@gmail.com";
+        const password = "azer";
+        const company = "companyName";
+
+        const req = {
+            body: { name, email, password, company },
+        } as unknown as Request;
+        const mJson = jest.fn();
+        const mStatus = jest.fn(() => ({ json: mJson }));
+        const res = { status: mStatus } as unknown as Response;
+
+        mUserFindOne.mockResolvedValueOnce(false);
+
+        await register(req, res);
+
+        expect(mUserFindOne).toHaveBeenCalledTimes(1);
+        expect(mUserFindOne).toHaveBeenCalledWith({ email });
+
+        expect(mUserCreate).toHaveBeenCalledTimes(0);
+
+        expect(mClientCreate).toHaveBeenCalledTimes(0);
+
+        expect(mStatus).toHaveBeenCalledTimes(1);
+        expect(mStatus).toHaveBeenCalledWith(500);
+
+        expect(mJson).toHaveBeenCalledTimes(1);
+        expect(mJson).toHaveBeenCalledWith({
+            error: "Password must be at least 6 characters long",
+        });
+    });
+
+    it("should trigger an error because company name is empty", async () => {
+        const name = "newUserName";
+        const email = "testuserMail@gmail.com";
+        const password = "LongpasswordIsCool";
+        const company = "";
+
+        const req = {
+            body: { name, email, password, company },
+        } as unknown as Request;
+        const mJson = jest.fn();
+        const mStatus = jest.fn(() => ({ json: mJson }));
+        const res = { status: mStatus } as unknown as Response;
+
+        mUserFindOne.mockResolvedValueOnce(false);
+
+        await register(req, res);
+
+        expect(mUserFindOne).toHaveBeenCalledTimes(1);
+        expect(mUserFindOne).toHaveBeenCalledWith({ email });
+
+        expect(mUserCreate).toHaveBeenCalledTimes(0);
+
+        expect(mClientCreate).toHaveBeenCalledTimes(0);
+
+        expect(mStatus).toHaveBeenCalledTimes(1);
+        expect(mStatus).toHaveBeenCalledWith(500);
+
+        expect(mJson).toHaveBeenCalledTimes(1);
+        expect(mJson).toHaveBeenCalledWith({
+            error: "Company name must be at least 1 characters long",
         });
     });
 });
