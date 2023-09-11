@@ -16,13 +16,12 @@ const DomainCards = () => {
         "get_domains",
         async () =>
             await handleGet<{ domains: Domain[] }>(
-                `${host}/domains?clientId=${user?.client.id}`,
+                `${host}/domains`,
                 getConfig()
             )
     );
-    if (!user) {
-        return null;
-    }
+
+    if (!user) return null;
 
     return (
         <>

@@ -4,19 +4,27 @@ import Dataset from "../models/Dataset";
 import Domain from "../models/Domain";
 import Client from "../models/Client";
 import { handleControllerErrors } from "../utils/handleControllerErrors";
+import { getUserTokenIds } from "../utils/user";
 
 export const createMetric = async (
     req: Request,
     res: Response
 ): Promise<Response> => {
     try {
-        // TODO : change this by id instead of url to match client at the same time
-        const { url } = req.body as { url: string | undefined };
-        if (!url || typeof url !== "string") throw new Error("wrong url param");
+        const { clientId } = getUserTokenIds(req);
+        const { id: domainId } = req.body as { id: string | undefined };
 
-        // TODO : find by url and client id when we can access it in token
-        const domain = await Domain.findOne({ url });
-        if (!domain) throw new Error(`Domain ${url} not found`);
+        if (!domainId || typeof domainId !== "string")
+            throw new Error("wrong id param");
+
+        const client = await Client.findById(clientId);
+        if (!client) throw new Error(`Client not found`);
+
+        const domain = await Domain.findById(domainId);
+        if (!domain) throw new Error(`Domain not found`);
+
+        if (!client.domains.includes(domain.id))
+            throw new Error(`Cannot access this resource`);
 
         const metrics = await runSimulation([domain]);
         const dataset = await Dataset.create({
@@ -48,15 +56,13 @@ export const getMetrics = async (
     res: Response
 ): Promise<Response> => {
     try {
-        // TODO : use token instead to get clientId to make sure user has only access to his own resources
-        const { domainId, clientId } = req.query as {
-            domainId: string | undefined;
-            clientId: string | undefined;
-        };
+        const { clientId } = getUserTokenIds(req);
+        const { domainId } = req.query as { domainId: string | undefined };
+
         if (!domainId || typeof domainId !== "string")
             throw new Error("Wrong domain id.");
-        if (!clientId || typeof clientId !== "string")
-            throw new Error("Cannot get metrics for this client.");
+
+        if (!clientId) throw new Error("Cannot get metrics for this client.");
 
         const domain = await Domain.findOne({ _id: domainId }).populate(
             "datasets"

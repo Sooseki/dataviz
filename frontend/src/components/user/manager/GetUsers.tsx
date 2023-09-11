@@ -17,7 +17,7 @@ const GetUsers = () => {
 
     const { data: useQueryUsers, refetch } = useQuery("get_users", async () => {
         const useQueryUsers = await handleGet<GetUsersResponse>(
-            `${host}/users?clientId=${user?.client.id}`,
+            `${host}/users`,
             getConfig()
         );
         if (!useQueryUsers || !useQueryUsers.data?.users) {
