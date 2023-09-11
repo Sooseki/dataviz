@@ -1,4 +1,5 @@
 import { Domain } from "@perfguardian/common/src/types";
+import { Button } from "antd";
 import Link from "next/link";
 
 const DomainCard = ({ domain }: { domain: Domain }) => {
@@ -13,6 +14,7 @@ const DomainCard = ({ domain }: { domain: Domain }) => {
             >
                 {domainName}
             </Link>
+            <Button className="domain-delete">X</Button>
         </div>
     );
 };
