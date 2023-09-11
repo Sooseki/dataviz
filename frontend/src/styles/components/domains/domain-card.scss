@@ -1,15 +1,14 @@
 .domain-card {
     display: flex;
-    padding: 2rem;
+    padding: 0;
     box-shadow: $box-shadow-light;
-    -webkit-box-shadow: $box-shadow-light;
-    -moz-box-shadow: $box-shadow-light;
     transition: background-color 0.3s ease;
     flex-direction: column;
     background: $milky-white-color;
     border-radius: $border-radius-md;
+
     .domain-link {
-        padding: 5px;
+        padding: 2rem;
         text-decoration: none;
         color: $charcoal-darker-color;
         text-transform: lowercase;
