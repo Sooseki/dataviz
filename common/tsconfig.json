@@ -16,6 +16,8 @@
         "paths": {
             "@/*": ["./src/*"]
         },
+        "outDir": "./dist",
+        "rootDir": "./src",
         "allowJs": false,
         "skipLibCheck": true,
         "isolatedModules": true
@@ -24,7 +26,8 @@
         "next-env.d.ts",
         "**/*.ts",
         ".eslintrc.js",
-        ".next/types/**/*.ts"
+        ".next/types/**/*.ts",
+        "./src/utils/*.ts"
     ],
     "exclude": ["node_modules"]
 }
