@@ -16,18 +16,12 @@ const NewDomainForm = ({
     const [newDomain, setNewDomain] = useState("");
     const [inputError, setInputError] = useState("");
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
-    const urlRegex =
-        /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/i;
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (newDomain === "") {
             setInputError("Please fill in an URL !");
-            return;
-        }
-        if (!urlRegex.test(newDomain)) {
-            setInputError("Domain name must be an URL !");
             return;
         }
         try {
@@ -47,6 +41,7 @@ const NewDomainForm = ({
             refetch();
             closeModal();
         } catch (err) {
+            console.log("this is error", err);
             toast(
                 err instanceof Error
                     ? err.message
@@ -66,8 +61,7 @@ const NewDomainForm = ({
             <form
                 className="create-domain-form"
                 method="POST"
-                onSubmit={handleSubmit}
-            >
+                onSubmit={handleSubmit}>
                 {inputError && (
                     <div className="create-domain-form-input-error">
                         {inputError}
