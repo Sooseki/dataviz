@@ -3,7 +3,7 @@ import { format, parseISO } from "date-fns";
 import { fr } from "date-fns/locale";
 import { MetricsDataset } from "@perfguardian/common/src/types";
 import { AxiosResponse } from "../../api/handleCall";
-
+import Image from "next/image";
 interface PercentUsedListProps {
     metricsData: AxiosResponse<{ metrics: MetricsDataset[] }>;
 }
@@ -55,27 +55,92 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
             <div className="singledomain_lastScanContainer">
                 <p className="singledomain_singleData">
                     {" "}
-                    <span>{timeToLoad}</span> timeToLoad{" "}
+                    <span>{timeToLoad}</span>{" "}
+                    <p className="singledomain_singleInfo">timeToLoad </p>{" "}
                 </p>
                 <p className="singledomain_singleData">
                     {" "}
-                    <span>
-                        {firstContentfulPaint}
-                    </span> firstContentfulPaint{" "}
+                    <span>{firstContentfulPaint}</span>{" "}
+                    <p className="singledomain_singleInfo">
+                        firstContentfulPaint{" "}
+                        <Image
+                            className="singledomain_singleInfoPicto"
+                            src="/info.svg"
+                            alt="picto info"
+                            width="15"
+                            height="15"
+                        />
+                        <div className="singledomain_popup">
+                            FCP measures how long it takes the browser to render
+                            the first piece of DOM content after a user
+                            navigates to your page. Images, non-white canvas
+                            elements, and SVGs on your page are considered DOM
+                            content; anything inside an iframe is not included.
+                        </div>
+                    </p>{" "}
                 </p>
                 <p className="singledomain_singleData">
                     {" "}
-                    <span>
-                        {cumulativeLayoutShift}
-                    </span> cumulativeLayoutShift{" "}
+                    <span>{cumulativeLayoutShift}</span>{" "}
+                    <p className="singledomain_singleInfo">
+                        cumulativeLayoutShift{" "}
+                        <Image
+                            className="singledomain_singleInfoPicto"
+                            src="/info.svg"
+                            alt="picto info"
+                            width="15"
+                            height="15"
+                        />
+                        <div className="singledomain_popup">
+                            CLS is a measure of the largest burst of layout
+                            shift scores for every unexpected layout shift that
+                            occurs during the entire lifespan of a page. A
+                            layout shift occurs any time a visible element
+                            changes its position from one rendered frame to the
+                            next.
+                        </div>
+                    </p>{" "}
                 </p>
                 <p className="singledomain_singleData">
                     {" "}
-                    <span>{totalBlockingTime}</span> totalBlockingTime{" "}
+                    <span>{totalBlockingTime}</span>{" "}
+                    <p className="singledomain_singleInfo">
+                        totalBlockingTime{" "}
+                        <Image
+                            className="singledomain_singleInfoPicto"
+                            src="/info.svg"
+                            alt="picto info"
+                            width="15"
+                            height="15"
+                        />
+                        <div className="singledomain_popup">
+                            The Total Blocking Time metric measures the total
+                            amount of time between First Contentful Paint and
+                            Time to Interactive where the main thread was
+                            blocked for long enough to prevent input
+                            responsiveness.
+                        </div>
+                    </p>{" "}
                 </p>
                 <p className="singledomain_singleData">
                     {" "}
-                    <span>{timeToInteractive}</span> timeToInteractive{" "}
+                    <span>{timeToInteractive}</span>
+                    <p className="singledomain_singleInfo">
+                        timeToInteractive{" "}
+                        <Image
+                            className="singledomain_singleInfoPicto"
+                            src="/info.svg"
+                            alt="picto info"
+                            width="15"
+                            height="15"
+                        />
+                        <div className="singledomain_popup">
+                            Time to Interactive is a performance metric that
+                            measures a page&apos;s load responsiveness and helps
+                            identify situations where a page looks interactive
+                            but actually is not.
+                        </div>
+                    </p>{" "}
                 </p>
             </div>
             <p className="jsuserate_alljsTitle">
