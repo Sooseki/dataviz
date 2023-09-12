@@ -61,7 +61,8 @@ const NewDomainForm = ({
             <form
                 className="create-domain-form"
                 method="POST"
-                onSubmit={handleSubmit}>
+                onSubmit={handleSubmit}
+            >
                 {inputError && (
                     <div className="create-domain-form-input-error">
                         {inputError}
