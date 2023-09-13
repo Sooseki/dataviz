@@ -6,6 +6,7 @@ import puppeteer, { Browser, PuppeteerLaunchOptions } from "puppeteer";
 import Dataset from "../models/Dataset";
 import { IDomain, IDataset } from "@perfguardian/common/src/types";
 import { getEnvVariable } from "../utils/getEnvVariable";
+import { chunkArray } from "../utils/helpers";
 
 const simulationhub = async (
     url: string,
@@ -51,10 +52,9 @@ export const runSimulation = async (domains: IDomain[]) => {
     const metrics = [];
     for (const domain of domains) {
         const data = await simulationhub(domain.url, browser);
-        if (data) {
-            metrics.push({ domain, data });
-        }
+        if (data) metrics.push({ domain, data });
     }
+
     await browser.close();
     return metrics;
 };
@@ -67,20 +67,28 @@ export const runSimulationForAllDomains = async () => {
 export const runSimulationForDomains = async (domains: IDomain[]) => {
     if (!domains) return;
 
-    const metrics = await runSimulation(domains);
-    Promise.all(
-        metrics.map(async (metric) => {
-            const dataset = await Dataset.create({
-                date: new Date(),
-                ...metric.data,
-            });
+    // Run domains data analysing 10 by 10 to prevent timeout or losing all datas
+    const chunkDomains = chunkArray(domains, 10);
 
-            await Domain.updateOne(
-                { _id: metric.domain.id },
-                {
-                    datasets: [...(metric.domain.datasets ?? []), dataset.id],
-                }
-            );
-        })
-    );
+    for (const chunkDomain of chunkDomains) {
+        const metrics = await runSimulation(chunkDomain);
+        Promise.all(
+            metrics.map(async (metric) => {
+                const dataset = await Dataset.create({
+                    date: new Date(),
+                    ...metric.data,
+                });
+
+                await Domain.updateOne(
+                    { _id: metric.domain.id },
+                    {
+                        datasets: [
+                            ...(metric.domain.datasets ?? []),
+                            dataset.id,
+                        ],
+                    }
+                );
+            })
+        );
+    }
 };
