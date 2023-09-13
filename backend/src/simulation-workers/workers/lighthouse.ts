@@ -1,39 +1,24 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const lighthouse = require("lighthouse");
 const ReportGenerator = require("lighthouse/report/generator/report-generator");
-import puppeteer from "puppeteer";
-import { LighthouseMetrics } from "@perfguardian/common/src/types";
-import { Options } from "chrome-launcher";
+import { LaunchedChrome, Options } from "chrome-launcher";
 const chromeLauncher = require("chrome-launcher");
-import request from "request-promise-native";
 
-export const lighthouseFromPuppeteer = async (
-    url: string
-): Promise<LighthouseMetrics> => {
+export const lighthouseFromPuppeteer = async (url: string) => {
     const options: Options = {
         logLevel: "info",
         chromeFlags: ["--disable-mobile-emulation"],
     };
 
     // Launch chrome using chrome-launcher
-    const chrome = await chromeLauncher.launch(options);
+    const chrome: LaunchedChrome = await chromeLauncher.launch(options);
     options.port = chrome.port;
 
-    // Connect chrome-launcher to puppeteer
-    const resp = await request(`http://localhost:${options.port}/json/version`);
-    const { webSocketDebuggerUrl } = JSON.parse(resp);
-    const lighthouseBrowser = await puppeteer.connect({
-        browserWSEndpoint: webSocketDebuggerUrl,
-    });
-
-    // Run Lighthouse
     const { lhr } = await lighthouse(url, options);
     const json = ReportGenerator.generateReport(lhr, "json");
+    chrome.kill();
 
     const audits = JSON.parse(json).audits;
-
-    lighthouseBrowser.disconnect();
-    await chrome.kill();
 
     return {
         firstContentfulPaint: convertValueToMsNumber(

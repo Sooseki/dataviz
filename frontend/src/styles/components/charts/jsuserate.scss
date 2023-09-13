@@ -1,98 +1,129 @@
-.jsuserate{
-    &_alljs{
+.jsuserate {
+    &_alljs {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
         gap: 32px;
         margin-top: 25px;
     }
-    &_alljsTitle{
+    &_alljsTitle {
         margin-top: 50px;
     }
-    &_singleFile{
+    &_singleFile {
         display: flex;
         width: 45%;
         flex-direction: column;
-       
-        a{
+
+        a {
             text-decoration: none;
             @include font($text-font, 12px, 400, $nightblue-darker-color, 22px);
         }
     }
-    &_progressOut{
+    &_progressOut {
         border: 1px solid $nightblue-darker-color;
         height: 30px;
         position: relative;
-        p{
-            @include font($text-font, $title-font-size-xs, 400, $nightblue-darker-color, 22px);
+        p {
+            @include font(
+                $text-font,
+                $title-font-size-xs,
+                400,
+                $nightblue-darker-color,
+                22px
+            );
             display: flex;
             text-decoration: inherit;
             align-items: center;
             justify-content: center;
             height: 100%;
             width: 100%;
-            text-shadow: 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff;
+            text-shadow:
+                0 0 0.5px #fff,
+                0 0 0.5px #fff,
+                0 0 0.5px #fff,
+                0 0 0.5px #fff,
+                0 0 0.5px #fff,
+                0 0 0.5px #fff,
+                0 0 0.5px #fff,
+                0 0 0.5px #fff,
+                0 0 0.5px #fff,
+                0 0 2px #fff,
+                0 0 2px #fff,
+                0 0 2px #fff,
+                0 0 2px #fff,
+                0 0 2px #fff,
+                0 0 2px #fff,
+                0 0 2px #fff,
+                0 0 2px #fff,
+                0 0 2px #fff,
+                0 0 2px #fff,
+                0 0 2px #fff;
 
             z-index: 9;
             position: relative;
         }
     }
-    &_progressIn{
+    &_progressIn {
         background-color: $nightblue-color;
         position: absolute;
         left: 0;
         top: 0;
         // width: 100%;
         height: 100%;
-        transition: 'width 1s ease-in-out'
+        transition: "width 1s ease-in-out";
     }
 }
 
-
-.singledomain{
-    &_switch{
+.singledomain {
+    &_switch {
         display: flex;
         gap: 32px;
         justify-content: center;
     }
-    &_last{
+    &_last {
         @include smallbuttoninactive;
         width: 250px;
-        &-active{
+        &-active {
             @include smallbutton;
         }
     }
-    &_analyse{
+    &_analyse {
         @include smallbuttoninactive;
         width: 250px;
-        &-active{
+        &-active {
             @include smallbutton;
         }
     }
-    &_lastscan{
+    &_lastscan {
         display: none;
-        &.active{
+        &.active {
             display: block;
         }
     }
-    &_alldatas{
+    &_alldatas {
         display: none;
-        &.active{
+        &.active {
             display: block;
         }
     }
-    &_lastScanTitle{
-        @include font($title-font, $title-font-size-md, 400, $nightblue-darker-color, 22px);
+    &_lastScanTitle {
+        @include font(
+            $title-font,
+            $title-font-size-md,
+            400,
+            $nightblue-darker-color,
+            22px
+        );
         margin-top: 52px;
         margin-bottom: 36px;
     }
-    &_lastScanContainer{
+    &_lastScanContainer {
         display: flex;
         flex-wrap: wrap;
         gap: 32px;
         margin-top: 50px;
     }
-    &_singleData{
+    &_singleData {
         display: flex;
         flex-direction: column;
         width: 30%;
@@ -100,9 +131,33 @@
         align-items: center;
         @include font($text-font, 12px, 400, $nightblue-darker-color, 22px);
 
-        span{
+        span {
             @include font($text-font, 26px, 600, $nightblue-darker-color, 22px);
             margin-bottom: 5px;
         }
     }
+    &_singleInfo {
+        display: flex;
+        cursor: pointer;
+        position: relative;
+        align-items: center;
+        img {
+            margin-left: 5px;
+        }
+    }
+    &_popup {
+        border: 1px solid $charcoal-color;
+        padding: 25px;
+        position: absolute;
+        width: 400px;
+        background-color: $charcoal-color;
+        left: -50px;
+        top: 30px;
+        z-index: 10;
+        display: none;
+        @include font($text-font, 14px, 400, $milky-white-color, 22px);
+    }
+}
+.singledomain_singleInfo:hover .singledomain_popup {
+    display: block;
 }
