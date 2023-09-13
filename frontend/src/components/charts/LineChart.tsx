@@ -33,9 +33,17 @@ interface props {
     metricsDatasets: MetricsDataset[];
     metricToStudy: MetricProperty;
     graphTitle: string;
+    minY?: number;
+    maxY?: number;
 }
 
-const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
+const LineChart = ({
+    metricsDatasets,
+    metricToStudy,
+    graphTitle,
+    minY,
+    maxY,
+}: props) => {
     const convertedMetrics = metricsDatasets.map((dataset) => {
         const date = new Date(dataset.date);
         return {
@@ -84,6 +92,8 @@ const LineChart = ({ metricsDatasets, metricToStudy, graphTitle }: props) => {
                 grid: {
                     display: true,
                 },
+                min: minY,
+                max: maxY,
             },
         },
         plugins: {
