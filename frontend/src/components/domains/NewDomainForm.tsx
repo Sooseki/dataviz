@@ -46,7 +46,6 @@ const NewDomainForm = ({
             refetch();
             closeModal();
         } catch (err) {
-            console.log("this is error", err);
             toast(
                 err instanceof Error
                     ? err.message
