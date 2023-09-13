@@ -162,7 +162,7 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                {item.url}
+                                {item.url.split("?")[0]}
                             </a>
                         </li>
                     ))
