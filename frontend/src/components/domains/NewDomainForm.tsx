@@ -4,6 +4,7 @@ import { handlePost } from "../../api/handleCall";
 import { Domain } from "domain";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
+import { isValidUrl } from "@perfguardian/common/src/utils/domain";
 
 const NewDomainForm = ({
     closeModal,
@@ -16,18 +17,16 @@ const NewDomainForm = ({
     const [newDomain, setNewDomain] = useState("");
     const [inputError, setInputError] = useState("");
     const host = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
-    const urlRegex =
-        /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/i;
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (newDomain === "") {
-            setInputError("Please fill in an URL !");
+        if (!isValidUrl(newDomain)) {
+            setInputError("Domain name must be an URL !");
             return;
         }
-        if (!urlRegex.test(newDomain)) {
-            setInputError("Domain name must be an URL !");
+        if (newDomain === "") {
+            setInputError("Please fill in an URL !");
             return;
         }
         try {
