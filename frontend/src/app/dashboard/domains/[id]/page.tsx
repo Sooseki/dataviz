@@ -127,7 +127,9 @@ const Domain = () => {
                     <LineChart
                         metricsDatasets={filteredMetrics}
                         metricToStudy={"timeToLoad"}
-                        graphTitle={"Time to load (In miliseconds by session)"}
+                        graphTitle={"Time to load (In seconds by session)"}
+                        minY={0}
+                        maxY={1}
                     />
                 )}
                 {filteredMetrics && (
@@ -137,6 +139,8 @@ const Domain = () => {
                         graphTitle={
                             "First content fulPaint (In second by session)"
                         }
+                        minY={0}
+                        maxY={5}
                     />
                 )}
                 {filteredMetrics && (
@@ -144,6 +148,8 @@ const Domain = () => {
                         metricsDatasets={filteredMetrics}
                         metricToStudy={"cumulativeLayoutShift"}
                         graphTitle={"Cumulative layout shift"}
+                        minY={0}
+                        maxY={1}
                     />
                 )}
                 {filteredMetrics && (
@@ -160,6 +166,8 @@ const Domain = () => {
                         graphTitle={
                             "Time to interactive (In second by session)"
                         }
+                        minY={0}
+                        maxY={10}
                     />
                 )}
             </div>
