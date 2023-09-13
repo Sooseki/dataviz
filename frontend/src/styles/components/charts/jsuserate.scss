@@ -1,8 +1,7 @@
 .jsuserate {
     &_alljs {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 32px;
         margin-top: 25px;
     }
@@ -10,12 +9,10 @@
         margin-top: 50px;
     }
     &_singleFile {
-        display: flex;
-        width: 45%;
-        flex-direction: column;
-
+        min-width: 0;
         a {
             text-decoration: none;
+            word-break: break-all;
             @include font($text-font, 12px, 400, $nightblue-darker-color, 22px);
         }
     }

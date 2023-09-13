@@ -4,6 +4,7 @@ import { handlePost } from "../../api/handleCall";
 import { Domain } from "domain";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
+import { isValidUrl } from "@perfguardian/common/src/utils/domain";
 
 const NewDomainForm = ({
     closeModal,
@@ -20,6 +21,10 @@ const NewDomainForm = ({
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        if (!isValidUrl(newDomain)) {
+            setInputError("Domain name must be an URL !");
+            return;
+        }
         if (newDomain === "") {
             setInputError("Please fill in an URL !");
             return;
@@ -41,7 +46,6 @@ const NewDomainForm = ({
             refetch();
             closeModal();
         } catch (err) {
-            console.log("this is error", err);
             toast(
                 err instanceof Error
                     ? err.message
