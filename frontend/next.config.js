@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 module.exports =  {
+    transpilePackages: ['@perfguardian/common'],
     redirects: async () => {
         return [
             {
