@@ -1,23 +1,22 @@
 {
-    "name": "my-app",
+    "name": "frontend",
     "version": "0.1.0",
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "gulp && npm run common:build && next build",
+        "build": "gulp && next build",
         "start": "next start",
         "lint": "next lint && tsc --noEmit",
-        "test": "jest --coverage",
-        "common:build": "cd ../common && npm i && cd ../frontend"
+        "test": "jest --coverage"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.4.0",
         "@fortawesome/free-solid-svg-icons": "^6.4.0",
         "@fortawesome/react-fontawesome": "^0.2.0",
-        "@perfguardian/common": "file:../common",
         "@types/node": "20.3.1",
         "@types/react": "18.2.13",
         "@types/react-dom": "18.2.6",
+        "@perfguardian/common": "1.0.0",
         "antd": "^5.7.3",
         "axios": "^1.4.0",
         "chart.js": "^4.3.3",
