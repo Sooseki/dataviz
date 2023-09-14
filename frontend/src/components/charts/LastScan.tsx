@@ -4,6 +4,7 @@ import { fr } from "date-fns/locale";
 import { MetricsDataset } from "@perfguardian/common/src/types";
 import { AxiosResponse } from "../../api/handleCall";
 import Image from "next/image";
+
 interface PercentUsedListProps {
     metricsData: AxiosResponse<{ metrics: MetricsDataset[] }>;
 }
@@ -13,7 +14,6 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
         const progressInElements = document.querySelectorAll(
             ".jsuserate_progressIn"
         ) as NodeListOf<HTMLElement>;
-
         progressInElements.forEach((element) => {
             const dataWidth = element.getAttribute("data-width");
             if (dataWidth) {
@@ -22,13 +22,21 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
         });
     }, []);
 
+    const getValueColor = (thresholds: [number, number], value?: number) => {
+        if (value === undefined) return ""; // Retourne une chaîne vide ou une classe par défaut pour undefined
+        return value < thresholds[0]
+            ? "green"
+            : value < thresholds[1]
+            ? "yellow"
+            : "red";
+    };
+
     if (!metricsData.data || !metricsData.data.metrics.length) {
         return <p>Pas encore de datas revenez plus tard</p>;
     }
 
     const lastMetricsTable =
         metricsData.data.metrics[metricsData.data.metrics.length - 1];
-
     if (!lastMetricsTable) {
         return <p>Pas encore de datas revenez plus tard</p>;
     }
@@ -54,13 +62,22 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
             </h3>
             <div className="singledomain_lastScanContainer">
                 <p className="singledomain_singleData">
-                    {" "}
-                    <span>{timeToLoad}</span>{" "}
-                    <p className="singledomain_singleInfo">timeToLoad </p>{" "}
+                    <span className={getValueColor([1000, 2000], timeToLoad)}>
+                        {timeToLoad}
+                    </span>
+
+                    <p className="singledomain_singleInfo">timeToLoad</p>
                 </p>
                 <p className="singledomain_singleData">
-                    {" "}
-                    <span>{firstContentfulPaint}</span>{" "}
+                    <span
+                        className={getValueColor(
+                            [1000, 2000],
+                            firstContentfulPaint
+                        )}
+                    >
+                        {firstContentfulPaint}
+                    </span>
+
                     <p className="singledomain_singleInfo">
                         firstContentfulPaint{" "}
                         <Image
@@ -77,11 +94,18 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
                             elements, and SVGs on your page are considered DOM
                             content; anything inside an iframe is not included.
                         </div>
-                    </p>{" "}
+                    </p>
                 </p>
                 <p className="singledomain_singleData">
-                    {" "}
-                    <span>{cumulativeLayoutShift}</span>{" "}
+                    <span
+                        className={getValueColor(
+                            [0.1, 0.25],
+                            cumulativeLayoutShift
+                        )}
+                    >
+                        {cumulativeLayoutShift}
+                    </span>
+
                     <p className="singledomain_singleInfo">
                         cumulativeLayoutShift{" "}
                         <Image
@@ -99,11 +123,15 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
                             changes its position from one rendered frame to the
                             next.
                         </div>
-                    </p>{" "}
+                    </p>
                 </p>
                 <p className="singledomain_singleData">
-                    {" "}
-                    <span>{totalBlockingTime}</span>{" "}
+                    <span
+                        className={getValueColor([100, 300], totalBlockingTime)}
+                    >
+                        {totalBlockingTime}
+                    </span>
+
                     <p className="singledomain_singleInfo">
                         totalBlockingTime{" "}
                         <Image
@@ -120,11 +148,18 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
                             blocked for long enough to prevent input
                             responsiveness.
                         </div>
-                    </p>{" "}
+                    </p>
                 </p>
                 <p className="singledomain_singleData">
-                    {" "}
-                    <span>{timeToInteractive}</span>
+                    <span
+                        className={getValueColor(
+                            [2000, 5000],
+                            timeToInteractive
+                        )}
+                    >
+                        {timeToInteractive}
+                    </span>
+
                     <p className="singledomain_singleInfo">
                         timeToInteractive{" "}
                         <Image
@@ -140,7 +175,7 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
                             identify situations where a page looks interactive
                             but actually is not.
                         </div>
-                    </p>{" "}
+                    </p>
                 </p>
             </div>
             <p className="jsuserate_alljsTitle">
@@ -164,6 +199,10 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
                             >
                                 {item.url.split("?")[0]}
                             </a>
+                            <p className="jsuserate_fileSize">
+                                Taille du fichier &nbsp;
+                                {(item.totalBytes / 1024).toFixed(2)} Ko
+                            </p>
                         </li>
                     ))
                 ) : (

@@ -16,6 +16,9 @@
             @include font($text-font, 12px, 400, $nightblue-darker-color, 22px);
         }
     }
+    &_fileSize {
+        margin-top: 7px;
+    }
     &_progressOut {
         border: 1px solid $nightblue-darker-color;
         height: 30px;
@@ -131,6 +134,15 @@
         span {
             @include font($text-font, 26px, 600, $nightblue-darker-color, 22px);
             margin-bottom: 5px;
+        }
+        .green {
+            color: green;
+        }
+        .red {
+            color: red;
+        }
+        .yellow {
+            color: yellow;
         }
     }
     &_singleInfo {
