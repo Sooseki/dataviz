@@ -1,4 +1,3 @@
-// DomainDashboardCard.tsx
 import React from "react";
 import { Domain, MetricsDataset } from "@perfguardian/common/src/types";
 import { useAuth } from "../../context/AuthContext";
@@ -24,78 +23,72 @@ const DomainDashboardCard: React.FC<DomainDashboardCardProps> = ({
         );
     });
 
-    if (!domainsMetrics || !domainsMetrics?.data?.metrics) {
-        return null;
-    }
-    const metrics = domainsMetrics.data.metrics;
-    const latestMetrics = metrics.length ? metrics[metrics.length - 1] : null;
-    const previousMetrics =
-        metrics.length > 1 ? metrics[metrics.length - 2] : null;
+    if (!domainsMetrics || !domainsMetrics?.data?.metrics) return null;
+    const metrics: MetricsDataset[] = domainsMetrics.data.metrics;
 
-    const compareMetric = (
-        current: number | undefined,
-        previous: number | undefined
-    ) => {
-        if (!current || !previous) return "➡️";
-        if (current > previous) return "🔺";
-        if (current < previous) return "🔻";
-        return "➡️";
-    };
+    const metricTypes = [
+        {
+            label: "Time to load",
+            average:
+                metrics.reduce((a, b) => a + b.timeToLoad, 0) / metrics.length,
+            latest: metrics[metrics.length - 1].timeToLoad,
+        },
+        {
+            label: "First contentful paint",
+            average:
+                metrics.reduce((a, b) => a + b.firstContentfulPaint, 0) /
+                metrics.length,
+            latest: metrics[metrics.length - 1].firstContentfulPaint,
+        },
+        {
+            label: "Cumulative layout shift",
+            average:
+                metrics.reduce((a, b) => a + b.cumulativeLayoutShift, 0) /
+                metrics.length,
+            latest: metrics[metrics.length - 1].cumulativeLayoutShift,
+        },
+        {
+            label: "Total blocking time",
+            average:
+                metrics.reduce((a, b) => a + b.totalBlockingTime, 0) /
+                metrics.length,
+            latest: metrics[metrics.length - 1].totalBlockingTime,
+        },
+        {
+            label: "Time to interactive",
+            average:
+                metrics.reduce((a, b) => a + b.timeToInteractive, 0) /
+                metrics.length,
+            latest: metrics[metrics.length - 1].timeToInteractive,
+        },
+    ];
 
     return (
         <div className="dashboard_card">
-            <h3>{domain.url}</h3>
-            {latestMetrics && (
-                <>
-                    <p>
-                        <strong>Time To Load:</strong>{" "}
-                        {latestMetrics.timeToLoad}
-                        {previousMetrics &&
-                            ` ${compareMetric(
-                                latestMetrics.timeToLoad,
-                                previousMetrics.timeToLoad
-                            )}`}
-                    </p>
-                    <p>
-                        <strong>First Contentful Paint:</strong>{" "}
-                        {latestMetrics.firstContentfulPaint}
-                        {previousMetrics &&
-                            ` ${compareMetric(
-                                latestMetrics.firstContentfulPaint,
-                                previousMetrics.firstContentfulPaint
-                            )}`}
-                    </p>
-                    <p>
-                        <strong>Cumulative Layout Shift:</strong>{" "}
-                        {latestMetrics.cumulativeLayoutShift}
-                        {previousMetrics &&
-                            ` ${compareMetric(
-                                latestMetrics.cumulativeLayoutShift,
-                                previousMetrics.cumulativeLayoutShift
-                            )}`}
-                    </p>
-                    <p>
-                        <strong>Total Blocking Time:</strong>{" "}
-                        {latestMetrics.totalBlockingTime}
-                        {previousMetrics &&
-                            ` ${compareMetric(
-                                latestMetrics.totalBlockingTime,
-                                previousMetrics.totalBlockingTime
-                            )}`}
-                    </p>
-                    <p>
-                        <strong>Time To Interactive:</strong>{" "}
-                        {latestMetrics.timeToInteractive}
-                        {previousMetrics &&
-                            ` ${compareMetric(
-                                latestMetrics.timeToInteractive,
-                                previousMetrics.timeToInteractive
-                            )}`}
-                    </p>
-                </>
-            )}
+            <h3>{new URL(domain.url).hostname}</h3>
+
+            <div className="dashboard_card_metrics">
+                {metricTypes.map((metric) => (
+                    <div key={metric.label} className="dashboard_card_metric">
+                        <strong>{metric.label}</strong>
+                        {metric.latest}
+                        {compareMetric(metric.latest, metric.average)}
+                        <p>AVG: {metric.average}</p>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
 
 export default DomainDashboardCard;
+
+const compareMetric = (
+    metric: number | undefined,
+    metricToCompare: number | undefined
+) => {
+    if (!metric || !metricToCompare) return "➡️";
+    if (metric > metricToCompare) return "🔺";
+    if (metric < metricToCompare) return "🔻";
+    return "➡️";
+};

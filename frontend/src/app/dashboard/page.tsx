@@ -31,10 +31,6 @@ const Dashboard = () => {
                         label: "Dashboard",
                         path: "/dashboard",
                     },
-                    {
-                        label: "Domains",
-                        path: "/dashboard/domains",
-                    },
                 ]}
             />
             <div className="domains-overview">
