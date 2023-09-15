@@ -31,11 +31,6 @@ const GetUsers = () => {
             );
             return undefined;
         }
-        toast(`Every user from ${user?.client.name} has been fetched !`, {
-            type: "success",
-            theme: "colored",
-            position: "top-left",
-        });
         return useQueryUsers;
     });
 

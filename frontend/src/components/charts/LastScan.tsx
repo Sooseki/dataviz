@@ -127,7 +127,7 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
                 </p>
                 <p className="singledomain_singleData">
                     <span
-                        className={getValueColor([100, 300], totalBlockingTime)}
+                        className={getValueColor([0.1, 0.3], totalBlockingTime)}
                     >
                         {totalBlockingTime}
                     </span>
