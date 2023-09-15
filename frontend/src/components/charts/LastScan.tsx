@@ -178,28 +178,30 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
             </p>
             <ul className="jsuserate_alljs">
                 {jsUseRate ? (
-                    jsUseRate.map((item, index) => (
-                        <li className="jsuserate_singleFile" key={index}>
-                            <div className="jsuserate_progressOut">
-                                <div
-                                    data-width={item.percentUsed}
-                                    className="jsuserate_progressIn"
-                                ></div>
-                                <p>{item.percentUsed}</p>
-                            </div>
-                            <a
-                                href={item.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                {item.url.split("?")[0]}
-                            </a>
-                            <p className="jsuserate_fileSize">
-                                Taille du fichier &nbsp;
-                                {(item.totalBytes / 1024).toFixed(2)} Ko
-                            </p>
-                        </li>
-                    ))
+                    jsUseRate
+                        .filter((item) => item.totalBytes / 1024 > 5)
+                        .map((item, index) => (
+                            <li className="jsuserate_singleFile" key={index}>
+                                <div className="jsuserate_progressOut">
+                                    <div
+                                        data-width={item.percentUsed}
+                                        className="jsuserate_progressIn"
+                                    ></div>
+                                    <p>{item.percentUsed}</p>
+                                </div>
+                                <a
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {item.url.split("?")[0]}
+                                </a>
+                                <p className="jsuserate_fileSize">
+                                    Taille du fichier &nbsp;
+                                    {(item.totalBytes / 1024).toFixed(2)} Ko
+                                </p>
+                            </li>
+                        ))
                 ) : (
                     <p>No data available</p>
                 )}
