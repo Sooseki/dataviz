@@ -23,22 +23,22 @@ export const lighthouseFromPuppeteer = async (url: string) => {
     const audits = JSON.parse(json).audits;
 
     return {
-        firstContentfulPaint: convertValueToMsNumber(
+        firstContentfulPaint: convertValueToSecondNumber(
             audits["first-contentful-paint"].displayValue
         ),
-        cumulativeLayoutShift: convertValueToMsNumber(
+        cumulativeLayoutShift: convertValueToSecondNumber(
             audits["cumulative-layout-shift"].displayValue
         ),
-        totalBlockingTime: convertValueToMsNumber(
+        totalBlockingTime: convertValueToSecondNumber(
             audits["total-blocking-time"].displayValue
         ),
-        timeToInteractive: convertValueToMsNumber(
+        timeToInteractive: convertValueToSecondNumber(
             audits["interactive"].displayValue
         ),
     };
 };
 
-const convertValueToMsNumber = (value: string): number => {
+const convertValueToSecondNumber = (value: string): number => {
     const formatedValue = value.replace(/,/g, ""); // retrieve thousand separator ,
     const [count, unit] = formatedValue.split(/\s/);
 
