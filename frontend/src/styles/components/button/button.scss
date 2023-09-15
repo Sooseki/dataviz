@@ -1,5 +1,5 @@
 .main-button {
-   @include largebutton;
+    @include largebutton;
     &.hidden {
         background-color: $nightblue-darker-color;
     }
@@ -8,5 +8,20 @@
     @include smallbutton;
     &-hidden {
         background-color: $nightblue-darker-color;
+    }
+}
+
+.warning-button {
+    background: $red-color;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: center;
+    &:hover,
+    &:focus,
+    &:active {
+        transition: 0.2s !important;
+        background: $nightblue-darker-color !important;
     }
 }
