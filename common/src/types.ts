@@ -43,10 +43,10 @@ export interface MetricsDataset {
     _id: string;
     date: string;
     timeToLoad: number;
-    firstContentfulPaint: number | undefined;
-    cumulativeLayoutShift: number | undefined;
-    totalBlockingTime: number | undefined;
-    timeToInteractive: number | undefined;
+    firstContentfulPaint: number;
+    cumulativeLayoutShift: number;
+    totalBlockingTime: number;
+    timeToInteractive: number;
     jsUseRate: JsUseRate[] | undefined;
 }
 
