@@ -2,8 +2,6 @@
 const lighthouse = require("lighthouse");
 const ReportGenerator = require("lighthouse/report/generator/report-generator");
 import { LaunchedChrome, Options } from "chrome-launcher";
-import puppeteer from "puppeteer";
-import request from "request-promise-native";
 const chromeLauncher = require("chrome-launcher");
 
 export const lighthouseFromPuppeteer = async (url: string) => {
@@ -16,19 +14,10 @@ export const lighthouseFromPuppeteer = async (url: string) => {
     const chrome: LaunchedChrome = await chromeLauncher.launch(options);
     options.port = chrome.port;
 
-    // Connect chrome-launcher to puppeteer
-    const resp = await request(`http://localhost:${options.port}/json/version`);
-    const { webSocketDebuggerUrl } = JSON.parse(resp);
-    const lighthouseBrowser = await puppeteer.connect({
-        browserWSEndpoint: webSocketDebuggerUrl,
-    });
-
     // Run Lighthouse
 
     const { lhr } = await lighthouse(url, options);
     const json = ReportGenerator.generateReport(lhr, "json");
-
-    lighthouseBrowser.disconnect();
     chrome.kill();
 
     const audits = JSON.parse(json).audits;
@@ -54,7 +43,7 @@ const convertValueToMsNumber = (value: string): number => {
     const [count, unit] = formatedValue.split(/\s/);
 
     if (!unit || unit === "s") return parseFloat(count);
-    if (unit === "ms") return parseFloat(count) * 1000;
+    if (unit === "ms") return parseFloat(count) / 1000;
 
     return 0;
 };
