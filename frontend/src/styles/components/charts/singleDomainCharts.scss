@@ -1,0 +1,14 @@
+.singleDomainCharts {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    @media screen and (min-width: 1600px) {
+        grid-template-columns: 1fr 1fr;
+
+        .graph-container {
+            padding: 1rem;
+            margin: 1rem;
+            background-color: $milky-white-darker-color;
+        }
+    }
+}

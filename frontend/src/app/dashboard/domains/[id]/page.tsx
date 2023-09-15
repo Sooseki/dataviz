@@ -1,14 +1,13 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { handleGet } from "../../../../api/handleCall";
 import { useQuery } from "react-query";
 import { MetricsDataset } from "@perfguardian/common/src/types";
 import { useParams, useSearchParams } from "next/navigation";
 import { useAuth } from "../../../../context/AuthContext";
 import Breadcrumb from "../../../../components/breadcrumb/Breadcrumb";
-import LineChart from "../../../../components/charts/LineChart";
 import PercentUsedList from "../../../../components/charts/LastScan";
-import DateRangePicker from "../../../../components/charts/DatePicker";
+import SingleDomainCharts from "../../../../components/charts/SingleDomainCharts";
 
 type Tab = "lastScan" | "allDatas";
 
@@ -27,41 +26,6 @@ const Domain = () => {
     const handleTabClick = (tab: Tab) => {
         setActiveTab(tab);
     };
-
-    const [selectedStartDate, setSelectedStartDate] = useState<Date | null>(
-        null
-    );
-    const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(null);
-
-    const handleDateRangeChange = (
-        startDate: Date | null,
-        endDate: Date | null
-    ) => {
-        setSelectedStartDate(startDate);
-        setSelectedEndDate(endDate);
-    };
-
-    const filterMetrics = () => {
-        if (
-            !selectedStartDate ||
-            !selectedEndDate ||
-            !useQueryMetrics?.data?.metrics
-        ) {
-            return useQueryMetrics?.data?.metrics;
-        }
-
-        return useQueryMetrics?.data?.metrics.filter(
-            (metric) =>
-                new Date(metric.date) >= selectedStartDate &&
-                new Date(metric.date) <= selectedEndDate
-        );
-    };
-
-    const filteredMetrics = useMemo(filterMetrics, [
-        useQueryMetrics,
-        selectedStartDate,
-        selectedEndDate,
-    ]);
 
     return (
         <>
@@ -122,52 +86,9 @@ const Domain = () => {
                     activeTab === "allDatas" ? "active" : ""
                 }`}
             >
-                <DateRangePicker onChange={handleDateRangeChange} />
-                {filteredMetrics && (
-                    <LineChart
-                        metricsDatasets={filteredMetrics}
-                        metricToStudy={"timeToLoad"}
-                        graphTitle={"Time to load (In seconds by session)"}
-                        minY={0}
-                        maxY={1}
-                    />
-                )}
-                {filteredMetrics && (
-                    <LineChart
-                        metricsDatasets={filteredMetrics}
-                        metricToStudy={"firstContentfulPaint"}
-                        graphTitle={
-                            "First content fulPaint (In second by session)"
-                        }
-                        minY={0}
-                        maxY={5}
-                    />
-                )}
-                {filteredMetrics && (
-                    <LineChart
-                        metricsDatasets={filteredMetrics}
-                        metricToStudy={"cumulativeLayoutShift"}
-                        graphTitle={"Cumulative layout shift"}
-                        minY={0}
-                        maxY={1}
-                    />
-                )}
-                {filteredMetrics && (
-                    <LineChart
-                        metricsDatasets={filteredMetrics}
-                        metricToStudy={"totalBlockingTime"}
-                        graphTitle={"Time to load (In miliseconds by session)"}
-                    />
-                )}
-                {filteredMetrics && (
-                    <LineChart
-                        metricsDatasets={filteredMetrics}
-                        metricToStudy={"timeToInteractive"}
-                        graphTitle={
-                            "Time to interactive (In second by session)"
-                        }
-                        minY={0}
-                        maxY={10}
+                {useQueryMetrics?.data?.metrics && (
+                    <SingleDomainCharts
+                        metricsData={useQueryMetrics.data.metrics}
                     />
                 )}
             </div>
