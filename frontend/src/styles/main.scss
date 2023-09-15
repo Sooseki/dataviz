@@ -1,35 +1,36 @@
 //TODO check why we can't use * to get all folder
-@import './config/reset.scss';
-@import './config/variables.scss';
-@import './config/mixins.scss';
+@import "./config/reset.scss";
+@import "./config/variables.scss";
+@import "./config/mixins.scss";
 
 // Global
-@import './general.scss';
+@import "./general.scss";
 
 // Pages
-@import './app/login.scss';
-@import './app/domains.scss';
-@import './app/singleDomain.scss';
-@import './app/dashboard.scss';
+@import "./app/login.scss";
+@import "./app/domains.scss";
+@import "./app/singleDomain.scss";
+@import "./app/dashboard.scss";
 
 // Components
-@import './components/input-text.scss';
-@import './components/button/button.scss';
-@import './components/user/settings/password-settings.scss';
-@import './components/user/manager/create-user.scss';
-@import './components/tabs/tabs.scss';
-@import './components/tabs/tab.scss';
-@import './components/navbar.scss';
-@import './components/toasts.scss';
-@import './components/burger.scss';
-@import './components/domains/domain-card.scss';
-@import './components/domains/domain-cards.scss';
-@import './components/modal.scss';
-@import './components/breadcrumb.scss';
-@import './components/charts/jsuserate.scss';
-
+@import "./components/input-text.scss";
+@import "./components/button/button.scss";
+@import "./components/user/settings/password-settings.scss";
+@import "./components/user/manager/create-user.scss";
+@import "./components/tabs/tabs.scss";
+@import "./components/tabs/tab.scss";
+@import "./components/navbar.scss";
+@import "./components/toasts.scss";
+@import "./components/burger.scss";
+@import "./components/domains/domain-card.scss";
+@import "./components/domains/domain-cards.scss";
+@import "./components/modal.scss";
+@import "./components/breadcrumb.scss";
+@import "./components/charts/jsuserate.scss";
+@import "./components/charts/singleDomainCharts.scss";
+@import "./components/charts/lineChart.scss";
 
 // Theme
-@import '~@fortawesome/fontawesome-svg-core/styles.css';
-@import './themes/dark.scss';
-@import './themes/fonts.scss';
+@import "~@fortawesome/fontawesome-svg-core/styles.css";
+@import "./themes/dark.scss";
+@import "./themes/fonts.scss";
