@@ -14,6 +14,8 @@ export const lighthouseFromPuppeteer = async (url: string) => {
     const chrome: LaunchedChrome = await chromeLauncher.launch(options);
     options.port = chrome.port;
 
+    // Run Lighthouse
+
     const { lhr } = await lighthouse(url, options);
     const json = ReportGenerator.generateReport(lhr, "json");
     chrome.kill();
@@ -21,27 +23,27 @@ export const lighthouseFromPuppeteer = async (url: string) => {
     const audits = JSON.parse(json).audits;
 
     return {
-        firstContentfulPaint: convertValueToMsNumber(
+        firstContentfulPaint: convertValueToSecondNumber(
             audits["first-contentful-paint"].displayValue
         ),
-        cumulativeLayoutShift: convertValueToMsNumber(
+        cumulativeLayoutShift: convertValueToSecondNumber(
             audits["cumulative-layout-shift"].displayValue
         ),
-        totalBlockingTime: convertValueToMsNumber(
+        totalBlockingTime: convertValueToSecondNumber(
             audits["total-blocking-time"].displayValue
         ),
-        timeToInteractive: convertValueToMsNumber(
+        timeToInteractive: convertValueToSecondNumber(
             audits["interactive"].displayValue
         ),
     };
 };
 
-const convertValueToMsNumber = (value: string): number => {
+const convertValueToSecondNumber = (value: string): number => {
     const formatedValue = value.replace(/,/g, ""); // retrieve thousand separator ,
     const [count, unit] = formatedValue.split(/\s/);
 
     if (!unit || unit === "s") return parseFloat(count);
-    if (unit === "ms") return parseFloat(count) * 1000;
+    if (unit === "ms") return parseFloat(count) / 1000;
 
     return 0;
 };
