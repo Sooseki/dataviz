@@ -10,7 +10,7 @@ export const getToken = async (
             "JWT_SECRET is not defined in the environment variables."
         );
     return await new Promise<string>((resolve) => {
-        jwt.sign(payload, jwtSecret, { expiresIn: "1h" }, (err, token) => {
+        jwt.sign(payload, jwtSecret, { expiresIn: "1m" }, (err, token) => {
             if (err) throw err;
             if (!token) throw new Error("miss token");
             resolve(token);

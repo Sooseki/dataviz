@@ -21,9 +21,22 @@ export const authJwt = (
     }
 
     jwt.verify(token, jwtSecret, (err) => {
-        if (err) {
+        if (err && err.name === "TokenExpiredError" && authHeader) {
+            console.log("TokenExpiredError");
+            jwt.verify(authHeader, jwtSecret, (refreshErr, refreshUser) => {
+                if (refreshErr) {
+                    res.status(403).json({ msg: "Invalid refresh token" });
+                    return;
+                }
+                const newToken = jwt.sign({ user: refreshUser }, jwtSecret, {
+                    expiresIn: "1m",
+                });
+                console.log("token refreshed");
+                res.setHeader("x-new-token", newToken);
+                next();
+            });
+        } else if (err) {
             res.status(403).json({ msg: "Invalid token" });
-            console.log("Invalid token");
             return;
         }
         next();
