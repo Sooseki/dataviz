@@ -32,11 +32,12 @@ export const authJwt = (
                     expiresIn: "1m",
                 });
                 console.log("token refreshed");
-                res.setHeader("x-new-token", newToken);
+                console.log(newToken)
+                // res.setHeader("x-new-token", newToken);
                 next();
             });
         } else if (err) {
-            res.status(403).json({ msg: "Invalid token" });
+            res.redirect('/login');
             return;
         }
         next();
