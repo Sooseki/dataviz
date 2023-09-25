@@ -4,8 +4,7 @@ You will need an installation of mongoDB.
 Then :
 
 cd backend
-npm i
-
+npm 
 ## To start project in local mode
 
 Create a .env file with

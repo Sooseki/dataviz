@@ -34,6 +34,7 @@ const Register: React.FC = () => {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log(userMail, userPassword, username, userCompany, 'frontend');
         signUp(userMail, userPassword, username, userCompany);
     };
 

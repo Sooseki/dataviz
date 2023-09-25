@@ -21,14 +21,17 @@ const simulationhub = async (
             ...lighthouseFromPuppeteerData,
         };
     } catch (e) {
-        // TODO virer les console.error en prod
-
         if (e instanceof Error) {
-            console.error(
-                `Erreur lors de la simulation pour ${url}: ${e.message}`
-            );
+            if (process.env.NEXT_APP_ENV==='development'){
+                console.error(
+                    `Erreur lors de la simulation pour ${url}: ${e.message}`
+                );
+            }
+            
         } else {
-            console.error(`Erreur lors de la simulation pour ${url}: ${e}`);
+            if (process.env.NEXT_APP_ENV==='development'){
+                console.error(`Erreur lors de la simulation pour ${url}: ${e}`);
+            }
         }
         return null;
     }

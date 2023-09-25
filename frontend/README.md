@@ -4,7 +4,8 @@ Create a .env.local file
 
 `NEXT_PUBLIC_API_URL=localhost
 NEXT_PUBLIC_API_PORT=3002
-NEXT_PUBLIC_API_PROTOCOL=http`
+NEXT_PUBLIC_API_PROTOCOL=http
+NEXT_APP_ENV='development'`
 
 ## Run the project in local mode
 
