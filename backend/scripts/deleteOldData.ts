@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
-import Client from "@/models/Client";
+import Client from "src/models/Client";
 import mongoose, { ConnectOptions } from "mongoose";
 
 const uri = "mongodb://127.0.0.1/guardian_db";
