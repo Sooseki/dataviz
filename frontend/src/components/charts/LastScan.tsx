@@ -4,6 +4,7 @@ import { fr } from "date-fns/locale";
 import { MetricsDataset } from "@perfguardian/common/src/types";
 import { AxiosResponse } from "../../api/handleCall";
 import Image from "next/image";
+import { getValueColor } from "@/lib/helpers";
 
 interface PercentUsedListProps {
     metricsData: AxiosResponse<{ metrics: MetricsDataset[] }>;
@@ -21,15 +22,6 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
             }
         });
     }, []);
-
-    const getValueColor = (thresholds: [number, number], value?: number) => {
-        if (value === undefined) return ""; // Retourne une chaîne vide ou une classe par défaut pour undefined
-        return value < thresholds[0]
-            ? "green"
-            : value < thresholds[1]
-            ? "yellow"
-            : "red";
-    };
 
     if (!metricsData.data || !metricsData.data.metrics.length) {
         return <p>Pas encore de datas revenez plus tard</p>;
@@ -62,7 +54,11 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
             </h3>
             <div className="singledomain_lastScanContainer">
                 <p className="singledomain_singleData">
-                    <span className={getValueColor([1000, 2000], timeToLoad)}>
+                    <span
+                        style={{
+                            color: getValueColor([0, 2], timeToLoad),
+                        }}
+                    >
                         {timeToLoad}
                     </span>
 
@@ -70,10 +66,9 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
                 </p>
                 <p className="singledomain_singleData">
                     <span
-                        className={getValueColor(
-                            [1000, 2000],
-                            firstContentfulPaint
-                        )}
+                        style={{
+                            color: getValueColor([0, 5], firstContentfulPaint),
+                        }}
                     >
                         {firstContentfulPaint}
                     </span>
@@ -98,10 +93,9 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
                 </p>
                 <p className="singledomain_singleData">
                     <span
-                        className={getValueColor(
-                            [0.1, 0.25],
-                            cumulativeLayoutShift
-                        )}
+                        style={{
+                            color: getValueColor([0, 1], cumulativeLayoutShift),
+                        }}
                     >
                         {cumulativeLayoutShift}
                     </span>
@@ -127,7 +121,9 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
                 </p>
                 <p className="singledomain_singleData">
                     <span
-                        className={getValueColor([100, 300], totalBlockingTime)}
+                        style={{
+                            color: getValueColor([0.1, 0.3], totalBlockingTime),
+                        }}
                     >
                         {totalBlockingTime}
                     </span>
@@ -152,10 +148,9 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
                 </p>
                 <p className="singledomain_singleData">
                     <span
-                        className={getValueColor(
-                            [2000, 5000],
-                            timeToInteractive
-                        )}
+                        style={{
+                            color: getValueColor([0, 10], timeToInteractive),
+                        }}
                     >
                         {timeToInteractive}
                     </span>
@@ -183,28 +178,30 @@ const PercentUsedList: React.FC<PercentUsedListProps> = ({ metricsData }) => {
             </p>
             <ul className="jsuserate_alljs">
                 {jsUseRate ? (
-                    jsUseRate.map((item, index) => (
-                        <li className="jsuserate_singleFile" key={index}>
-                            <div className="jsuserate_progressOut">
-                                <div
-                                    data-width={item.percentUsed}
-                                    className="jsuserate_progressIn"
-                                ></div>
-                                <p>{item.percentUsed}</p>
-                            </div>
-                            <a
-                                href={item.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                {item.url.split("?")[0]}
-                            </a>
-                            <p className="jsuserate_fileSize">
-                                Taille du fichier &nbsp;
-                                {(item.totalBytes / 1024).toFixed(2)} Ko
-                            </p>
-                        </li>
-                    ))
+                    jsUseRate
+                        .filter((item) => item.totalBytes / 1024 > 5)
+                        .map((item, index) => (
+                            <li className="jsuserate_singleFile" key={index}>
+                                <div className="jsuserate_progressOut">
+                                    <div
+                                        data-width={item.percentUsed}
+                                        className="jsuserate_progressIn"
+                                    ></div>
+                                    <p>{item.percentUsed}</p>
+                                </div>
+                                <a
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {item.url.split("?")[0]}
+                                </a>
+                                <p className="jsuserate_fileSize">
+                                    Taille du fichier &nbsp;
+                                    {(item.totalBytes / 1024).toFixed(2)} Ko
+                                </p>
+                            </li>
+                        ))
                 ) : (
                     <p>No data available</p>
                 )}

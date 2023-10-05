@@ -135,15 +135,6 @@
             @include font($text-font, 26px, 600, $nightblue-darker-color, 22px);
             margin-bottom: 5px;
         }
-        .green {
-            color: green;
-        }
-        .red {
-            color: red;
-        }
-        .yellow {
-            color: yellow;
-        }
     }
     &_singleInfo {
         display: flex;

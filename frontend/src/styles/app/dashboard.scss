@@ -1,17 +1,8 @@
 .dashboard {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    flex-direction: column;
-    gap: 30x;
     &_card {
-        background-color: $grey-color;
-        margin: 30px 0;
-        width: 45%;
-        padding: 40px;
+        margin: 3rem 0;
         flex-wrap: wrap;
-        display: flex;
-        gap: 30px;
+
         h3 {
             @include font(
                 $title-font,
@@ -24,10 +15,21 @@
             text-align: center;
             margin-bottom: 15px;
         }
-        p {
+
+        &_metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: space-around;
+            background-color: $milky-white-darker-color;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+        }
+
+        &_metric {
             display: flex;
             flex-direction: column;
-            width: 45%;
             @include font(
                 $text-font,
                 $title-font-size-xs,
@@ -35,6 +37,7 @@
                 $nightblue-darker-color,
                 22px
             );
+
             strong {
                 @include font(
                     $text-font,
@@ -45,11 +48,11 @@
                 );
                 margin-bottom: 10px;
             }
+
+            p {
+                font-size: 0.7rem;
+                font-weight: 700;
+            }
         }
-    }
-    .domains-overview {
-        display: flex;
-        gap: 30px;
-        flex-wrap: wrap;
     }
 }

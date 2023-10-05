@@ -1,20 +1,19 @@
 {
-    "name": "my-app",
+    "name": "frontend",
     "version": "0.1.0",
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "gulp && npm run common:build && next build",
+        "build": "gulp && next build",
         "start": "next start",
         "lint": "next lint && tsc --noEmit",
-        "test": "jest --coverage",
-        "common:build": "cd ../common && npm i && cd ../frontend"
+        "test": "jest --coverage"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.4.0",
         "@fortawesome/free-solid-svg-icons": "^6.4.0",
         "@fortawesome/react-fontawesome": "^0.2.0",
-        "@perfguardian/common": "file:../common",
+        "@perfguardian/common": "1.0.0",
         "@types/node": "20.3.1",
         "@types/react": "18.2.13",
         "@types/react-dom": "18.2.6",
@@ -40,6 +39,7 @@
         "@types/gulp": "^4.0.11",
         "@types/gulp-rename": "^2.0.2",
         "@types/jest": "^29.5.2",
+        "@types/react": "18.2.21",
         "@types/react-datepicker": "^4.15.0",
         "@typescript-eslint/eslint-plugin": "^5.61.0",
         "@typescript-eslint/parser": "^5.53.0",

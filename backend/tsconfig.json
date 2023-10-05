@@ -12,15 +12,12 @@
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "baseUrl": ".",
-        "paths": {
-            "@perfguardian/common": ["../common"],
-            "@/*": ["./src/*"]
-        },
         "incremental": true,
         "allowJs": false,
         "skipLibCheck": true,
         "isolatedModules": true
     },
+    "references": [{ "path": "../common" }],
     "include": ["**/*.ts", ".eslintrc.js"],
     "exclude": ["node_modules"]
 }

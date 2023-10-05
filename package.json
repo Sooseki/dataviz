@@ -1,0 +1,9 @@
+{
+    "name": "perf-guardian-monorepo",
+    "private": true,
+    "workspaces": [
+        "frontend",
+        "backend",
+        "common"
+    ]
+}

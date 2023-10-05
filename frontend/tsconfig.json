@@ -15,7 +15,6 @@
         "incremental": true,
         "baseUrl": ".",
         "paths": {
-            "@perfguardian/common": ["../common"],
             "@/*": ["./src/*"]
         },
         "allowJs": false,
@@ -27,6 +26,7 @@
             }
         ]
     },
+    "references": [{ "path": "../common" }],
     "include": [
         "next-env.d.ts",
         "**/*.ts",

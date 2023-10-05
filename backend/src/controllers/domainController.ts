@@ -3,9 +3,8 @@ import Client from "../models/Client";
 import Domain from "../models/Domain";
 import { clientDomainExists } from "../utils/client";
 import { handleControllerErrors } from "../utils/handleControllerErrors";
-import { isValidUrl } from "@perfguardian/common/src/utils/domain";
 import { runSimulationForDomains } from "../simulation-workers/simulationsHub";
-import { IDomain, IClientPopulated } from "@perfguardian/common/src/types";
+import { IDomain, IClientPopulated, isValidUrl } from "@perfguardian/common";
 import { getUserTokenIds } from "../utils/user";
 
 export const createDomain = async (
