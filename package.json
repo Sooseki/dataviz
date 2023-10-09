@@ -5,5 +5,11 @@
         "frontend",
         "backend",
         "common"
-    ]
+    ],
+    "dependencies": {
+        "puppeteer": "^21.3.6"
+    },
+    "devDependencies": {
+        "babel-plugin-transform-remove-console": "^6.9.4"
+    }
 }
